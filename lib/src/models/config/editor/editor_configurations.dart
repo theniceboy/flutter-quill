@@ -62,6 +62,7 @@ class QuillEditorConfigurations extends Equatable {
     this.textSelectionControls,
     this.onImagePaste,
     this.customShortcuts,
+    this.allowStyleShortcuts = true,
     this.customActions,
     this.detectWordBoundary = true,
     this.isOnTapOutsideEnabled = true,
@@ -287,6 +288,8 @@ class QuillEditorConfigurations extends Equatable {
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
   final Map<ShortcutActivator, Intent>? customShortcuts;
 
+  final bool allowStyleShortcuts;
+
   /// Contains user-defined actions.
   ///
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#actions]
@@ -392,6 +395,7 @@ class QuillEditorConfigurations extends Equatable {
     TextSelectionControls? textSelectionControls,
     Future<String?> Function(Uint8List imageBytes)? onImagePaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
+    bool? allowStyleShortcuts,
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
@@ -450,6 +454,7 @@ class QuillEditorConfigurations extends Equatable {
           textSelectionControls ?? this.textSelectionControls,
       onImagePaste: onImagePaste ?? this.onImagePaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
+      allowStyleShortcuts: allowStyleShortcuts ?? this.allowStyleShortcuts,
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,

@@ -620,6 +620,7 @@ class QuillRawEditorState extends EditorState
     // we need to
     final isDesktopMacOS = isMacOS(supportWeb: true);
 
+    final allowStyleShortcuts = widget.configurations.allowStyleShortcuts;
     return TextFieldTapRegion(
       enabled: widget.configurations.isOnTapOutsideEnabled,
       onTapOutside: (event) {
@@ -650,125 +651,146 @@ class QuillRawEditorState extends EditorState
             ): const RedoTextIntent(SelectionChangedCause.keyboard),
 
             // Selection formatting.
-            SingleActivator(
-              LogicalKeyboardKey.keyB,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.bold),
-            SingleActivator(
-              LogicalKeyboardKey.keyU,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.underline),
-            SingleActivator(
-              LogicalKeyboardKey.keyI,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.italic),
-            SingleActivator(
-              LogicalKeyboardKey.keyS,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.strikeThrough),
-            SingleActivator(
-              LogicalKeyboardKey.backquote,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.inlineCode),
-            SingleActivator(
-              LogicalKeyboardKey.tilde,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.codeBlock),
-            SingleActivator(
-              LogicalKeyboardKey.keyB,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.blockQuote),
-            SingleActivator(
-              LogicalKeyboardKey.keyK,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyLinkIntent(),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyB,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.bold),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyU,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.underline),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyI,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.italic),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyS,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.strikeThrough),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.backquote,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.inlineCode),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.tilde,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.codeBlock),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyB,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.blockQuote),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyK,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyLinkIntent(),
 
             // Lists
-            SingleActivator(
-              LogicalKeyboardKey.keyL,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.ul),
-            SingleActivator(
-              LogicalKeyboardKey.keyO,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.ol),
-            SingleActivator(
-              LogicalKeyboardKey.keyC,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const QuillEditorApplyCheckListIntent(),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyL,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.ul),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyO,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.ol),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyC,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const QuillEditorApplyCheckListIntent(),
 
             // Indents
-            SingleActivator(
-              LogicalKeyboardKey.keyM,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const IndentSelectionIntent(true),
-            SingleActivator(
-              LogicalKeyboardKey.keyM,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const IndentSelectionIntent(false),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyM,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const IndentSelectionIntent(true),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyM,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const IndentSelectionIntent(false),
 
             // Headers
-            SingleActivator(
-              LogicalKeyboardKey.digit1,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h1),
-            SingleActivator(
-              LogicalKeyboardKey.digit2,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h2),
-            SingleActivator(
-              LogicalKeyboardKey.digit3,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h3),
-            SingleActivator(
-              LogicalKeyboardKey.digit4,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h4),
-            SingleActivator(
-              LogicalKeyboardKey.digit5,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h5),
-            SingleActivator(
-              LogicalKeyboardKey.digit6,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h6),
-            SingleActivator(
-              LogicalKeyboardKey.digit0,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.header),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit1,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h1),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit2,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h2),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit3,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h3),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit4,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h4),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit5,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h5),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit6,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h6),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit0,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.header),
 
-            SingleActivator(
-              LogicalKeyboardKey.keyG,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorInsertEmbedIntent(Attribute.image),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyG,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorInsertEmbedIntent(Attribute.image),
 
             SingleActivator(
               LogicalKeyboardKey.keyF,

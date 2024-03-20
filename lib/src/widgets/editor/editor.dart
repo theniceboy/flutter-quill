@@ -278,6 +278,7 @@ class QuillEditorState extends State<QuillEditor>
               floatingCursorDisabled: configurations.floatingCursorDisabled,
               onImagePaste: configurations.onImagePaste,
               customShortcuts: configurations.customShortcuts,
+              allowStyleShortcuts: configurations.allowStyleShortcuts,
               customActions: configurations.customActions,
               customLinkPrefixes: configurations.customLinkPrefixes,
               isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,

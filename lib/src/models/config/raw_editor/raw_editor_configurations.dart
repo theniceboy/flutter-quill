@@ -75,6 +75,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.customRecognizerBuilder,
     this.floatingCursorDisabled = false,
     this.onImagePaste,
+    this.onGifPaste,
     this.customLinkPrefixes = const <String>[],
     this.dialogTheme,
     this.contentInsertionConfiguration,
@@ -262,6 +263,8 @@ class QuillRawEditorConfigurations extends Equatable {
   final ScrollPhysics? scrollPhysics;
 
   final Future<String?> Function(Uint8List imageBytes)? onImagePaste;
+
+  final Future<String?> Function(Uint8List imageBytes)? onGifPaste;
 
   /// Contains user-defined shortcuts map.
   ///

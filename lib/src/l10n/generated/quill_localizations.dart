@@ -29,6 +29,7 @@ import 'quill_localizations_pl.dart';
 import 'quill_localizations_pt.dart';
 import 'quill_localizations_ro.dart';
 import 'quill_localizations_ru.dart';
+import 'quill_localizations_sk.dart';
 import 'quill_localizations_sr.dart';
 import 'quill_localizations_sv.dart';
 import 'quill_localizations_sw.dart';
@@ -152,6 +153,7 @@ abstract class FlutterQuillLocalizations {
     Locale('ro'),
     Locale('ro', 'RO'),
     Locale('ru'),
+    Locale('sk'),
     Locale('sr'),
     Locale('sv'),
     Locale('sw'),
@@ -597,6 +599,12 @@ abstract class FlutterQuillLocalizations {
   /// **'Saved using the local storage'**
   String get savedUsingLocalStorage;
 
+  /// A message with a single parameter
+  ///
+  /// In en, this message translates to:
+  /// **'The image has been saved at: {imagePath}'**
+  String theImageHasBeenSavedAt(String imagePath);
+
   /// No description provided for @errorWhileSavingImage.
   ///
   /// In en, this message translates to:
@@ -724,6 +732,7 @@ class _FlutterQuillLocalizationsDelegate
         'pt',
         'ro',
         'ru',
+        'sk',
         'sr',
         'sv',
         'sw',
@@ -836,6 +845,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsRo();
     case 'ru':
       return FlutterQuillLocalizationsRu();
+    case 'sk':
+      return FlutterQuillLocalizationsSk();
     case 'sr':
       return FlutterQuillLocalizationsSr();
     case 'sv':

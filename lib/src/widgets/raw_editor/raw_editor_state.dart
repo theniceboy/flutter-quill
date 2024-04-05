@@ -650,6 +650,11 @@ class QuillRawEditorState extends EditorState
               meta: isDesktopMacOS,
             ): const RedoTextIntent(SelectionChangedCause.keyboard),
 
+            if (widget.configurations.onEnterHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.enter,
+              ): const EnterKeyIntent(),
+
             // Selection formatting.
             if (allowStyleShortcuts)
               SingleActivator(
@@ -1762,6 +1767,8 @@ class QuillRawEditorState extends EditorState
 
     OpenSearchIntent: _openSearchAction,
 
+    EnterKeyIntent: QuillEditorEnterKeyAction(widget.configurations.onEnterHit),
+
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
     IndentSelectionIntent: _indentSelectionAction,
@@ -1815,4 +1822,8 @@ class QuillRawEditorState extends EditorState
 
   @override
   bool get shareEnabled => false;
+}
+
+class EnterKeyIntent extends Intent {
+  const EnterKeyIntent();
 }

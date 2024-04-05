@@ -385,6 +385,20 @@ class QuillEditorRedoKeyboardAction extends ContextAction<RedoTextIntent> {
   bool get isActionEnabled => true;
 }
 
+class QuillEditorEnterKeyAction extends ContextAction<EnterKeyIntent> {
+  QuillEditorEnterKeyAction(this._onEnterKey);
+
+  final void Function()? _onEnterKey;
+
+  @override
+  void invoke(EnterKeyIntent intent, [BuildContext? context]) {
+    _onEnterKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
 class ToggleTextStyleIntent extends Intent {
   const ToggleTextStyleIntent(this.attribute);
 

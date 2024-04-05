@@ -46,6 +46,7 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.selectionCtrls,
     required this.embedBuilder,
     required this.autoFocus,
+    required this.onEnterHit,
     this.showCursor = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -268,6 +269,8 @@ class QuillRawEditorConfigurations extends Equatable {
   final Map<ShortcutActivator, Intent>? customShortcuts;
 
   final bool allowStyleShortcuts;
+
+  final void Function()? onEnterHit;
 
   /// Contains user-defined actions.
   ///

@@ -2,6 +2,7 @@ import 'dart:async' show StreamController;
 
 import 'package:meta/meta.dart';
 
+import '../../../config.dart';
 import '../../../quill_delta.dart';
 import '../../widgets/quill/embeds.dart';
 import '../rules/rule.dart';
@@ -463,7 +464,7 @@ class Document {
     final delta = node.toDelta();
     return delta.length == 1 &&
         delta.first.data == '\n' &&
-        delta.first.key == 'insert';
+        delta.first.key == INSERT_KEY;
   }
 
   /// Convert the HTML Raw string to [Document]

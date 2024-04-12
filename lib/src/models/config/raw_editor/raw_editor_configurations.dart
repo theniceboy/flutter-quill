@@ -46,7 +46,7 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.selectionCtrls,
     required this.embedBuilder,
     required this.autoFocus,
-    required this.onEnterHit,
+    required this.keyInterceptorConfig,
     this.showCursor = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -273,7 +273,7 @@ class QuillRawEditorConfigurations extends Equatable {
 
   final bool allowStyleShortcuts;
 
-  final void Function()? onEnterHit;
+  final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
 
   /// Contains user-defined actions.
   ///
@@ -329,4 +329,18 @@ class QuillRawEditorConfigurations extends Equatable {
         readOnly,
         placeholder,
       ];
+}
+
+class QuillEditorKeyInterceptorConfig {
+  const QuillEditorKeyInterceptorConfig({
+    this.consumeEnterKey = false,
+    this.onEnterHit,
+    this.consumeBackspaceKey = false,
+    this.onBackspaceHit,
+  });
+
+  final bool consumeEnterKey;
+  final void Function()? onEnterHit;
+  final bool consumeBackspaceKey;
+  final void Function()? onBackspaceHit;
 }

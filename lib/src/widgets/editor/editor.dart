@@ -238,7 +238,7 @@ class QuillEditorState extends State<QuillEditor>
               disableClipboard: configurations.disableClipboard,
               placeholder: configurations.placeholder,
               onLaunchUrl: configurations.onLaunchUrl,
-              onEnterHit: configurations.onEnterHit,
+              keyInterceptorConfig: configurations.keyInterceptorConfig,
               contextMenuBuilder: showSelectionToolbar
                   ? (configurations.contextMenuBuilder ??
                       QuillRawEditorConfigurations.defaultContextMenuBuilder)

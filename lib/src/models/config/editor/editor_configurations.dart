@@ -6,6 +6,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../../../flutter_quill.dart';
 import '../../../widgets/editor/editor_builder.dart';
 import '../../../widgets/others/default_styles.dart';
 import '../../../widgets/others/delegate.dart';
@@ -64,7 +65,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onGifPaste,
     this.customShortcuts,
     this.allowStyleShortcuts = true,
-    this.onEnterHit,
+    this.keyInterceptorConfig,
     this.customActions,
     this.detectWordBoundary = true,
     this.isOnTapOutsideEnabled = true,
@@ -297,7 +298,7 @@ class QuillEditorConfigurations extends Equatable {
 
   final bool allowStyleShortcuts;
 
-  final void Function()? onEnterHit;
+  final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
 
   /// Contains user-defined actions.
   ///
@@ -406,7 +407,7 @@ class QuillEditorConfigurations extends Equatable {
     Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
     bool? allowStyleShortcuts,
-    void Function()? onEnterHit,
+    QuillEditorKeyInterceptorConfig? keyInterceptorConfig,
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
@@ -467,7 +468,7 @@ class QuillEditorConfigurations extends Equatable {
       onGifPaste: onGifPaste ?? this.onGifPaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
       allowStyleShortcuts: allowStyleShortcuts ?? this.allowStyleShortcuts,
-      onEnterHit: onEnterHit ?? this.onEnterHit,
+      keyInterceptorConfig: keyInterceptorConfig ?? this.keyInterceptorConfig,
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,

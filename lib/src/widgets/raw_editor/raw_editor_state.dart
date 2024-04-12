@@ -675,10 +675,16 @@ class QuillRawEditorState extends EditorState
               meta: isDesktopMacOS,
             ): const RedoTextIntent(SelectionChangedCause.keyboard),
 
-            if (widget.configurations.onEnterHit != null)
+            if (widget.configurations.keyInterceptorConfig?.onEnterHit != null)
               const SingleActivator(
                 LogicalKeyboardKey.enter,
               ): const EnterKeyIntent(),
+
+            if (widget.configurations.keyInterceptorConfig?.onBackspaceHit !=
+                null)
+              const SingleActivator(
+                LogicalKeyboardKey.backspace,
+              ): const BackspaceKeyIntent(),
 
             // Selection formatting.
             if (allowStyleShortcuts)
@@ -1792,7 +1798,13 @@ class QuillRawEditorState extends EditorState
 
     OpenSearchIntent: _openSearchAction,
 
-    EnterKeyIntent: QuillEditorEnterKeyAction(widget.configurations.onEnterHit),
+    EnterKeyIntent: QuillEditorEnterKeyAction(
+        widget.configurations.keyInterceptorConfig?.onEnterHit,
+        widget.configurations.keyInterceptorConfig?.consumeEnterKey ?? false),
+    BackspaceKeyIntent: QuillEditorBackspaceKeyAction(
+        widget.configurations.keyInterceptorConfig?.onBackspaceHit,
+        widget.configurations.keyInterceptorConfig?.consumeBackspaceKey ??
+            false),
 
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
@@ -1851,4 +1863,8 @@ class QuillRawEditorState extends EditorState
 
 class EnterKeyIntent extends Intent {
   const EnterKeyIntent();
+}
+
+class BackspaceKeyIntent extends Intent {
+  const BackspaceKeyIntent();
 }

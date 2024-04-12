@@ -386,13 +386,35 @@ class QuillEditorRedoKeyboardAction extends ContextAction<RedoTextIntent> {
 }
 
 class QuillEditorEnterKeyAction extends ContextAction<EnterKeyIntent> {
-  QuillEditorEnterKeyAction(this._onEnterKey);
+  QuillEditorEnterKeyAction(this._onEnterKey, this.consume);
 
   final void Function()? _onEnterKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
 
   @override
   void invoke(EnterKeyIntent intent, [BuildContext? context]) {
     _onEnterKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorBackspaceKeyAction extends ContextAction<BackspaceKeyIntent> {
+  QuillEditorBackspaceKeyAction(this._onBackspaceKey, this.consume);
+
+  final void Function()? _onBackspaceKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(BackspaceKeyIntent intent, [BuildContext? context]) {
+    _onBackspaceKey?.call();
   }
 
   @override

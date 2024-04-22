@@ -686,6 +686,28 @@ class QuillRawEditorState extends EditorState
                 LogicalKeyboardKey.backspace,
               ): const BackspaceKeyIntent(),
 
+            SingleActivator(
+              LogicalKeyboardKey.keyX,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const CopySelectionTextIntent.cut(
+                SelectionChangedCause.keyboard),
+            SingleActivator(
+              LogicalKeyboardKey.keyC,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): CopySelectionTextIntent.copy,
+            SingleActivator(
+              LogicalKeyboardKey.keyV,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const PasteTextIntent(SelectionChangedCause.keyboard),
+            SingleActivator(
+              LogicalKeyboardKey.keyA,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+            ): const SelectAllTextIntent(SelectionChangedCause.keyboard),
+
             // Selection formatting.
             if (allowStyleShortcuts)
               SingleActivator(

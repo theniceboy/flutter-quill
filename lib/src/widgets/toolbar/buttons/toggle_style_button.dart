@@ -13,7 +13,6 @@ typedef ToggleStyleButtonBuilder = Widget Function(
   BuildContext context,
   Attribute attribute,
   IconData icon,
-  Color? fillColor,
   bool? isToggled,
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [
@@ -148,7 +147,7 @@ class QuillToolbarToggleStyleButtonState
 
   void _onPressed() {
     _toggleAttribute();
-    options.afterButtonPressed?.call();
+    afterButtonPressed?.call();
   }
 
   @override
@@ -172,10 +171,9 @@ class QuillToolbarToggleStyleButtonState
         context,
         widget.attribute,
         iconData,
-        options.fillColor,
         _isToggled,
         _toggleAttribute,
-        options.afterButtonPressed,
+        afterButtonPressed,
         iconSize,
         iconButtonFactor,
         iconTheme,
@@ -231,7 +229,6 @@ Widget defaultToggleStyleButtonBuilder(
   BuildContext context,
   Attribute attribute,
   IconData icon,
-  Color? fillColor,
   bool? isToggled,
   VoidCallback? onPressed,
   VoidCallback? afterPressed, [

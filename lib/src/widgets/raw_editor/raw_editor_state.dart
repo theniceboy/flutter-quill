@@ -22,7 +22,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
 import 'package:html/parser.dart' as html_parser;
 import 'package:super_clipboard/super_clipboard.dart';
 
-import '../../../config.dart';
+import '../../../quill_delta.dart';
 import '../../models/documents/attribute.dart';
 import '../../models/documents/delta_x.dart';
 import '../../models/documents/document.dart';
@@ -536,7 +536,7 @@ class QuillRawEditorState extends EditorState
       final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
       doc = Document.fromJson(
         jsonDecode(
-          '[{"$ATTRIBUTE_KEY":{"placeholder":true},"$INSERT_KEY":"$raw\\n"}]',
+          '[{"${Operation.attributesKey}":{"placeholder":true},"${Operation.insertKey}":"$raw\\n"}]',
         ),
       );
     }

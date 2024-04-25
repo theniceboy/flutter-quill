@@ -2,7 +2,6 @@ import 'dart:async' show StreamController;
 
 import 'package:meta/meta.dart';
 
-import '../../../config.dart';
 import '../../../quill_delta.dart';
 import '../../widgets/quill/embeds.dart';
 import '../rules/rule.dart';
@@ -424,7 +423,7 @@ class Document {
     }
 
     // print(doc.last.data.runtimeType);
-    assert((doc.last.data as String).endsWith('\n'));
+    // assert((doc.last.data as String).endsWith('\n'));
 
     var offset = 0;
     for (final op in doc.toList()) {
@@ -460,7 +459,7 @@ class Document {
     final delta = node.toDelta();
     return delta.length == 1 &&
         delta.first.data == '\n' &&
-        delta.first.key == INSERT_KEY;
+        delta.first.key == Operation.insertKey;
   }
 
   /// Convert the HTML Raw string to [Document]

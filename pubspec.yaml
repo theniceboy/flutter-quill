@@ -5,6 +5,7 @@ homepage: https://1o24bbs.com/c/bulletjournal/108/
 repository: https://github.com/singerdmx/flutter-quill/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
 documentation: https://github.com/singerdmx/flutter-quill/
+publish_to: 'none'
 
 topics:
   - ui
@@ -44,7 +45,8 @@ dependencies:
 
   # Normal packages
   intl: ^0.18.1
-  dart_quill_delta: ^9.3.3
+  dart_quill_delta:
+    path: dart_quill_delta
   collection: ^1.17.0
   quiver: ^3.2.1
   equatable: ^2.0.5

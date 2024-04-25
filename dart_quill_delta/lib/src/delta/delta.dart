@@ -23,6 +23,13 @@ class Delta {
   factory Delta.from(Delta other) =>
       Delta._(List<Operation>.from(other.operations));
 
+  factory Delta.fromContent(String content) {
+    if (!content.endsWith('\n')) {
+      content += '\n';
+    }
+    return Delta.fromOperations([Operation.insert(content)]);
+  }
+
   /// Creates new [Delta] from a List of Operation
   factory Delta.fromOperations(List<Operation> operations) =>
       Delta._(operations.toList());

@@ -20,7 +20,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dart_quill_delta: ^9.3.1
+  dart_quill_delta: any
   quill_html_converter: ^9.3.1
   pdf: ^3.10.8
   htmltopdfwidgets: ^1.0.3

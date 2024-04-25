@@ -45,8 +45,7 @@ dependencies:
 
   # Normal packages
   intl: ^0.18.1
-  dart_quill_delta:
-    path: dart_quill_delta
+  dart_quill_delta: any
   collection: ^1.17.0
   quiver: ^3.2.1
   equatable: ^2.0.5

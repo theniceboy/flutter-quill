@@ -55,7 +55,7 @@ class Operation {
   final String key;
 
   /// Length of this operation.
-  final int? length;
+  int? length;
 
   /// Payload of "insert" operation, for other types is set to empty string.
   Object? data;

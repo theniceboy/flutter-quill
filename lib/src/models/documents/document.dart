@@ -335,6 +335,13 @@ class Document {
       throw StateError('_delta compose failed');
     }
 
+    final lastOp = _delta.last.data;
+    if (lastOp is String && !lastOp.endsWith('\n')) {
+      _delta.last.data = '$lastOp\n';
+      if (_delta.last.length != null) {
+        _delta.last.length = _delta.last.length! + 1;
+      }
+    }
     if (_delta != _root.toDelta()) {
       throw StateError('Compose failed');
     }

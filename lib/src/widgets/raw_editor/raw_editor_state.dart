@@ -900,7 +900,8 @@ class QuillRawEditorState extends EditorState
       return KeyEventResult.ignored;
     }
     // Handle indenting blocks when pressing the tab key.
-    if (event.logicalKey == LogicalKeyboardKey.tab) {
+    if (widget.configurations.keyInterceptorConfig?.onSTabHit == null &&
+        event.logicalKey == LogicalKeyboardKey.tab) {
       return _handleTabKey(event);
     }
 

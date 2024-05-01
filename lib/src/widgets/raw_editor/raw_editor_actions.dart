@@ -421,6 +421,42 @@ class QuillEditorBackspaceKeyAction extends ContextAction<BackspaceKeyIntent> {
   bool get isActionEnabled => true;
 }
 
+class QuillEditorTabKeyAction extends ContextAction<TabKeyIntent> {
+  QuillEditorTabKeyAction(this._onTabKey, this.consume);
+
+  final void Function()? _onTabKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(TabKeyIntent intent, [BuildContext? context]) {
+    _onTabKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorSTabKeyAction extends ContextAction<STabKeyIntent> {
+  QuillEditorSTabKeyAction(this._onSTabKey, this.consume);
+
+  final void Function()? _onSTabKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(STabKeyIntent intent, [BuildContext? context]) {
+    _onSTabKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
 class ToggleTextStyleIntent extends Intent {
   const ToggleTextStyleIntent(this.attribute);
 

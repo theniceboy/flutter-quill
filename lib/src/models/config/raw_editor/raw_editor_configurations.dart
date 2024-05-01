@@ -337,10 +337,18 @@ class QuillEditorKeyInterceptorConfig {
     this.onEnterHit,
     this.consumeBackspaceKey = false,
     this.onBackspaceHit,
+    this.consumeTabKey = false,
+    this.onTabHit,
+    this.consumeSTabKey = false,
+    this.onSTabHit,
   });
 
   final bool consumeEnterKey;
   final void Function()? onEnterHit;
   final bool consumeBackspaceKey;
   final void Function()? onBackspaceHit;
+  final bool consumeTabKey;
+  final void Function()? onTabHit;
+  final bool consumeSTabKey;
+  final void Function()? onSTabHit;
 }

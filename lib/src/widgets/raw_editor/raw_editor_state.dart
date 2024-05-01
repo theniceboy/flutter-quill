@@ -686,6 +686,16 @@ class QuillRawEditorState extends EditorState
                 LogicalKeyboardKey.backspace,
               ): const BackspaceKeyIntent(),
 
+            if (widget.configurations.keyInterceptorConfig?.onTabHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.tab,
+              ): const TabKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onSTabHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.tab,
+                shift: true,
+              ): const STabKeyIntent(),
+
             SingleActivator(
               LogicalKeyboardKey.keyX,
               control: !isDesktopMacOS,
@@ -1827,6 +1837,12 @@ class QuillRawEditorState extends EditorState
         widget.configurations.keyInterceptorConfig?.onBackspaceHit,
         widget.configurations.keyInterceptorConfig?.consumeBackspaceKey ??
             false),
+    TabKeyIntent: QuillEditorTabKeyAction(
+        widget.configurations.keyInterceptorConfig?.onTabHit,
+        widget.configurations.keyInterceptorConfig?.consumeTabKey ?? false),
+    STabKeyIntent: QuillEditorSTabKeyAction(
+        widget.configurations.keyInterceptorConfig?.onSTabHit,
+        widget.configurations.keyInterceptorConfig?.consumeSTabKey ?? false),
 
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
@@ -1889,4 +1905,12 @@ class EnterKeyIntent extends Intent {
 
 class BackspaceKeyIntent extends Intent {
   const BackspaceKeyIntent();
+}
+
+class TabKeyIntent extends Intent {
+  const TabKeyIntent();
+}
+
+class STabKeyIntent extends Intent {
+  const STabKeyIntent();
 }

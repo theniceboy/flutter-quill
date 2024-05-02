@@ -698,7 +698,7 @@ class QuillRawEditorState extends EditorState
               ): const STabKeyIntent(),
             if (widget.configurations.keyInterceptorConfig?.onEscapeHit != null)
               const SingleActivator(
-                LogicalKeyboardKey.tab,
+                LogicalKeyboardKey.escape,
               ): const EscapeKeyIntent(),
 
             SingleActivator(

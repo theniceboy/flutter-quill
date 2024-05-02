@@ -226,8 +226,6 @@ class DefaultStyles {
     final themeData = Theme.of(context);
     final defaultTextStyle = DefaultTextStyle.of(context);
     final baseStyle = defaultTextStyle.style.copyWith(
-      fontSize: 16,
-      height: 1.3,
       decoration: TextDecoration.none,
     );
     const baseSpacing = VerticalSpacing(6, 0);

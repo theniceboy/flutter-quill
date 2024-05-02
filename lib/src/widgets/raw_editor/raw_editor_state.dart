@@ -661,9 +661,10 @@ class QuillRawEditorState extends EditorState
         child: Shortcuts(
           shortcuts: mergeMaps<ShortcutActivator, Intent>({
             // shortcuts added for Desktop platforms.
-            const SingleActivator(
-              LogicalKeyboardKey.escape,
-            ): const HideSelectionToolbarIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onEscapeHit == null)
+              const SingleActivator(
+                LogicalKeyboardKey.escape,
+              ): const HideSelectionToolbarIntent(),
             SingleActivator(
               LogicalKeyboardKey.keyZ,
               control: !isDesktopMacOS,
@@ -695,6 +696,10 @@ class QuillRawEditorState extends EditorState
                 LogicalKeyboardKey.tab,
                 shift: true,
               ): const STabKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onEscapeHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.tab,
+              ): const EscapeKeyIntent(),
 
             SingleActivator(
               LogicalKeyboardKey.keyX,
@@ -1844,6 +1849,9 @@ class QuillRawEditorState extends EditorState
     STabKeyIntent: QuillEditorSTabKeyAction(
         widget.configurations.keyInterceptorConfig?.onSTabHit,
         widget.configurations.keyInterceptorConfig?.consumeSTabKey ?? false),
+    EscapeKeyIntent: QuillEditorEscapeKeyAction(
+        widget.configurations.keyInterceptorConfig?.onEscapeHit,
+        widget.configurations.keyInterceptorConfig?.consumeEscapeKey ?? false),
 
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
@@ -1914,4 +1922,8 @@ class TabKeyIntent extends Intent {
 
 class STabKeyIntent extends Intent {
   const STabKeyIntent();
+}
+
+class EscapeKeyIntent extends Intent {
+  const EscapeKeyIntent();
 }

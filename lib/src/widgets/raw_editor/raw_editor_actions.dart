@@ -457,6 +457,24 @@ class QuillEditorSTabKeyAction extends ContextAction<STabKeyIntent> {
   bool get isActionEnabled => true;
 }
 
+class QuillEditorEscapeKeyAction extends ContextAction<EscapeKeyIntent> {
+  QuillEditorEscapeKeyAction(this._onEscapeKey, this.consume);
+
+  final void Function()? _onEscapeKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(EscapeKeyIntent intent, [BuildContext? context]) {
+    _onEscapeKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
 class ToggleTextStyleIntent extends Intent {
   const ToggleTextStyleIntent(this.attribute);
 

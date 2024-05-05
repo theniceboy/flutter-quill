@@ -222,6 +222,14 @@ class QuillRawEditorState extends EditorState
         }
         final htmlBody = html_parser.parse(html).body?.outerHtml;
         final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+        if (deltaFromClipboard.isNotEmpty) {
+          final last = deltaFromClipboard.last;
+          if (last.isInsert && (last.data as String).endsWith('\n')) {
+            last.data = (last.data as String)
+                .substring(0, (last.data as String).length - 1);
+            last.length = (last.data as String).length;
+          }
+        }
 
         controller.replaceText(
           textEditingValue.selection.start,
@@ -237,7 +245,7 @@ class QuillRawEditorState extends EditorState
           TextEditingValue(
             text: textEditingValue.text,
             selection: TextSelection.collapsed(
-              offset: textEditingValue.selection.end,
+              offset: textEditingValue.selection.end + 1,
             ),
           ),
           cause,

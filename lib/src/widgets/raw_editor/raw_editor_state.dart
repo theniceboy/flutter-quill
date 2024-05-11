@@ -166,7 +166,8 @@ class QuillRawEditorState extends EditorState
         BlockEmbed.image(copiedImageUrl.url),
         null,
       );
-      if (copiedImageUrl.styleString.isNotEmpty) {
+      if (widget.configurations.allowStyles &&
+          copiedImageUrl.styleString.isNotEmpty) {
         controller.formatText(
           getEmbedNode(controller, index + 1).offset,
           1,
@@ -180,7 +181,8 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    if (await controller.clipboardPaste()) {
+    if (await controller.clipboardPaste(
+        allowStyles: widget.configurations.allowStyles)) {
       bringIntoView(textEditingValue.selection.extent);
       return;
     }

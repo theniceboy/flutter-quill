@@ -513,10 +513,11 @@ class QuillController extends ChangeNotifier {
 
   /// Returns whether paste operation was handled here.
   /// updateEditor is called if paste operation was successful.
-  Future<bool> clipboardPaste({void Function()? updateEditor}) async {
+  Future<bool> clipboardPaste(
+      {void Function()? updateEditor, bool allowStyles = true}) async {
     if (readOnly || !selection.isValid) return true;
 
-    if (await _pasteHTML()) {
+    if (await _pasteHTML(allowStyles)) {
       updateEditor?.call();
       return true;
     }
@@ -544,7 +545,7 @@ class QuillController extends ChangeNotifier {
     return false;
   }
 
-  Future<bool> _pasteHTML() async {
+  Future<bool> _pasteHTML(bool allowStyles) async {
     final clipboard = SystemClipboard.instance;
     if (clipboard != null) {
       final reader = await clipboard.read();
@@ -554,7 +555,19 @@ class QuillController extends ChangeNotifier {
           return false;
         }
         final htmlBody = html_parser.parse(html).body?.outerHtml;
-        final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+        final deltaFromClipboard = allowStyles
+            ? DeltaX.fromHtml(htmlBody ?? html)
+            : Delta.fromContent(
+                Document.fromHtml(htmlBody ?? html).toPlainText().trim());
+        if (deltaFromClipboard.isNotEmpty) {
+          final last = deltaFromClipboard.last;
+          if (last.isInsert && (last.data as String).endsWith('\n')) {
+            final len = (last.data as String).length - 1;
+            last
+              ..data = (last.data as String).substring(0, len)
+              ..length = len;
+          }
+        }
 
         replaceText(
           selection.start,

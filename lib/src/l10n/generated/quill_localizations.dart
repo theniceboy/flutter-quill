@@ -23,6 +23,7 @@ import 'quill_localizations_ja.dart';
 import 'quill_localizations_ko.dart';
 import 'quill_localizations_ku.dart';
 import 'quill_localizations_ms.dart';
+import 'quill_localizations_ne.dart';
 import 'quill_localizations_nl.dart';
 import 'quill_localizations_no.dart';
 import 'quill_localizations_pl.dart';
@@ -145,6 +146,7 @@ abstract class FlutterQuillLocalizations {
     Locale('ku'),
     Locale('ku', 'CKB'),
     Locale('ms'),
+    Locale('ne'),
     Locale('nl'),
     Locale('no'),
     Locale('pl'),
@@ -208,6 +210,18 @@ abstract class FlutterQuillLocalizations {
   /// In en, this message translates to:
   /// **'Copy'**
   String get copy;
+
+  /// No description provided for @cut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut'**
+  String get cut => 'Cut';
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste => 'Paste';
 
   /// No description provided for @remove.
   ///
@@ -726,6 +740,7 @@ class _FlutterQuillLocalizationsDelegate
         'ko',
         'ku',
         'ms',
+        'ne',
         'nl',
         'no',
         'pl',
@@ -833,6 +848,8 @@ FlutterQuillLocalizations lookupFlutterQuillLocalizations(Locale locale) {
       return FlutterQuillLocalizationsKu();
     case 'ms':
       return FlutterQuillLocalizationsMs();
+    case 'ne':
+      return FlutterQuillLocalizationsNe();
     case 'nl':
       return FlutterQuillLocalizationsNl();
     case 'no':

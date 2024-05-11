@@ -151,7 +151,7 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (controller.readOnly) {
+    if (widget.configurations.readOnly) {
       return;
     }
 

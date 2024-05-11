@@ -33,6 +33,7 @@ class QuillEditorConfigurations extends Equatable {
     this.autoFocus = false,
     this.expands = false,
     this.placeholder,
+    this.readOnly = false,
     this.checkBoxReadOnly,
     this.disableClipboard = false,
     this.textSelectionThemeData,
@@ -98,7 +99,7 @@ class QuillEditorConfigurations extends Equatable {
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
   /// Defaults to `false`. Must not be `null`.
-  bool get readOnly => controller.readOnly;
+  final bool readOnly;
 
   /// Override [readOnly] for checkbox.
   ///
@@ -373,7 +374,7 @@ class QuillEditorConfigurations extends Equatable {
   @override
   List<Object?> get props => [
         placeholder,
-        controller.readOnly,
+        readOnly,
       ];
 
   // We might use code generator like freezed but sometimes it can be limited

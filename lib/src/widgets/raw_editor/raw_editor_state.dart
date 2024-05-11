@@ -13,18 +13,16 @@ import 'package:flutter/services.dart'
         Clipboard,
         ClipboardData,
         HardwareKeyboard,
-        LogicalKeyboardKey,
         KeyDownEvent,
+        LogicalKeyboardKey,
         SystemChannels,
         TextInputControl;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
-import 'package:html/parser.dart' as html_parser;
 import 'package:super_clipboard/super_clipboard.dart';
 
 import '../../../quill_delta.dart';
 import '../../models/documents/attribute.dart';
-import '../../models/documents/delta_x.dart';
 import '../../models/documents/document.dart';
 import '../../models/documents/nodes/block.dart';
 import '../../models/documents/nodes/embeddable.dart';
@@ -93,12 +91,10 @@ class QuillRawEditorState extends EditorState
 
   // for pasting style
   @override
-  List<OffsetValue> get pasteStyleAndEmbed => _pasteStyleAndEmbed;
-  List<OffsetValue> _pasteStyleAndEmbed = <OffsetValue>[];
+  List<OffsetValue> get pasteStyleAndEmbed => controller.pasteStyleAndEmbed;
 
   @override
-  String get pastePlainText => _pastePlainText;
-  String _pastePlainText = '';
+  String get pastePlainText => controller.pastePlainText;
 
   ClipboardStatusNotifier? _clipboardStatus;
   final LayerLink _toolbarLayerLink = LayerLink();
@@ -123,16 +119,7 @@ class QuillRawEditorState extends EditorState
   /// Copy current selection to [Clipboard].
   @override
   void copySelection(SelectionChangedCause cause) {
-    controller.copiedImageUrl = null;
-    _pastePlainText = controller.getPlainText();
-    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
-
-    final selection = textEditingValue.selection;
-    final text = textEditingValue.text;
-    if (selection.isCollapsed) {
-      return;
-    }
-    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
+    if (!controller.clipboardSelection(true)) return;
 
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
@@ -153,20 +140,7 @@ class QuillRawEditorState extends EditorState
   /// Cut current selection to [Clipboard].
   @override
   void cutSelection(SelectionChangedCause cause) {
-    controller.copiedImageUrl = null;
-    _pastePlainText = controller.getPlainText();
-    _pasteStyleAndEmbed = controller.getAllIndividualSelectionStylesAndEmbed();
-
-    if (widget.configurations.readOnly) {
-      return;
-    }
-    final selection = textEditingValue.selection;
-    final text = textEditingValue.text;
-    if (selection.isCollapsed) {
-      return;
-    }
-    Clipboard.setData(ClipboardData(text: selection.textInside(text)));
-    _replaceText(ReplaceTextIntent(textEditingValue, '', selection, cause));
+    if (!controller.clipboardSelection(false)) return;
 
     if (cause == SelectionChangedCause.toolbar) {
       bringIntoView(textEditingValue.selection.extent);
@@ -177,7 +151,7 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (widget.configurations.readOnly) {
+    if (controller.readOnly) {
       return;
     }
 
@@ -206,87 +180,12 @@ class QuillRawEditorState extends EditorState
       return;
     }
 
-    final selection = textEditingValue.selection;
-    if (!selection.isValid) {
+    if (await controller.clipboardPaste()) {
+      bringIntoView(textEditingValue.selection.extent);
       return;
     }
 
     final clipboard = SystemClipboard.instance;
-
-    if (clipboard != null) {
-      final reader = await clipboard.read();
-      if (reader.canProvide(Formats.htmlText)) {
-        final html = await reader.readValue(Formats.htmlText);
-        if (html == null) {
-          return;
-        }
-        final htmlBody = html_parser.parse(html).body?.outerHtml;
-        final deltaFromClipboard = widget.configurations.allowStyles
-            ? DeltaX.fromHtml(htmlBody ?? html)
-            : Delta.fromContent(
-                Document.fromHtml(htmlBody ?? html).toPlainText().trim());
-        if (deltaFromClipboard.isNotEmpty) {
-          final last = deltaFromClipboard.last;
-          if (last.isInsert && (last.data as String).endsWith('\n')) {
-            final len = (last.data as String).length - 1;
-            last
-              ..data = (last.data as String).substring(0, len)
-              ..length = len;
-          }
-        }
-
-        controller.replaceText(
-          textEditingValue.selection.start,
-          textEditingValue.selection.end - textEditingValue.selection.start,
-          deltaFromClipboard,
-          TextSelection.collapsed(offset: textEditingValue.selection.end),
-        );
-
-        bringIntoView(textEditingValue.selection.extent);
-
-        // Collapse the selection and hide the toolbar and handles.
-        userUpdateTextEditingValue(
-          TextEditingValue(
-            text: textEditingValue.text,
-            selection: TextSelection.collapsed(
-              offset: textEditingValue.selection.end + 1,
-            ),
-          ),
-          cause,
-        );
-
-        return;
-      }
-    }
-
-    // Snapshot the input before using `await`.
-    // See https://github.com/flutter/flutter/issues/11427
-    final plainText = await Clipboard.getData(Clipboard.kTextPlain);
-    if (plainText != null) {
-      _replaceText(
-        ReplaceTextIntent(
-          textEditingValue,
-          plainText.text!,
-          selection,
-          cause,
-        ),
-      );
-
-      bringIntoView(textEditingValue.selection.extent);
-
-      // Collapse the selection and hide the toolbar and handles.
-      userUpdateTextEditingValue(
-        TextEditingValue(
-          text: textEditingValue.text,
-          selection: TextSelection.collapsed(
-            offset: textEditingValue.selection.end,
-          ),
-        ),
-        cause,
-      );
-
-      return;
-    }
 
     final onImagePaste = widget.configurations.onImagePaste;
     if (onImagePaste != null) {
@@ -335,7 +234,6 @@ class QuillRawEditorState extends EditorState
         }
       }
     }
-    return;
   }
 
   /// Select the entire text value.
@@ -1082,7 +980,8 @@ class QuillRawEditorState extends EditorState
   void _handleCheckboxTap(int offset, bool value) {
     final requestKeyboardFocusOnCheckListChanged =
         widget.configurations.requestKeyboardFocusOnCheckListChanged;
-    if (!widget.configurations.readOnly) {
+    if (!(widget.configurations.checkBoxReadOnly ??
+        widget.configurations.readOnly)) {
       _disableScrollControllerAnimateOnce = true;
       final currentSelection = controller.selection.copyWith();
       final attribute = value ? Attribute.checked : Attribute.unchecked;
@@ -1158,6 +1057,7 @@ class QuillRawEditorState extends EditorState
           clearIndents: clearIndents,
           onCheckboxTap: _handleCheckboxTap,
           readOnly: widget.configurations.readOnly,
+          checkBoxReadOnly: widget.configurations.checkBoxReadOnly,
           customStyleBuilder: widget.configurations.customStyleBuilder,
           customLinkPrefixes: widget.configurations.customLinkPrefixes,
         );

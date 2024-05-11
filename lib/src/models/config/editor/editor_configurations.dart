@@ -64,7 +64,7 @@ class QuillEditorConfigurations extends Equatable {
     this.onImagePaste,
     this.onGifPaste,
     this.customShortcuts,
-    this.allowStyleShortcuts = true,
+    this.allowStyles = true,
     this.keyInterceptorConfig,
     this.customActions,
     this.detectWordBoundary = true,
@@ -296,7 +296,7 @@ class QuillEditorConfigurations extends Equatable {
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
   final Map<ShortcutActivator, Intent>? customShortcuts;
 
-  final bool allowStyleShortcuts;
+  final bool allowStyles;
 
   final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
 
@@ -406,7 +406,7 @@ class QuillEditorConfigurations extends Equatable {
     Future<String?> Function(Uint8List imageBytes)? onImagePaste,
     Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
-    bool? allowStyleShortcuts,
+    bool? allowStyles,
     QuillEditorKeyInterceptorConfig? keyInterceptorConfig,
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
@@ -467,7 +467,7 @@ class QuillEditorConfigurations extends Equatable {
       onImagePaste: onImagePaste ?? this.onImagePaste,
       onGifPaste: onGifPaste ?? this.onGifPaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
-      allowStyleShortcuts: allowStyleShortcuts ?? this.allowStyleShortcuts,
+      allowStyles: allowStyles ?? this.allowStyles,
       keyInterceptorConfig: keyInterceptorConfig ?? this.keyInterceptorConfig,
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,

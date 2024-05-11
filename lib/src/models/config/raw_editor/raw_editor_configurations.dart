@@ -62,7 +62,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.maxContentWidth,
     this.customStyles,
     this.customShortcuts,
-    this.allowStyleShortcuts = true,
+    this.allowStyles = true,
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
@@ -271,7 +271,7 @@ class QuillRawEditorConfigurations extends Equatable {
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
   final Map<ShortcutActivator, Intent>? customShortcuts;
 
-  final bool allowStyleShortcuts;
+  final bool allowStyles;
 
   final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
 

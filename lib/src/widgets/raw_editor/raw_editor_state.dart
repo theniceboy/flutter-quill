@@ -221,13 +221,17 @@ class QuillRawEditorState extends EditorState
           return;
         }
         final htmlBody = html_parser.parse(html).body?.outerHtml;
-        final deltaFromClipboard = DeltaX.fromHtml(htmlBody ?? html);
+        final deltaFromClipboard = widget.configurations.allowStyles
+            ? DeltaX.fromHtml(htmlBody ?? html)
+            : Delta.fromContent(
+                Document.fromHtml(htmlBody ?? html).toPlainText().trim());
         if (deltaFromClipboard.isNotEmpty) {
           final last = deltaFromClipboard.last;
           if (last.isInsert && (last.data as String).endsWith('\n')) {
-            last.data = (last.data as String)
-                .substring(0, (last.data as String).length - 1);
-            last.length = (last.data as String).length;
+            final len = (last.data as String).length - 1;
+            last
+              ..data = (last.data as String).substring(0, len)
+              ..length = len;
           }
         }
 
@@ -653,7 +657,7 @@ class QuillRawEditorState extends EditorState
     // we need to
     final isDesktopMacOS = isMacOS(supportWeb: true);
 
-    final allowStyleShortcuts = widget.configurations.allowStyleShortcuts;
+    final allowStyleShortcuts = widget.configurations.allowStyles;
     return TextFieldTapRegion(
       enabled: widget.configurations.isOnTapOutsideEnabled,
       onTapOutside: (event) {

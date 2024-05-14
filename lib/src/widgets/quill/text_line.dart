@@ -59,10 +59,13 @@ class TextLine extends StatefulWidget {
   final List<String> customLinkPrefixes;
 
   @override
-  State<TextLine> createState() => _TextLineState();
+  State<TextLine> createState() => TextLineState();
 }
 
-class _TextLineState extends State<TextLine> {
+typedef LinkRecognizerGetter = GestureRecognizer? Function(
+    Node segment, bool isLink);
+
+class TextLineState extends State<TextLine> {
   bool _metaOrControlPressed = false;
 
   UniqueKey _richTextKey = UniqueKey();
@@ -150,7 +153,7 @@ class _TextLineState extends State<TextLine> {
       final embedBuilder = widget.embedBuilder(embed);
       if (embedBuilder.expanded) {
         // Creates correct node for custom embed
-        final lineStyle = _getLineStyle(widget.styles);
+        final lineStyle = _getLineStyle(widget, widget.styles);
         return EmbedProxy(
           embedBuilder.build(
             context,
@@ -163,10 +166,10 @@ class _TextLineState extends State<TextLine> {
         );
       }
     }
-    final textSpan = _getTextSpanForWholeLine();
+    final textSpan = getTextSpanForWholeLine(widget, context, _getRecognizer);
     final strutStyle =
         StrutStyle.fromTextStyle(textSpan.style ?? const TextStyle());
-    final textAlign = _getTextAlign();
+    final textAlign = getTextAlign(widget);
     final child = RichText(
       key: _richTextKey,
       text: textSpan,
@@ -186,10 +189,12 @@ class _TextLineState extends State<TextLine> {
     );
   }
 
-  InlineSpan _getTextSpanForWholeLine() {
-    final lineStyle = _getLineStyle(widget.styles);
+  static InlineSpan getTextSpanForWholeLine(TextLine widget,
+      BuildContext context, LinkRecognizerGetter? getRecognizer) {
+    final lineStyle = _getLineStyle(widget, widget.styles);
     if (!widget.line.hasEmbed) {
-      return _buildTextSpan(widget.styles, widget.line.children, lineStyle);
+      return _buildTextSpan(widget, widget.styles, widget.line.children,
+          lineStyle, getRecognizer);
     }
 
     // The line could contain more than one Embed & more than one Text
@@ -198,8 +203,8 @@ class _TextLineState extends State<TextLine> {
     for (var child in widget.line.children) {
       if (child is Embed) {
         if (textNodes.isNotEmpty) {
-          textSpanChildren
-              .add(_buildTextSpan(widget.styles, textNodes, lineStyle));
+          textSpanChildren.add(_buildTextSpan(
+              widget, widget.styles, textNodes, lineStyle, getRecognizer));
           textNodes = LinkedList<Node>();
         }
         // Creates correct node for custom embed
@@ -228,13 +233,14 @@ class _TextLineState extends State<TextLine> {
     }
 
     if (textNodes.isNotEmpty) {
-      textSpanChildren.add(_buildTextSpan(widget.styles, textNodes, lineStyle));
+      textSpanChildren.add(_buildTextSpan(
+          widget, widget.styles, textNodes, lineStyle, getRecognizer));
     }
 
     return TextSpan(style: lineStyle, children: textSpanChildren);
   }
 
-  TextAlign _getTextAlign() {
+  static TextAlign getTextAlign(TextLine widget) {
     final alignment = widget.line.style.attributes[Attribute.align.key];
     if (alignment == Attribute.leftAlignment) {
       return TextAlign.start;
@@ -248,23 +254,25 @@ class _TextLineState extends State<TextLine> {
     return TextAlign.start;
   }
 
-  TextSpan _buildTextSpan(
+  static TextSpan _buildTextSpan(
+    TextLine widget,
     DefaultStyles defaultStyles,
     LinkedList<Node> nodes,
     TextStyle lineStyle,
+    LinkRecognizerGetter? getRecognizer,
   ) {
     if (nodes.isEmpty && kIsWeb) {
       nodes = LinkedList<Node>()..add(leaf.QuillText('\u{200B}'));
     }
     final children = nodes
-        .map((node) =>
-            _getTextSpanFromNode(defaultStyles, node, widget.line.style))
+        .map((node) => _getTextSpanFromNode(
+            widget, defaultStyles, node, widget.line.style, getRecognizer))
         .toList(growable: false);
 
     return TextSpan(children: children, style: lineStyle);
   }
 
-  TextStyle _getLineStyle(DefaultStyles defaultStyles) {
+  static TextStyle _getLineStyle(TextLine widget, DefaultStyles defaultStyles) {
     var textStyle = const TextStyle();
 
     if (widget.line.style.containsKey(Attribute.placeholder.key)) {
@@ -301,13 +309,14 @@ class _TextLineState extends State<TextLine> {
     }
 
     textStyle = textStyle.merge(toMerge);
-    textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
+    textStyle =
+        _applyCustomAttributes(widget, textStyle, widget.line.style.attributes);
 
     return textStyle;
   }
 
-  TextStyle _applyCustomAttributes(
-      TextStyle textStyle, Map<String, Attribute> attributes) {
+  static TextStyle _applyCustomAttributes(
+      TextLine widget, TextStyle textStyle, Map<String, Attribute> attributes) {
     if (widget.customStyleBuilder == null) {
       return textStyle;
     }
@@ -322,25 +331,30 @@ class _TextLineState extends State<TextLine> {
     return textStyle;
   }
 
-  TextSpan _getTextSpanFromNode(
-      DefaultStyles defaultStyles, Node node, Style lineStyle) {
+  static TextSpan _getTextSpanFromNode(
+      TextLine widget,
+      DefaultStyles defaultStyles,
+      Node node,
+      Style lineStyle,
+      LinkRecognizerGetter? getRecognizer) {
     final textNode = node as leaf.QuillText;
     final nodeStyle = textNode.style;
     final isLink = nodeStyle.containsKey(Attribute.link.key) &&
         nodeStyle.attributes[Attribute.link.key]!.value != null;
 
-    final recognizer = _getRecognizer(node, isLink);
+    final recognizer = getRecognizer?.call(node, isLink);
 
     return TextSpan(
       text: textNode.value,
-      style: _getInlineTextStyle(
-          textNode, defaultStyles, nodeStyle, lineStyle, isLink),
+      style: getInlineTextStyle(
+          widget, textNode, defaultStyles, nodeStyle, lineStyle, isLink),
       recognizer: recognizer,
       mouseCursor: (recognizer != null) ? SystemMouseCursors.click : null,
     );
   }
 
-  TextStyle _getInlineTextStyle(
+  static TextStyle getInlineTextStyle(
+      TextLine widget,
       leaf.QuillText textNode,
       DefaultStyles defaultStyles,
       Style nodeStyle,
@@ -428,7 +442,7 @@ class _TextLineState extends State<TextLine> {
       res = res.merge(TextStyle(backgroundColor: backgroundColor));
     }
 
-    res = _applyCustomAttributes(res, textNode.style.attributes);
+    res = _applyCustomAttributes(widget, res, textNode.style.attributes);
     return res;
   }
 
@@ -457,26 +471,26 @@ class _TextLineState extends State<TextLine> {
     if (isLink && canLaunchLinks) {
       if (isDesktop(supportWeb: true) || widget.readOnly) {
         _linkRecognizers[segment] = TapGestureRecognizer()
-          ..onTap = () => _tapNodeLink(segment);
+          ..onTap = () => _tapNodeLink(widget, segment);
       } else {
         _linkRecognizers[segment] = LongPressGestureRecognizer()
-          ..onLongPress = () => _longPressLink(segment);
+          ..onLongPress = () => _longPressLink(widget, segment);
       }
     }
     return _linkRecognizers[segment];
   }
 
-  Future<void> _launchUrl(String url) async {
+  static Future<void> _launchUrl(String url) async {
     await launchUrl(Uri.parse(url));
   }
 
-  void _tapNodeLink(Node node) {
+  static void _tapNodeLink(TextLine widget, Node node) {
     final link = node.style.attributes[Attribute.link.key]!.value;
 
-    _tapLink(link);
+    _tapLink(widget, link);
   }
 
-  void _tapLink(String? link) {
+  static void _tapLink(TextLine widget, String? link) {
     if (link == null) {
       return;
     }
@@ -492,12 +506,12 @@ class _TextLineState extends State<TextLine> {
     launchUrl(link);
   }
 
-  Future<void> _longPressLink(Node node) async {
+  static Future<void> _longPressLink(TextLine widget, Node node) async {
     final link = node.style.attributes[Attribute.link.key]!.value!;
     final action = await widget.linkActionPicker(node);
     switch (action) {
       case LinkMenuAction.launch:
-        _tapLink(link);
+        _tapLink(widget, link);
         break;
       case LinkMenuAction.copy:
         // ignore: unawaited_futures
@@ -513,7 +527,7 @@ class _TextLineState extends State<TextLine> {
     }
   }
 
-  TextStyle _merge(TextStyle a, TextStyle b) {
+  static TextStyle _merge(TextStyle a, TextStyle b) {
     final decorations = <TextDecoration?>[];
     if (a.decoration != null) {
       decorations.add(a.decoration);

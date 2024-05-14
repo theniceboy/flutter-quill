@@ -25,6 +25,7 @@ extension DocToTextSpanExt on Document {
       }
 
       if (node is Line) {
+        final lineIsEmpty = node.toPlainText() == '\n';
         final widget = TextLine(
           line: node,
           textDirection: Directionality.of(context),
@@ -40,6 +41,7 @@ extension DocToTextSpanExt on Document {
         );
         final textSpan =
             TextLineState.getTextSpanForWholeLine(widget, context, null);
+        if (lineIsEmpty) spans.add(TextSpan(text: ' ', style: textSpan.style));
         spans.add(textSpan);
       } else if (node is Block) {
         final block = node;

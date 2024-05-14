@@ -166,7 +166,7 @@ class QuillRawEditorState extends EditorState
         BlockEmbed.image(copiedImageUrl.url),
         null,
       );
-      if (widget.configurations.allowStyles &&
+      if (widget.configurations.commonConfig.allowStyledPaste &&
           copiedImageUrl.styleString.isNotEmpty) {
         controller.formatText(
           getEmbedNode(controller, index + 1).offset,
@@ -182,7 +182,7 @@ class QuillRawEditorState extends EditorState
     }
 
     if (await controller.clipboardPaste(
-        allowStyles: widget.configurations.allowStyles)) {
+        allowStyles: widget.configurations.commonConfig.allowStyledPaste)) {
       bringIntoView(textEditingValue.selection.extent);
       return;
     }
@@ -557,7 +557,8 @@ class QuillRawEditorState extends EditorState
     // we need to
     final isDesktopMacOS = isMacOS(supportWeb: true);
 
-    final allowStyleShortcuts = widget.configurations.allowStyles;
+    final allowStyleShortcuts =
+        widget.configurations.commonConfig.allowStyleShortcuts;
     return TextFieldTapRegion(
       enabled: widget.configurations.isOnTapOutsideEnabled,
       onTapOutside: (event) {

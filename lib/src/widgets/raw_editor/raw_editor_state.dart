@@ -613,6 +613,13 @@ class QuillRawEditorState extends EditorState
               const SingleActivator(
                 LogicalKeyboardKey.escape,
               ): const EscapeKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onCmdEnterHit !=
+                null)
+              SingleActivator(
+                LogicalKeyboardKey.enter,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const CmdEnterKeyIntent(),
 
             SingleActivator(
               LogicalKeyboardKey.keyX,
@@ -1767,6 +1774,10 @@ class QuillRawEditorState extends EditorState
     EscapeKeyIntent: QuillEditorEscapeKeyAction(
         widget.configurations.keyInterceptorConfig?.onEscapeHit,
         widget.configurations.keyInterceptorConfig?.consumeEscapeKey ?? false),
+    CmdEnterKeyIntent: QuillEditorCmdEnterKeyAction(
+        widget.configurations.keyInterceptorConfig?.onCmdEnterHit,
+        widget.configurations.keyInterceptorConfig?.consumeCmdEnterKey ??
+            false),
 
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
@@ -1841,4 +1852,8 @@ class STabKeyIntent extends Intent {
 
 class EscapeKeyIntent extends Intent {
   const EscapeKeyIntent();
+}
+
+class CmdEnterKeyIntent extends Intent {
+  const CmdEnterKeyIntent();
 }

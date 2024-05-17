@@ -475,6 +475,24 @@ class QuillEditorEscapeKeyAction extends ContextAction<EscapeKeyIntent> {
   bool get isActionEnabled => true;
 }
 
+class QuillEditorCmdEnterKeyAction extends ContextAction<CmdEnterKeyIntent> {
+  QuillEditorCmdEnterKeyAction(this._onCmdEnterKey, this.consume);
+
+  final void Function()? _onCmdEnterKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(CmdEnterKeyIntent intent, [BuildContext? context]) {
+    _onCmdEnterKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
 class ToggleTextStyleIntent extends Intent {
   const ToggleTextStyleIntent(this.attribute);
 

@@ -63,16 +63,13 @@ dependency_overrides:
   quill_pdf_converter:
     path: ../quill_pdf_converter
 
-  # TODO: Temporarily add this so the example can work
-  flutter_colorpicker:
-    git: https://github.com/mchome/flutter_colorpicker.git
   pdf_widget_wrapper: ^1.0.4
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.2
+  flutter_lints: ^4.0.0
   build_runner: ^2.4.8
   flutter_gen_runner: ^5.4.0
 

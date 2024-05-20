@@ -1,6 +1,6 @@
 name: flutter_quill
 description: A rich text editor built for the modern Android, iOS, web and desktop platforms. It is the WYSIWYG editor and a Quill component for Flutter.
-version: 9.3.11
+version: 9.3.17
 homepage: https://1o24bbs.com/c/bulletjournal/108/
 repository: https://github.com/singerdmx/flutter-quill/
 issue_tracker: https://github.com/singerdmx/flutter-quill/issues/
@@ -52,10 +52,7 @@ dependencies:
   meta: ^1.10.0
   html: ^0.15.4
 
-  flutter_colorpicker:
-    git:
-      url: https://github.com/mchome/flutter_colorpicker
-      ref: master
+  flutter_colorpicker: ^1.1.0
 
   # For converting HTML to Quill delta
   markdown: ^7.2.1
@@ -66,15 +63,15 @@ dependencies:
   url_launcher: ^6.2.4
   flutter_keyboard_visibility: ^6.0.0
   device_info_plus: ^10.0.1
-  super_clipboard: ^0.8.10
+  super_clipboard: ^0.8.15
 
 dev_dependencies:
-  flutter_lints: ^3.0.2
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
   flutter_quill_test: ^9.3.4
   test: ^1.24.3
-  yaml_edit: ^2.2.0
+  yaml_edit: ^2.2.1
 
 flutter:
   uses-material-design: true

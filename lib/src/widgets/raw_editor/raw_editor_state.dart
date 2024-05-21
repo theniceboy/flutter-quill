@@ -446,11 +446,12 @@ class QuillRawEditorState extends EditorState
     var doc = controller.document;
     if (doc.isEmpty() && widget.configurations.placeholder != null) {
       final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
-      doc = Document.fromJson(
-        jsonDecode(
-          '[{"${Operation.attributesKey}":{"placeholder":true},"${Operation.insertKey}":"$raw\\n"}]',
-        ),
-      );
+      doc = Document.fromJson([
+        {
+          Operation.attributesKey: {'placeholder': true},
+          Operation.insertKey: '$raw\n'
+        }
+      ]);
     }
 
     if (!widget.configurations.disableClipboard) {

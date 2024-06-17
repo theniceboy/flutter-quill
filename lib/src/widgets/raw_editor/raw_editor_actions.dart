@@ -570,7 +570,6 @@ class QuillEditorOpenSearchAction extends ContextAction<OpenSearchIntent> {
       context: context,
       builder: (_) => QuillToolbarSearchDialog(
         controller: state.controller,
-        text: '',
       ),
     );
   }

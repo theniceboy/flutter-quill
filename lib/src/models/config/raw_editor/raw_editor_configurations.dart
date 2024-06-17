@@ -371,6 +371,8 @@ class QuillEditorKeyInterceptorConfig {
     this.onEscapeHit,
     this.consumeCmdEnterKey = false,
     this.onCmdEnterHit,
+    this.consumeCmdShiftCKey = false,
+    this.onCmdShiftCHit,
   });
 
   final bool consumeEnterKey;
@@ -385,4 +387,6 @@ class QuillEditorKeyInterceptorConfig {
   final void Function()? onEscapeHit;
   final bool consumeCmdEnterKey;
   final void Function()? onCmdEnterHit;
+  final bool consumeCmdShiftCKey;
+  final void Function()? onCmdShiftCHit;
 }

@@ -493,6 +493,24 @@ class QuillEditorCmdEnterKeyAction extends ContextAction<CmdEnterKeyIntent> {
   bool get isActionEnabled => true;
 }
 
+class QuillEditorCmdShiftCKeyAction extends ContextAction<CmdShiftCKeyIntent> {
+  QuillEditorCmdShiftCKeyAction(this._onCmdShiftCKey, this.consume);
+
+  final void Function()? _onCmdShiftCKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(CmdShiftCKeyIntent intent, [BuildContext? context]) {
+    _onCmdShiftCKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
 class ToggleTextStyleIntent extends Intent {
   const ToggleTextStyleIntent(this.attribute);
 

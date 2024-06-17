@@ -626,6 +626,15 @@ class QuillRawEditorState extends EditorState
                 meta: isDesktopMacOS,
               ): const CmdEnterKeyIntent(),
 
+            if (widget.configurations.keyInterceptorConfig?.onCmdShiftCHit !=
+                null)
+              SingleActivator(
+                LogicalKeyboardKey.keyC,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const CmdShiftCKeyIntent(),
+
             SingleActivator(
               LogicalKeyboardKey.keyX,
               control: !isDesktopMacOS,
@@ -716,7 +725,9 @@ class QuillRawEditorState extends EditorState
                 meta: isDesktopMacOS,
                 shift: true,
               ): const ToggleTextStyleIntent(Attribute.ol),
-            if (allowStyleShortcuts)
+            if (allowStyleShortcuts &&
+                widget.configurations.keyInterceptorConfig?.onCmdShiftCHit ==
+                    null)
               SingleActivator(
                 LogicalKeyboardKey.keyC,
                 control: !isDesktopMacOS,
@@ -1783,6 +1794,10 @@ class QuillRawEditorState extends EditorState
         widget.configurations.keyInterceptorConfig?.onCmdEnterHit,
         widget.configurations.keyInterceptorConfig?.consumeCmdEnterKey ??
             false),
+    CmdShiftCKeyIntent: QuillEditorCmdShiftCKeyAction(
+        widget.configurations.keyInterceptorConfig?.onCmdShiftCHit,
+        widget.configurations.keyInterceptorConfig?.consumeCmdShiftCKey ??
+            false),
 
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
@@ -1861,4 +1876,8 @@ class EscapeKeyIntent extends Intent {
 
 class CmdEnterKeyIntent extends Intent {
   const CmdEnterKeyIntent();
+}
+
+class CmdShiftCKeyIntent extends Intent {
+  const CmdShiftCKeyIntent();
 }

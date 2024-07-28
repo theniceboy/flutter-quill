@@ -19,6 +19,7 @@ import 'package:flutter/services.dart'
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'
     show KeyboardVisibilityController;
 
+import '../../../quill_delta.dart';
 import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
@@ -149,7 +150,7 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (controller.readOnly) {
+    if (widget.configurations.readOnly) {
       return;
     }
 
@@ -161,7 +162,8 @@ class QuillRawEditorState extends EditorState
     final clipboardService = ClipboardServiceProvider.instance;
 
     final onImagePaste = widget.configurations.onImagePaste;
-    if (onImagePaste != null) {
+    if (onImagePaste != null &&
+        widget.configurations.commonConfig.allowStyledPaste) {
       if (await clipboardService.canProvideImageFile()) {
         final imageBytes = await clipboardService.getImageFileAsBytes();
         final imageUrl = await onImagePaste(imageBytes);
@@ -179,7 +181,8 @@ class QuillRawEditorState extends EditorState
     }
 
     final onGifPaste = widget.configurations.onGifPaste;
-    if (onGifPaste != null) {
+    if (onGifPaste != null &&
+        widget.configurations.commonConfig.allowStyledPaste) {
       if (await clipboardService.canProvideGifFile()) {
         final gifBytes = await clipboardService.getGifFileAsBytes();
         final gifUrl = await onGifPaste(gifBytes);
@@ -405,11 +408,12 @@ class QuillRawEditorState extends EditorState
     var doc = controller.document;
     if (doc.isEmpty() && widget.configurations.placeholder != null) {
       final raw = widget.configurations.placeholder?.replaceAll(r'"', '\\"');
-      doc = Document.fromJson(
-        jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"$raw\\n"}]',
-        ),
-      );
+      doc = Document.fromJson([
+        {
+          Operation.attributesKey: {'placeholder': true},
+          Operation.insertKey: '$raw\n'
+        }
+      ]);
     }
 
     if (!widget.configurations.disableClipboard) {
@@ -520,6 +524,9 @@ class QuillRawEditorState extends EditorState
     // we need to
     final isDesktopMacOS = isMacOS(supportWeb: true);
 
+    final allowStyleShortcuts =
+        widget.configurations.commonConfig.allowStyleShortcuts;
+
     return TextFieldTapRegion(
       enabled: widget.configurations.isOnTapOutsideEnabled,
       onTapOutside: (event) {
@@ -535,9 +542,10 @@ class QuillRawEditorState extends EditorState
         child: Shortcuts(
           shortcuts: mergeMaps<ShortcutActivator, Intent>({
             // shortcuts added for Desktop platforms.
-            const SingleActivator(
-              LogicalKeyboardKey.escape,
-            ): const HideSelectionToolbarIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onEscapeHit == null)
+              const SingleActivator(
+                LogicalKeyboardKey.escape,
+              ): const HideSelectionToolbarIntent(),
             SingleActivator(
               LogicalKeyboardKey.keyZ,
               control: !isDesktopMacOS,
@@ -548,127 +556,196 @@ class QuillRawEditorState extends EditorState
               control: !isDesktopMacOS,
               meta: isDesktopMacOS,
             ): const RedoTextIntent(SelectionChangedCause.keyboard),
+            SingleActivator(
+              LogicalKeyboardKey.keyZ,
+              control: !isDesktopMacOS,
+              meta: isDesktopMacOS,
+              shift: true,
+            ): const RedoTextIntent(SelectionChangedCause.keyboard),
+
+            if (widget.configurations.keyInterceptorConfig?.onEscapeHit == null)
+              const SingleActivator(
+                LogicalKeyboardKey.escape,
+              ): const HideSelectionToolbarIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onEnterHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.enter,
+              ): const EnterKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onBackspaceHit !=
+                null)
+              const SingleActivator(
+                LogicalKeyboardKey.backspace,
+              ): const BackspaceKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onTabHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.tab,
+              ): const TabKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onSTabHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.tab,
+                shift: true,
+              ): const STabKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onEscapeHit != null)
+              const SingleActivator(
+                LogicalKeyboardKey.escape,
+              ): const EscapeKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onCmdEnterHit !=
+                null)
+              SingleActivator(
+                LogicalKeyboardKey.enter,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const CmdEnterKeyIntent(),
+            if (widget.configurations.keyInterceptorConfig?.onCmdShiftCHit !=
+                null)
+              SingleActivator(
+                LogicalKeyboardKey.keyC,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const CmdShiftCKeyIntent(),
 
             // Selection formatting.
-            SingleActivator(
-              LogicalKeyboardKey.keyB,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.bold),
-            SingleActivator(
-              LogicalKeyboardKey.keyU,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.underline),
-            SingleActivator(
-              LogicalKeyboardKey.keyI,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.italic),
-            SingleActivator(
-              LogicalKeyboardKey.keyS,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.strikeThrough),
-            SingleActivator(
-              LogicalKeyboardKey.backquote,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const ToggleTextStyleIntent(Attribute.inlineCode),
-            SingleActivator(
-              LogicalKeyboardKey.tilde,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.codeBlock),
-            SingleActivator(
-              LogicalKeyboardKey.keyB,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.blockQuote),
-            SingleActivator(
-              LogicalKeyboardKey.keyK,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyLinkIntent(),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyB,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.bold),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyU,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.underline),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyI,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.italic),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyS,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.strikeThrough),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.backquote,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const ToggleTextStyleIntent(Attribute.inlineCode),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.tilde,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.codeBlock),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyB,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.blockQuote),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyK,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyLinkIntent(),
 
             // Lists
-            SingleActivator(
-              LogicalKeyboardKey.keyL,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.ul),
-            SingleActivator(
-              LogicalKeyboardKey.keyO,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const ToggleTextStyleIntent(Attribute.ol),
-            SingleActivator(
-              LogicalKeyboardKey.keyC,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const QuillEditorApplyCheckListIntent(),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyL,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.ul),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyO,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const ToggleTextStyleIntent(Attribute.ol),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyC,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const QuillEditorApplyCheckListIntent(),
 
             // Indents
-            SingleActivator(
-              LogicalKeyboardKey.keyM,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const IndentSelectionIntent(true),
-            SingleActivator(
-              LogicalKeyboardKey.keyM,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-              shift: true,
-            ): const IndentSelectionIntent(false),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyM,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const IndentSelectionIntent(true),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyM,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+                shift: true,
+              ): const IndentSelectionIntent(false),
 
             // Headers
-            SingleActivator(
-              LogicalKeyboardKey.digit1,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h1),
-            SingleActivator(
-              LogicalKeyboardKey.digit2,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h2),
-            SingleActivator(
-              LogicalKeyboardKey.digit3,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h3),
-            SingleActivator(
-              LogicalKeyboardKey.digit4,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h4),
-            SingleActivator(
-              LogicalKeyboardKey.digit5,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h5),
-            SingleActivator(
-              LogicalKeyboardKey.digit6,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.h6),
-            SingleActivator(
-              LogicalKeyboardKey.digit0,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorApplyHeaderIntent(Attribute.header),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit1,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h1),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit2,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h2),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit3,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h3),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit4,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h4),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit5,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h5),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit6,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.h6),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.digit0,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorApplyHeaderIntent(Attribute.header),
 
-            SingleActivator(
-              LogicalKeyboardKey.keyG,
-              control: !isDesktopMacOS,
-              meta: isDesktopMacOS,
-            ): const QuillEditorInsertEmbedIntent(Attribute.image),
+            if (allowStyleShortcuts)
+              SingleActivator(
+                LogicalKeyboardKey.keyG,
+                control: !isDesktopMacOS,
+                meta: isDesktopMacOS,
+              ): const QuillEditorInsertEmbedIntent(Attribute.image),
 
             SingleActivator(
               LogicalKeyboardKey.keyF,
@@ -746,7 +823,8 @@ class QuillRawEditorState extends EditorState
       return KeyEventResult.ignored;
     }
     // Handle indenting blocks when pressing the tab key.
-    if (event.logicalKey == LogicalKeyboardKey.tab) {
+    if (widget.configurations.keyInterceptorConfig?.onSTabHit == null &&
+        event.logicalKey == LogicalKeyboardKey.tab) {
       return _handleTabKey(event);
     }
 
@@ -1763,6 +1841,31 @@ class QuillRawEditorState extends EditorState
 
     OpenSearchIntent: _openSearchAction,
 
+    EnterKeyIntent: QuillEditorEnterKeyAction(
+        widget.configurations.keyInterceptorConfig?.onEnterHit,
+        widget.configurations.keyInterceptorConfig?.consumeEnterKey ?? false),
+    BackspaceKeyIntent: QuillEditorBackspaceKeyAction(
+        widget.configurations.keyInterceptorConfig?.onBackspaceHit,
+        widget.configurations.keyInterceptorConfig?.consumeBackspaceKey ??
+            false),
+    TabKeyIntent: QuillEditorTabKeyAction(
+        widget.configurations.keyInterceptorConfig?.onTabHit,
+        widget.configurations.keyInterceptorConfig?.consumeTabKey ?? false),
+    STabKeyIntent: QuillEditorSTabKeyAction(
+        widget.configurations.keyInterceptorConfig?.onSTabHit,
+        widget.configurations.keyInterceptorConfig?.consumeSTabKey ?? false),
+    EscapeKeyIntent: QuillEditorEscapeKeyAction(
+        widget.configurations.keyInterceptorConfig?.onEscapeHit,
+        widget.configurations.keyInterceptorConfig?.consumeEscapeKey ?? false),
+    CmdEnterKeyIntent: QuillEditorCmdEnterKeyAction(
+        widget.configurations.keyInterceptorConfig?.onCmdEnterHit,
+        widget.configurations.keyInterceptorConfig?.consumeCmdEnterKey ??
+            false),
+    CmdShiftCKeyIntent: QuillEditorCmdShiftCKeyAction(
+        widget.configurations.keyInterceptorConfig?.onCmdShiftCHit,
+        widget.configurations.keyInterceptorConfig?.consumeCmdShiftCKey ??
+            false),
+
     // Selection Formatting
     ToggleTextStyleIntent: _formatSelectionAction,
     IndentSelectionIntent: _indentSelectionAction,
@@ -1839,4 +1942,32 @@ class QuillRawEditorState extends EditorState
     final position = renderEditor.getPositionForOffset(positionToShow);
     _selectionOverlay?.updateMagnifier(position, positionToShow, renderEditor);
   }
+}
+
+class EnterKeyIntent extends Intent {
+  const EnterKeyIntent();
+}
+
+class BackspaceKeyIntent extends Intent {
+  const BackspaceKeyIntent();
+}
+
+class TabKeyIntent extends Intent {
+  const TabKeyIntent();
+}
+
+class STabKeyIntent extends Intent {
+  const STabKeyIntent();
+}
+
+class EscapeKeyIntent extends Intent {
+  const EscapeKeyIntent();
+}
+
+class CmdEnterKeyIntent extends Intent {
+  const CmdEnterKeyIntent();
+}
+
+class CmdShiftCKeyIntent extends Intent {
+  const CmdShiftCKeyIntent();
 }

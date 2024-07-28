@@ -38,16 +38,16 @@ class Operation {
       Operation(Operation.retainKey, length, '', attributes);
 
   /// Key of insert operations.
-  static const String insertKey = 'insert';
+  static const String insertKey = 'i';
 
   /// Key of delete operations.
-  static const String deleteKey = 'delete';
+  static const String deleteKey = 'd';
 
   /// Key of retain operations.
-  static const String retainKey = 'retain';
+  static const String retainKey = 'r';
 
   /// Key of attributes collection.
-  static const String attributesKey = 'attributes';
+  static const String attributesKey = 'a';
 
   static const List<String> _validKeys = [insertKey, deleteKey, retainKey];
 
@@ -55,10 +55,10 @@ class Operation {
   final String key;
 
   /// Length of this operation.
-  final int? length;
+  int? length;
 
   /// Payload of "insert" operation, for other types is set to empty string.
-  final Object? data;
+  Object? data;
 
   /// Rich-text attributes set by this operation, can be `null`.
   Map<String, dynamic>? get attributes =>

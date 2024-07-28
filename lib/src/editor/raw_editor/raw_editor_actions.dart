@@ -387,6 +387,132 @@ class QuillEditorRedoKeyboardAction extends ContextAction<RedoTextIntent> {
   bool get isActionEnabled => true;
 }
 
+class QuillEditorEnterKeyAction extends ContextAction<EnterKeyIntent> {
+  QuillEditorEnterKeyAction(this._onEnterKey, this.consume);
+
+  final void Function()? _onEnterKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(EnterKeyIntent intent, [BuildContext? context]) {
+    _onEnterKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorBackspaceKeyAction extends ContextAction<BackspaceKeyIntent> {
+  QuillEditorBackspaceKeyAction(this._onBackspaceKey, this.consume);
+
+  final void Function()? _onBackspaceKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(BackspaceKeyIntent intent, [BuildContext? context]) {
+    _onBackspaceKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorTabKeyAction extends ContextAction<TabKeyIntent> {
+  QuillEditorTabKeyAction(this._onTabKey, this.consume);
+
+  final void Function()? _onTabKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(TabKeyIntent intent, [BuildContext? context]) {
+    _onTabKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorSTabKeyAction extends ContextAction<STabKeyIntent> {
+  QuillEditorSTabKeyAction(this._onSTabKey, this.consume);
+
+  final void Function()? _onSTabKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(STabKeyIntent intent, [BuildContext? context]) {
+    _onSTabKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorEscapeKeyAction extends ContextAction<EscapeKeyIntent> {
+  QuillEditorEscapeKeyAction(this._onEscapeKey, this.consume);
+
+  final void Function()? _onEscapeKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(EscapeKeyIntent intent, [BuildContext? context]) {
+    _onEscapeKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorCmdEnterKeyAction extends ContextAction<CmdEnterKeyIntent> {
+  QuillEditorCmdEnterKeyAction(this._onCmdEnterKey, this.consume);
+
+  final void Function()? _onCmdEnterKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(CmdEnterKeyIntent intent, [BuildContext? context]) {
+    _onCmdEnterKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
+class QuillEditorCmdShiftCKeyAction extends ContextAction<CmdShiftCKeyIntent> {
+  QuillEditorCmdShiftCKeyAction(this._onCmdShiftCKey, this.consume);
+
+  final void Function()? _onCmdShiftCKey;
+  final bool consume;
+
+  @override
+  bool consumesKey(Intent intent) => consume;
+
+  @override
+  void invoke(CmdShiftCKeyIntent intent, [BuildContext? context]) {
+    _onCmdShiftCKey?.call();
+  }
+
+  @override
+  bool get isActionEnabled => true;
+}
+
 class ToggleTextStyleIntent extends Intent {
   const ToggleTextStyleIntent(this.attribute);
 

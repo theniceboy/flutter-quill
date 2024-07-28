@@ -260,6 +260,7 @@ class QuillEditorState extends State<QuillEditor>
               disableClipboard: configurations.disableClipboard,
               placeholder: configurations.placeholder,
               onLaunchUrl: configurations.onLaunchUrl,
+              keyInterceptorConfig: configurations.keyInterceptorConfig,
               contextMenuBuilder: showSelectionToolbar
                   ? (configurations.contextMenuBuilder ??
                       QuillRawEditorConfigurations.defaultContextMenuBuilder)
@@ -301,6 +302,7 @@ class QuillEditorState extends State<QuillEditor>
               onImagePaste: configurations.onImagePaste,
               onGifPaste: configurations.onGifPaste,
               customShortcuts: configurations.customShortcuts,
+              commonConfig: configurations.commonConfig,
               customActions: configurations.customActions,
               customLinkPrefixes: configurations.customLinkPrefixes,
               isOnTapOutsideEnabled: configurations.isOnTapOutsideEnabled,

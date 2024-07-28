@@ -5,6 +5,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../../flutter_quill.dart';
 import '../../controller/quill_controller.dart';
 import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
@@ -26,6 +27,9 @@ class QuillEditorConfigurations extends Equatable {
   const QuillEditorConfigurations({
     required this.controller,
     this.sharedConfigurations = const QuillSharedConfigurations(),
+    this.readOnly = false,
+    this.commonConfig = const CommonEditorConfig(),
+    this.keyInterceptorConfig,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.autoFocus = false,
@@ -91,13 +95,17 @@ class QuillEditorConfigurations extends Equatable {
   /// The text placeholder in the quill editor
   final String? placeholder;
 
+  final CommonEditorConfig commonConfig;
+
+  final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
+
   /// Whether the text can be changed.
   ///
   /// When this is set to `true`, the text cannot be modified
   /// by any shortcut or keyboard operation. The text is still selectable.
   ///
   /// Defaults to `false`. Must not be `null`.
-  bool get readOnly => controller.readOnly;
+  final bool readOnly;
 
   /// Override [readOnly] for checkbox.
   ///
@@ -381,7 +389,7 @@ class QuillEditorConfigurations extends Equatable {
   @override
   List<Object?> get props => [
         placeholder,
-        controller.readOnly,
+        readOnly,
       ];
 
   // We might use code generator like freezed but sometimes it can be limited
@@ -425,6 +433,8 @@ class QuillEditorConfigurations extends Equatable {
     Future<String?> Function(Uint8List imageBytes)? onImagePaste,
     Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
+    CommonEditorConfig? commonConfig,
+    QuillEditorKeyInterceptorConfig? keyInterceptorConfig,
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
@@ -487,6 +497,8 @@ class QuillEditorConfigurations extends Equatable {
       onImagePaste: onImagePaste ?? this.onImagePaste,
       onGifPaste: onGifPaste ?? this.onGifPaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
+      commonConfig: commonConfig ?? this.commonConfig,
+      keyInterceptorConfig: keyInterceptorConfig ?? this.keyInterceptorConfig,
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,

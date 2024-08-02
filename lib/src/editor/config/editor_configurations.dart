@@ -25,7 +25,9 @@ class QuillEditorConfigurations extends Equatable {
   /// Important note for the maintainers
   /// When editing this class please update the [copyWith] function too.
   const QuillEditorConfigurations({
-    required this.controller,
+    @Deprecated(
+        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
+    this.controller,
     this.sharedConfigurations = const QuillSharedConfigurations(),
     this.readOnly = false,
     this.commonConfig = const CommonEditorConfig(),
@@ -90,7 +92,8 @@ class QuillEditorConfigurations extends Equatable {
 
   final QuillSharedConfigurations sharedConfigurations;
 
-  final QuillController controller;
+  @Deprecated('controller will be removed in future versions.')
+  final QuillController? controller;
 
   /// The text placeholder in the quill editor
   final String? placeholder;
@@ -455,6 +458,7 @@ class QuillEditorConfigurations extends Equatable {
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
+      // ignore: deprecated_member_use_from_same_package
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
       checkBoxReadOnly: checkBoxReadOnly ?? this.checkBoxReadOnly,

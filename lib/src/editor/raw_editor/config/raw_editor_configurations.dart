@@ -40,7 +40,6 @@ import '../../../toolbar/theme/quill_dialog_theme.dart';
 @immutable
 class QuillRawEditorConfigurations extends Equatable {
   const QuillRawEditorConfigurations({
-    required this.controller,
     required this.focusNode,
     required this.scrollController,
     required this.scrollBottomInset,
@@ -50,6 +49,9 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.embedBuilder,
     required this.autoFocus,
     required this.keyInterceptorConfig,
+    @Deprecated(
+        'controller should be passed directly to the editor - this parameter will be removed in future versions.')
+    this.controller,
     this.showCursor = true,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
@@ -95,7 +97,8 @@ class QuillRawEditorConfigurations extends Equatable {
   });
 
   /// Controls the document being edited.
-  final QuillController controller;
+  @Deprecated('controller will be removed in future versions.')
+  final QuillController? controller;
 
   /// Controls whether this editor has keyboard focus.
   final FocusNode focusNode;

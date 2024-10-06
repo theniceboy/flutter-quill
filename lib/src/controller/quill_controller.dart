@@ -561,17 +561,17 @@ class QuillController extends ChangeNotifier {
       return true;
     }
 
-    final pasteUsingHtmlSuccess = await pasteHTML();
-    if (pasteUsingHtmlSuccess) {
-      updateEditor?.call();
-      return true;
-    }
-
-    final pasteUsingMarkdownSuccess = await pasteMarkdown();
-    if (pasteUsingMarkdownSuccess) {
-      updateEditor?.call();
-      return true;
-    }
+    // final pasteUsingHtmlSuccess = await pasteHTML();
+    // if (pasteUsingHtmlSuccess) {
+    //   updateEditor?.call();
+    //   return true;
+    // }
+    //
+    // final pasteUsingMarkdownSuccess = await pasteMarkdown();
+    // if (pasteUsingMarkdownSuccess) {
+    //   updateEditor?.call();
+    //   return true;
+    // }
 
     // Snapshot the input before using `await`.
     // See https://github.com/flutter/flutter/issues/11427

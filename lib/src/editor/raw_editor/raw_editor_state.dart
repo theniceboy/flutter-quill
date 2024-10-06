@@ -1027,9 +1027,10 @@ class QuillRawEditorState extends EditorState
       // No need to rebuilt if it already dirty
       return;
     }
-    setState(() {
+    if (mounted) {
       _dirty = true;
-    });
+      setState(() {});
+    }
   }
 
   void _didChangeTextEditingValue([bool ignoreFocus = false]) {

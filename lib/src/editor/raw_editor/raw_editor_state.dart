@@ -1210,7 +1210,7 @@ class QuillRawEditorState extends EditorState
   /// This property is typically used to notify the renderer of input gestures.
   @override
   RenderEditor get renderEditor =>
-      _editorKey.currentContext!.findRenderObject() as RenderEditor;
+      (_editorKey.currentContext ?? context).findRenderObject() as RenderEditor;
 
   /// Express interest in interacting with the keyboard.
   ///
@@ -1228,7 +1228,7 @@ class QuillRawEditorState extends EditorState
     }
     if (_hasFocus) {
       final keyboardAlreadyShown = _keyboardVisible;
-      openConnectionIfNeeded();
+      if (mounted) openConnectionIfNeeded();
       if (!keyboardAlreadyShown) {
         /// delay 500 milliseconds for waiting keyboard show up
         Future.delayed(

@@ -14,9 +14,11 @@ dependencies:
 
   # Flutter Quill Packages
   flutter_quill: ^10.7.3
-  dart_quill_delta: ^10.7.3
-  flutter_quill_extensions: ^10.7.3
-  flutter_quill_test: ^10.7.3
+  dart_quill_delta:
+    git:
+      url: 'https://github.com/theniceboy/dart-quill-delta'
+  flutter_quill_extensions: any
+  flutter_quill_test: any
   # Dart Packages
   path: ^1.8.3
   equatable: ^2.0.5
@@ -63,7 +65,7 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^4.0.0
   build_runner: ^2.4.8
   flutter_gen_runner: ^5.4.0
 

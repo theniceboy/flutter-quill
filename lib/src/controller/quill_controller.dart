@@ -577,7 +577,8 @@ class QuillController extends ChangeNotifier {
     // See https://github.com/flutter/flutter/issues/11427
     final plainTextClipboardData =
         await Clipboard.getData(Clipboard.kTextPlain);
-    if (pasteUsingPlainOrDelta(plainTextClipboardData?.text)) {
+    if (pasteUsingPlainOrDelta(
+        plainTextClipboardData?.text?.replaceAll('\r', ''))) {
       updateEditor?.call();
       return true;
     }

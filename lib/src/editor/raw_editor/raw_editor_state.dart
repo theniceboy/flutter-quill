@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui hide TextStyle;
 
 import 'package:collection/collection.dart';
+import 'package:dart_quill_delta/dart_quill_delta.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
@@ -13,6 +14,7 @@ import 'package:flutter/services.dart'
 import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart'
     show KeyboardVisibilityController;
 
+import '../../../quill_delta.dart';
 import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
@@ -140,7 +142,7 @@ class QuillRawEditorState extends EditorState
   /// Paste text from [Clipboard].
   @override
   Future<void> pasteText(SelectionChangedCause cause) async {
-    if (controller.readOnly) {
+    if (widget.configurations.readOnly) {
       return;
     }
 
@@ -152,7 +154,8 @@ class QuillRawEditorState extends EditorState
     final clipboardService = ClipboardServiceProvider.instance;
 
     final onImagePaste = widget.configurations.onImagePaste;
-    if (onImagePaste != null) {
+    if (onImagePaste != null &&
+        widget.configurations.commonConfig.allowStyledPaste) {
       if (await clipboardService.canProvideImageFile()) {
         final imageBytes = await clipboardService.getImageFileAsBytes();
         final imageUrl = await onImagePaste(imageBytes);
@@ -170,7 +173,8 @@ class QuillRawEditorState extends EditorState
     }
 
     final onGifPaste = widget.configurations.onGifPaste;
-    if (onGifPaste != null) {
+    if (onGifPaste != null &&
+        widget.configurations.commonConfig.allowStyledPaste) {
       if (await clipboardService.canProvideGifFile()) {
         final gifBytes = await clipboardService.getGifFileAsBytes();
         final gifUrl = await onGifPaste(gifBytes);
@@ -408,10 +412,10 @@ class QuillRawEditorState extends EditorState
       // the placeholder (this is really awkward when everything is empty)
       final blockAttrInsertion = blockAttributesWithoutContent == null
           ? ''
-          : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
+          : ',{"${Operation.insertKey}":"\\n","${Operation.attributesKey}":${jsonEncode(blockAttributesWithoutContent)}}';
       doc = Document.fromJson(
         jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
+          '[{"${Operation.attributesKey}":{"placeholder":true},"${Operation.insertKey}":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
         ),
       );
     }
@@ -531,6 +535,7 @@ class QuillRawEditorState extends EditorState
       child: QuillStyles(
         data: _styles!,
         child: QuillKeyboardServiceWidget(
+          configurations: widget.configurations,
           actions: _actions,
           characterEvents: widget.configurations.characterShortcutEvents,
           spaceEvents: widget.configurations.spaceShortcutEvents,
@@ -1455,6 +1460,31 @@ class QuillRawEditorState extends EditorState
     QuillEditorApplyLinkIntent: QuillEditorApplyLinkAction(this),
     ScrollToDocumentBoundaryIntent: NavigateToDocumentBoundaryAction(this),
 
+    EnterKeyIntent: QuillEditorEnterKeyAction(
+        widget.configurations.keyInterceptorConfig?.onEnterHit,
+        widget.configurations.keyInterceptorConfig?.consumeEnterKey ?? false),
+    BackspaceKeyIntent: QuillEditorBackspaceKeyAction(
+        widget.configurations.keyInterceptorConfig?.onBackspaceHit,
+        widget.configurations.keyInterceptorConfig?.consumeBackspaceKey ??
+            false),
+    TabKeyIntent: QuillEditorTabKeyAction(
+        widget.configurations.keyInterceptorConfig?.onTabHit,
+        widget.configurations.keyInterceptorConfig?.consumeTabKey ?? false),
+    STabKeyIntent: QuillEditorSTabKeyAction(
+        widget.configurations.keyInterceptorConfig?.onSTabHit,
+        widget.configurations.keyInterceptorConfig?.consumeSTabKey ?? false),
+    EscapeKeyIntent: QuillEditorEscapeKeyAction(
+        widget.configurations.keyInterceptorConfig?.onEscapeHit,
+        widget.configurations.keyInterceptorConfig?.consumeEscapeKey ?? false),
+    CmdEnterKeyIntent: QuillEditorCmdEnterKeyAction(
+        widget.configurations.keyInterceptorConfig?.onCmdEnterHit,
+        widget.configurations.keyInterceptorConfig?.consumeCmdEnterKey ??
+            false),
+    CmdShiftCKeyIntent: QuillEditorCmdShiftCKeyAction(
+        widget.configurations.keyInterceptorConfig?.onCmdShiftCHit,
+        widget.configurations.keyInterceptorConfig?.consumeCmdShiftCKey ??
+            false),
+
     //  Paging and scrolling
     ExtendSelectionVerticallyToAdjacentPageIntent: _adjacentPageAction,
     ScrollIntent: QuillEditorScrollAction(this),
@@ -1527,4 +1557,32 @@ class QuillRawEditorState extends EditorState
   void updateMagnifier(ui.Offset positionToShow) {
     showMagnifier(positionToShow);
   }
+}
+
+class EnterKeyIntent extends Intent {
+  const EnterKeyIntent();
+}
+
+class BackspaceKeyIntent extends Intent {
+  const BackspaceKeyIntent();
+}
+
+class TabKeyIntent extends Intent {
+  const TabKeyIntent();
+}
+
+class STabKeyIntent extends Intent {
+  const STabKeyIntent();
+}
+
+class EscapeKeyIntent extends Intent {
+  const EscapeKeyIntent();
+}
+
+class CmdEnterKeyIntent extends Intent {
+  const CmdEnterKeyIntent();
+}
+
+class CmdShiftCKeyIntent extends Intent {
+  const CmdShiftCKeyIntent();
 }

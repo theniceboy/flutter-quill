@@ -6,6 +6,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart' show experimental;
 
+import '../../../flutter_quill.dart';
 import '../../controller/quill_controller.dart';
 import '../../editor_toolbar_shared/config/quill_shared_configurations.dart';
 import '../../toolbar/theme/quill_dialog_theme.dart';
@@ -32,6 +33,9 @@ class QuillEditorConfigurations extends Equatable {
         'controller should be passed directly to the editor - this parameter will be removed in future versions.')
     this.controller,
     this.sharedConfigurations = const QuillSharedConfigurations(),
+    this.readOnly = false,
+    this.commonConfig = const CommonEditorConfig(),
+    this.keyInterceptorConfig,
     this.scrollable = true,
     this.padding = EdgeInsets.zero,
     this.characterShortcutEvents = const [],
@@ -107,6 +111,9 @@ class QuillEditorConfigurations extends Equatable {
   /// The text placeholder in the quill editor
   final String? placeholder;
 
+  final CommonEditorConfig commonConfig;
+  final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
+
   /// Contains all the events that will be handled when
   /// the exact characters satifies the condition. This mean
   /// if you press asterisk key, if you have a `CharacterShortcutEvent` with
@@ -160,7 +167,7 @@ class QuillEditorConfigurations extends Equatable {
   ///
   /// Defaults to `false`. Must not be `null`.
   // ignore: deprecated_member_use_from_same_package
-  bool get readOnly => controller?.readOnly != false;
+  final bool readOnly;
 
   /// Override [readOnly] for checkbox.
   ///
@@ -462,7 +469,7 @@ class QuillEditorConfigurations extends Equatable {
   List<Object?> get props => [
         placeholder,
         // ignore: deprecated_member_use_from_same_package
-        controller?.readOnly,
+        readOnly,
       ];
 
   // We might use code generator like freezed but sometimes it can be limited
@@ -510,6 +517,8 @@ class QuillEditorConfigurations extends Equatable {
     Future<String?> Function(Uint8List imageBytes)? onImagePaste,
     Future<String?> Function(Uint8List imageBytes)? onGifPaste,
     Map<ShortcutActivator, Intent>? customShortcuts,
+    CommonEditorConfig? commonConfig,
+    QuillEditorKeyInterceptorConfig? keyInterceptorConfig,
     Map<Type, Action<Intent>>? customActions,
     bool? detectWordBoundary,
     List<String>? customLinkPrefixes,
@@ -584,6 +593,8 @@ class QuillEditorConfigurations extends Equatable {
       onImagePaste: onImagePaste ?? this.onImagePaste,
       onGifPaste: onGifPaste ?? this.onGifPaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
+      commonConfig: commonConfig ?? this.commonConfig,
+      keyInterceptorConfig: keyInterceptorConfig ?? this.keyInterceptorConfig,
       customActions: customActions ?? this.customActions,
       detectWordBoundary: detectWordBoundary ?? this.detectWordBoundary,
       customLinkPrefixes: customLinkPrefixes ?? this.customLinkPrefixes,

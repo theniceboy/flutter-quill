@@ -50,6 +50,7 @@ class QuillRawEditorConfigurations extends Equatable {
     required this.selectionCtrls,
     required this.embedBuilder,
     required this.autoFocus,
+    required this.keyInterceptorConfig,
     required this.characterShortcutEvents,
     required this.spaceShortcutEvents,
     @Deprecated(
@@ -71,6 +72,7 @@ class QuillRawEditorConfigurations extends Equatable {
     this.maxContentWidth,
     this.customStyles,
     this.customShortcuts,
+    this.commonConfig = const CommonEditorConfig(),
     this.customActions,
     this.expands = false,
     this.isOnTapOutsideEnabled = true,
@@ -361,6 +363,9 @@ class QuillRawEditorConfigurations extends Equatable {
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#shortcuts]
   final Map<ShortcutActivator, Intent>? customShortcuts;
 
+  final CommonEditorConfig commonConfig;
+  final QuillEditorKeyInterceptorConfig? keyInterceptorConfig;
+
   /// Contains user-defined actions.
   ///
   /// [https://docs.flutter.dev/development/ui/advanced/actions-and-shortcuts#actions]
@@ -420,4 +425,46 @@ class QuillRawEditorConfigurations extends Equatable {
         readOnly,
         placeholder,
       ];
+}
+
+class CommonEditorConfig {
+  final bool allowStyleShortcuts;
+  final bool allowStyledPaste;
+  const CommonEditorConfig({
+    this.allowStyleShortcuts = true,
+    this.allowStyledPaste = true,
+  });
+}
+
+class QuillEditorKeyInterceptorConfig {
+  const QuillEditorKeyInterceptorConfig({
+    this.consumeEnterKey = false,
+    this.onEnterHit,
+    this.consumeBackspaceKey = false,
+    this.onBackspaceHit,
+    this.consumeTabKey = false,
+    this.onTabHit,
+    this.consumeSTabKey = false,
+    this.onSTabHit,
+    this.consumeEscapeKey = false,
+    this.onEscapeHit,
+    this.consumeCmdEnterKey = false,
+    this.onCmdEnterHit,
+    this.consumeCmdShiftCKey = false,
+    this.onCmdShiftCHit,
+  });
+  final bool consumeEnterKey;
+  final void Function()? onEnterHit;
+  final bool consumeBackspaceKey;
+  final void Function()? onBackspaceHit;
+  final bool consumeTabKey;
+  final void Function()? onTabHit;
+  final bool consumeSTabKey;
+  final void Function()? onSTabHit;
+  final bool consumeEscapeKey;
+  final void Function()? onEscapeHit;
+  final bool consumeCmdEnterKey;
+  final void Function()? onCmdEnterHit;
+  final bool consumeCmdShiftCKey;
+  final void Function()? onCmdShiftCHit;
 }

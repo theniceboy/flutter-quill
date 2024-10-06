@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../flutter_quill.dart';
 import '../../common/utils/cast.dart';
 import '../../common/utils/platform.dart';
 import '../../controller/quill_controller.dart';
@@ -17,6 +18,7 @@ import 'keyboard_listener.dart';
 
 class QuillKeyboardServiceWidget extends StatelessWidget {
   const QuillKeyboardServiceWidget({
+    required this.configurations,
     required this.actions,
     required this.constraints,
     required this.focusNode,
@@ -31,6 +33,7 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
     super.key,
   });
 
+  final QuillRawEditorConfigurations configurations;
   final bool readOnly;
   final bool enableAlwaysIndentOnTab;
   final QuillController controller;
@@ -50,8 +53,53 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
       /// Merge with widget.configurations.customShortcuts
       /// first to allow user's defined shortcuts to take
       /// priority when activation triggers are the same
-      shortcuts: mergeMaps<ShortcutActivator, Intent>({...?customShortcuts},
-          {...defaultSinlgeActivatorActions(isDesktopMacOS)}),
+      shortcuts: mergeMaps<ShortcutActivator, Intent>({
+        ...?customShortcuts
+      }, {
+        ...defaultSinlgeActivatorActions(
+          isDesktopMacOS,
+          handleEscapeKey:
+              configurations.keyInterceptorConfig?.onEscapeHit == null,
+          handleFormattingKeys: configurations.commonConfig.allowStyleShortcuts,
+          allowCheckLists: configurations.commonConfig.allowStyleShortcuts,
+          allowLists: configurations.commonConfig.allowStyleShortcuts,
+          handleImageKey: configurations.commonConfig.allowStyleShortcuts,
+        ),
+        if (configurations.keyInterceptorConfig?.onEnterHit != null)
+          const SingleActivator(
+            LogicalKeyboardKey.enter,
+          ): const EnterKeyIntent(),
+        if (configurations.keyInterceptorConfig?.onBackspaceHit != null)
+          const SingleActivator(
+            LogicalKeyboardKey.backspace,
+          ): const BackspaceKeyIntent(),
+        if (configurations.keyInterceptorConfig?.onTabHit != null)
+          const SingleActivator(
+            LogicalKeyboardKey.tab,
+          ): const TabKeyIntent(),
+        if (configurations.keyInterceptorConfig?.onSTabHit != null)
+          const SingleActivator(
+            LogicalKeyboardKey.tab,
+            shift: true,
+          ): const STabKeyIntent(),
+        if (configurations.keyInterceptorConfig?.onEscapeHit != null)
+          const SingleActivator(
+            LogicalKeyboardKey.escape,
+          ): const EscapeKeyIntent(),
+        if (configurations.keyInterceptorConfig?.onCmdEnterHit != null)
+          SingleActivator(
+            LogicalKeyboardKey.enter,
+            control: !isDesktopMacOS,
+            meta: isDesktopMacOS,
+          ): const CmdEnterKeyIntent(),
+        if (configurations.keyInterceptorConfig?.onCmdShiftCHit != null)
+          SingleActivator(
+            LogicalKeyboardKey.keyC,
+            control: !isDesktopMacOS,
+            meta: isDesktopMacOS,
+            shift: true,
+          ): const CmdShiftCKeyIntent(),
+      }),
       child: Actions(
         actions: mergeMaps<Type, Action<Intent>>(actions, {
           ...?customActions,

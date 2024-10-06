@@ -545,7 +545,7 @@ class Document {
     final delta = node.toDelta();
     return delta.length == 1 &&
         delta.first.data == '\n' &&
-        delta.first.key == 'insert';
+        delta.first.key == Operation.insertKey;
   }
 
   /// Convert the HTML Raw string to [Document]

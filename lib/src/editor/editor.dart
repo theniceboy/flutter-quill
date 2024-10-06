@@ -311,6 +311,7 @@ class QuillEditorState extends State<QuillEditor>
               disableClipboard: configurations.disableClipboard,
               placeholder: configurations.placeholder,
               onLaunchUrl: configurations.onLaunchUrl,
+              keyInterceptorConfig: configurations.keyInterceptorConfig,
               contextMenuBuilder: showSelectionToolbar
                   ? (configurations.contextMenuBuilder ??
                       QuillRawEditorConfigurations.defaultContextMenuBuilder)
@@ -332,6 +333,7 @@ class QuillEditorState extends State<QuillEditor>
               maxHeight: configurations.maxHeight,
               maxContentWidth: configurations.maxContentWidth,
               customStyles: configurations.customStyles,
+              commonConfig: configurations.commonConfig,
               expands: configurations.expands,
               autoFocus: configurations.autoFocus,
               selectionColor: selectionColor,

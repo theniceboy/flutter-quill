@@ -126,7 +126,8 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
       return KeyEventResult.ignored;
     }
 
-    final isTab = event.logicalKey == LogicalKeyboardKey.tab;
+    final isTab = event.logicalKey == LogicalKeyboardKey.tab &&
+        configurations.keyInterceptorConfig?.onTabHit == null;
     final isSpace = event.logicalKey == LogicalKeyboardKey.space;
     final containsSelection =
         controller.selection.baseOffset != controller.selection.extentOffset;

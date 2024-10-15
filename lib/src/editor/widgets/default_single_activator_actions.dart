@@ -6,6 +6,7 @@ import 'package:flutter/material.dart'
         ScrollIncrementType,
         ScrollIntent,
         ScrollToDocumentBoundaryIntent,
+        SelectAllTextIntent,
         SelectionChangedCause,
         SingleActivator,
         UndoTextIntent;
@@ -37,6 +38,11 @@ Map<SingleActivator, Intent> defaultSinlgeActivatorActions(
         const SingleActivator(
           LogicalKeyboardKey.escape,
         ): const HideSelectionToolbarIntent(),
+      SingleActivator(
+        LogicalKeyboardKey.keyA,
+        control: !isDesktopMacOS,
+        meta: isDesktopMacOS,
+      ): const SelectAllTextIntent(SelectionChangedCause.keyboard),
       SingleActivator(
         LogicalKeyboardKey.keyZ,
         control: !isDesktopMacOS,

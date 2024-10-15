@@ -61,9 +61,9 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
           handleEscapeKey:
               configurations.keyInterceptorConfig?.onEscapeHit == null,
           handleFormattingKeys: configurations.commonConfig.allowStyleShortcuts,
-          allowCheckLists: configurations.commonConfig.allowStyleShortcuts,
-          allowLists: configurations.commonConfig.allowStyleShortcuts,
-          handleImageKey: configurations.commonConfig.allowStyleShortcuts,
+          allowCheckLists: configurations.commonConfig.allowLists,
+          allowLists: configurations.commonConfig.allowLists,
+          handleImageKey: configurations.commonConfig.allowImages,
         ),
         if (configurations.keyInterceptorConfig?.onEnterHit != null)
           const SingleActivator(

@@ -430,9 +430,13 @@ class QuillRawEditorConfigurations extends Equatable {
 class CommonEditorConfig {
   final bool allowStyleShortcuts;
   final bool allowStyledPaste;
+  final bool allowLists;
+  final bool allowImages;
   const CommonEditorConfig({
     this.allowStyleShortcuts = true,
     this.allowStyledPaste = true,
+    this.allowLists = true,
+    this.allowImages = false,
   });
 }
 

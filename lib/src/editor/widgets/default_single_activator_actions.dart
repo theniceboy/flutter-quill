@@ -29,6 +29,7 @@ Map<SingleActivator, Intent> defaultSinlgeActivatorActions(
   bool isDesktopMacOS, {
   required bool handleEscapeKey,
   required bool handleFormattingKeys,
+  required bool handleFontsizeKeys,
   required bool handleImageKey,
   required bool allowLists,
   required bool allowCheckLists,
@@ -146,43 +147,43 @@ Map<SingleActivator, Intent> defaultSinlgeActivatorActions(
         ): const IndentSelectionIntent(false),
 
       // Headers
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit1,
           control: !isDesktopMacOS,
           meta: isDesktopMacOS,
         ): const QuillEditorApplyHeaderIntent(Attribute.h1),
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit2,
           control: !isDesktopMacOS,
           meta: isDesktopMacOS,
         ): const QuillEditorApplyHeaderIntent(Attribute.h2),
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit3,
           control: !isDesktopMacOS,
           meta: isDesktopMacOS,
         ): const QuillEditorApplyHeaderIntent(Attribute.h3),
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit4,
           control: !isDesktopMacOS,
           meta: isDesktopMacOS,
         ): const QuillEditorApplyHeaderIntent(Attribute.h4),
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit5,
           control: !isDesktopMacOS,
           meta: isDesktopMacOS,
         ): const QuillEditorApplyHeaderIntent(Attribute.h5),
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit6,
           control: !isDesktopMacOS,
           meta: isDesktopMacOS,
         ): const QuillEditorApplyHeaderIntent(Attribute.h6),
-      if (handleFormattingKeys)
+      if (handleFontsizeKeys)
         SingleActivator(
           LogicalKeyboardKey.digit0,
           control: !isDesktopMacOS,

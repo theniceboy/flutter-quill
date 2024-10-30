@@ -24,11 +24,13 @@ extension QuillControllerRichPaste on QuillController {
       if (html != null) {
         return html;
       }
-      if (await clipboardService.canProvideHtmlTextFromFile()) {
-        return await clipboardService.getHtmlTextFromFile();
+      final clipboardHtmlText = await clipboardService.getHtmlText();
+      if (clipboardHtmlText != null) {
+        return clipboardHtmlText;
       }
-      if (await clipboardService.canProvideHtmlText()) {
-        return await clipboardService.getHtmlText();
+      final clipboardHtmlFile = await clipboardService.getHtmlFile();
+      if (clipboardHtmlFile != null) {
+        return clipboardHtmlFile;
       }
       return null;
     }
@@ -62,11 +64,9 @@ extension QuillControllerRichPaste on QuillController {
       if (markdown != null) {
         return markdown;
       }
-      if (await clipboardService.canProvideMarkdownTextFromFile()) {
-        return await clipboardService.getMarkdownTextFromFile();
-      }
-      if (await clipboardService.canProvideMarkdownText()) {
-        return await clipboardService.getMarkdownText();
+      final clipboardMarkdownFile = await clipboardService.getMarkdownFile();
+      if (clipboardMarkdownFile != null) {
+        return clipboardMarkdownFile;
       }
       return null;
     }

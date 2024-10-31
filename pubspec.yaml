@@ -1,4 +1,5 @@
 name: flutter_quill
+publish_to:: 'none'
 description: "A rich text editor built for Android, iOS, Web, and desktop platforms. It's the WYSIWYG editor and a Quill component for Flutter."
 version: 10.8.4
 homepage: https://github.com/singerdmx/flutter-quill/
@@ -69,8 +70,7 @@ dependencies:
     git:
       url: 'https://github.com/theniceboy/flutter_keyboard_visibility'
       path: flutter_keyboard_visibility
-  quill_native_bridge:
-    path: quill_native_bridge
+  quill_native_bridge: ^10.7.9
 
 
 dev_dependencies:

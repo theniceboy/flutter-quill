@@ -14,8 +14,7 @@ import 'package:flutter/widgets.dart'
 import '../../../../flutter_quill.dart';
 
 @immutable
-class QuillToolbarFontFamilyButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarFontFamilyButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarFontFamilyButtonExtraOptions({
     required this.defaultDisplayText,
     required this.currentValue,
@@ -28,8 +27,7 @@ class QuillToolbarFontFamilyButtonExtraOptions
 }
 
 class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarFontFamilyButtonOptions,
-    QuillToolbarFontFamilyButtonExtraOptions> {
+    QuillToolbarFontFamilyButtonOptions, QuillToolbarFontFamilyButtonExtraOptions> {
   const QuillToolbarFontFamilyButtonOptions({
     this.attribute = Attribute.font,
     this.rawItemsMap,
@@ -109,8 +107,7 @@ class QuillToolbarFontFamilyButtonOptions extends QuillToolbarBaseButtonOptions<
       initialValue: initialValue ?? this.initialValue,
       labelOverflow: labelOverflow ?? this.labelOverflow,
       renderFontFamilies: renderFontFamilies ?? this.renderFontFamilies,
-      overrideTooltipByFontFamily:
-          overrideTooltipByFontFamily ?? this.overrideTooltipByFontFamily,
+      overrideTooltipByFontFamily: overrideTooltipByFontFamily ?? this.overrideTooltipByFontFamily,
       itemHeight: itemHeight ?? this.itemHeight,
       itemPadding: itemPadding ?? this.itemPadding,
       defaultItemColor: defaultItemColor ?? this.defaultItemColor,

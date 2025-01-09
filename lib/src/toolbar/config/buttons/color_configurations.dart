@@ -5,8 +5,7 @@ import '../../../editor_toolbar_shared/config/quill_shared_configurations.dart'
     show QuillSharedConfigurations;
 import '../base_button_configurations.dart';
 
-class QuillToolbarColorButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarColorButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarColorButtonExtraOptions({
     required super.controller,
     required super.context,

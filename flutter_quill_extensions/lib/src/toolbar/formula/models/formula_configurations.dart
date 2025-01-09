@@ -1,7 +1,6 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
-class QuillToolbarFormulaButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarFormulaButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarFormulaButtonExtraOptions({
     required super.controller,
     required super.context,

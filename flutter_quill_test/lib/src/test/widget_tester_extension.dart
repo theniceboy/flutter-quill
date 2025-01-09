@@ -55,16 +55,14 @@ extension QuillWidgetTesterExt on WidgetTester {
       final editor = state<QuillRawEditorState>(
         find.descendant(
           of: finder,
-          matching:
-              find.byType(QuillRawEditor, skipOffstage: finder.skipOffstage),
+          matching: find.byType(QuillRawEditor, skipOffstage: finder.skipOffstage),
           matchRoot: true,
         ),
       );
       testTextInput.updateEditingValue(
         TextEditingValue(
           text: text,
-          selection: TextSelection.collapsed(
-              offset: editor.textEditingValue.text.length),
+          selection: TextSelection.collapsed(offset: editor.textEditingValue.text.length),
         ),
       );
       await idle();

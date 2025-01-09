@@ -31,13 +31,11 @@ class QuillToolbarToggleStyleButton extends QuillToolbarToggleStyleBaseButton {
   final Attribute attribute;
 
   @override
-  QuillToolbarToggleStyleButtonState createState() =>
-      QuillToolbarToggleStyleButtonState();
+  QuillToolbarToggleStyleButtonState createState() => QuillToolbarToggleStyleButtonState();
 }
 
 class QuillToolbarToggleStyleButtonState
-    extends QuillToolbarToggleStyleBaseButtonState<
-        QuillToolbarToggleStyleButton> {
+    extends QuillToolbarToggleStyleBaseButtonState<QuillToolbarToggleStyleButton> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
@@ -103,8 +101,8 @@ class QuillToolbarToggleStyleButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder ??
-        context.quillToolbarBaseButtonOptions?.childBuilder;
+    final childBuilder =
+        options.childBuilder ?? context.quillToolbarBaseButtonOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -150,9 +148,7 @@ class QuillToolbarToggleStyleButtonState
     controller
       ..skipRequestKeyboard = !widget.attribute.isInline
       ..formatSelection(
-        currentValue
-            ? Attribute.clone(widget.attribute, null)
-            : widget.attribute,
+        currentValue ? Attribute.clone(widget.attribute, null) : widget.attribute,
       );
   }
 }

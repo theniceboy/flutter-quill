@@ -241,8 +241,7 @@ class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
       'Sila masukkan teks untuk pautan anda (contoh, \'Ketahui lebih lanjut\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Sila masukkan URL pautan (contoh, \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Sila masukkan URL pautan (contoh, \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Sila masukkan URL imej yang sah';
@@ -282,8 +281,7 @@ class FlutterQuillLocalizationsMs extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Pilih video dari galeri anda';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Rakaman video menggunakan kamera anda';
+  String get recordAVideoUsingYourCamera => 'Rakaman video menggunakan kamera anda';
 
   @override
   String get pasteAVideoUsingALink => 'Tampal video menggunakan pautan';

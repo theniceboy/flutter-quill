@@ -9,8 +9,7 @@ import 'table_cell_embed.dart';
 import 'table_models.dart';
 
 @experimental
-@Deprecated(
-    'CustomTableEmbed will no longer used and it will be removed in future releases')
+@Deprecated('CustomTableEmbed will no longer used and it will be removed in future releases')
 class CustomTableEmbed extends CustomBlockEmbed {
   const CustomTableEmbed(String value) : super(tableType, value);
 
@@ -48,8 +47,7 @@ class QuillEditorTableEmbedBuilder extends EmbedBuilder {
 }
 
 @experimental
-@Deprecated(
-    'TableWidget will no longer used and it will be removed in future releases')
+@Deprecated('TableWidget will no longer used and it will be removed in future releases')
 class TableWidget extends StatefulWidget {
   const TableWidget({
     required this.tableData,
@@ -151,9 +149,8 @@ class _TableWidgetState extends State<TableWidget> {
     return Material(
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(
-                color: Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.black)),
+            border:
+                Border.all(color: Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -161,27 +158,24 @@ class _TableWidgetState extends State<TableWidget> {
               icon: const Icon(Icons.more_vert),
               onPressed: () async {
                 final position = renderPosition(context);
-                await showMenu<TableOperation>(
-                    context: context,
-                    position: position,
-                    items: [
-                      const PopupMenuItem(
-                        value: TableOperation.addColumn,
-                        child: Text('Add column'),
-                      ),
-                      const PopupMenuItem(
-                        value: TableOperation.addRow,
-                        child: Text('Add row'),
-                      ),
-                      const PopupMenuItem(
-                        value: TableOperation.removeColumn,
-                        child: Text('Delete column'),
-                      ),
-                      const PopupMenuItem(
-                        value: TableOperation.removeRow,
-                        child: Text('Delete row'),
-                      ),
-                    ]).then((value) {
+                await showMenu<TableOperation>(context: context, position: position, items: [
+                  const PopupMenuItem(
+                    value: TableOperation.addColumn,
+                    child: Text('Add column'),
+                  ),
+                  const PopupMenuItem(
+                    value: TableOperation.addRow,
+                    child: Text('Add row'),
+                  ),
+                  const PopupMenuItem(
+                    value: TableOperation.removeColumn,
+                    child: Text('Delete column'),
+                  ),
+                  const PopupMenuItem(
+                    value: TableOperation.removeRow,
+                    child: Text('Delete row'),
+                  ),
+                ]).then((value) {
                   if (value != null) {
                     if (value == TableOperation.addRow) {
                       _addRow();
@@ -204,8 +198,7 @@ class _TableWidgetState extends State<TableWidget> {
               height: 1,
             ),
             Table(
-              border: const TableBorder.symmetric(
-                  inside: BorderSide(color: Colors.white)),
+              border: const TableBorder.symmetric(inside: BorderSide(color: Colors.white)),
               children: _buildTableRows(),
             ),
           ],

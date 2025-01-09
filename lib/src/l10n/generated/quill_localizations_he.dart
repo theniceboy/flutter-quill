@@ -237,8 +237,7 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'שגיאה בעת שמירת התמונה';
 
   @override
-  String get pleaseEnterTextForYourLink =>
-      'אנא הזן טקסט לקישור שלך (לדוגמה, \'מידע נוסף\')';
+  String get pleaseEnterTextForYourLink => 'אנא הזן טקסט לקישור שלך (לדוגמה, \'מידע נוסף\')';
 
   @override
   String get pleaseEnterTheLinkURL =>
@@ -257,8 +256,7 @@ class FlutterQuillLocalizationsHe extends FlutterQuillLocalizations {
   String get image => 'תמונה';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'רגישות לאותות רישיות וחיפוש לפי מילה שלמה';
+  String get caseSensitivityAndWholeWordSearch => 'רגישות לאותות רישיות וחיפוש לפי מילה שלמה';
 
   @override
   String get caseSensitive => 'מבחין בין רישיות לקטנות';

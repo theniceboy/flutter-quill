@@ -27,10 +27,8 @@ Future<void> main(List<String> args) async {
   final templateArbFileName = l10nYaml['template-arb-file'];
   final templateArbFile = File(path.join(arbDir, templateArbFileName));
   print('The file path to template arb file: ${templateArbFile.path}');
-  final templateArb =
-      jsonDecode(await templateArbFile.readAsString()) as Map<String, Object?>;
-  print(
-      'The length of the current translation keys: ${templateArb.keys.length}');
+  final templateArb = jsonDecode(await templateArbFile.readAsString()) as Map<String, Object?>;
+  print('The length of the current translation keys: ${templateArb.keys.length}');
   final newTranslationKeysLength = templateArb.keys.length;
 
   if (newTranslationKeysLength > _expectedTranslationKeysLength) {

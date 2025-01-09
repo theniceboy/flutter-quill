@@ -89,9 +89,7 @@ class VideoAppState extends State<VideoApp> {
       child: InkWell(
         onTap: () {
           setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
+            _controller.value.isPlaying ? _controller.pause() : _controller.play();
           });
         },
         child: Stack(

@@ -35,8 +35,7 @@ class QuillToolbarImageButton extends StatelessWidget {
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
@@ -48,15 +47,11 @@ class QuillToolbarImageButton extends StatelessWidget {
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.image;
+    return options.iconData ?? baseButtonExtraOptions(context)?.iconData ?? Icons.image;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.insertImage;
+    return options.tooltip ?? baseButtonExtraOptions(context)?.tooltip ?? context.loc.insertImage;
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -70,8 +65,7 @@ class QuillToolbarImageButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -108,21 +102,17 @@ class QuillToolbarImageButton extends StatelessWidget {
 
   Future<void> _onPressedHandler(BuildContext context) async {
     final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
+        QuillSharedExtensionsConfigurations.get(context: context).imagePickerService;
 
-    final onRequestPickImage =
-        options.imageButtonConfigurations.onRequestPickImage;
+    final onRequestPickImage = options.imageButtonConfigurations.onRequestPickImage;
     if (onRequestPickImage != null) {
       final imageUrl = await onRequestPickImage(
         context,
         imagePickerService,
       );
       if (imageUrl != null) {
-        await options.imageButtonConfigurations
-            .onImageInsertCallback(imageUrl, controller);
-        await options.imageButtonConfigurations.onImageInsertedCallback
-            ?.call(imageUrl);
+        await options.imageButtonConfigurations.onImageInsertCallback(imageUrl, controller);
+        await options.imageButtonConfigurations.onImageInsertedCallback?.call(imageUrl);
       }
       return;
     }
@@ -148,10 +138,8 @@ class QuillToolbarImageButton extends StatelessWidget {
       return;
     }
     if (imageUrl.trim().isNotEmpty) {
-      await options.imageButtonConfigurations
-          .onImageInsertCallback(imageUrl, controller);
-      await options.imageButtonConfigurations.onImageInsertedCallback
-          ?.call(imageUrl);
+      await options.imageButtonConfigurations.onImageInsertCallback(imageUrl, controller);
+      await options.imageButtonConfigurations.onImageInsertedCallback?.call(imageUrl);
     }
   }
 

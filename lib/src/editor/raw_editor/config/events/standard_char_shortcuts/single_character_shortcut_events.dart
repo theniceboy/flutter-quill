@@ -15,8 +15,7 @@ final CharacterShortcutEvent formatAsterisksToItalic = CharacterShortcutEvent(
   ),
 );
 
-final CharacterShortcutEvent formatStrikeToStrikethrough =
-    CharacterShortcutEvent(
+final CharacterShortcutEvent formatStrikeToStrikethrough = CharacterShortcutEvent(
   key: 'Format single strikes to strike style',
   character: _strikeChar,
   handler: (controller) => handleFormatByWrappingWithSingleCharacter(
@@ -26,8 +25,7 @@ final CharacterShortcutEvent formatStrikeToStrikethrough =
   ),
 );
 
-final CharacterShortcutEvent formatCodeCharToInlineCode =
-    CharacterShortcutEvent(
+final CharacterShortcutEvent formatCodeCharToInlineCode = CharacterShortcutEvent(
   key: 'Format single code to inline code style',
   character: _codeChar,
   handler: (controller) => handleFormatByWrappingWithSingleCharacter(

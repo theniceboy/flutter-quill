@@ -1,22 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/material.dart'
-    show ButtonStyle, Colors, PopupMenuEntry, ValueChanged;
+import 'package:flutter/material.dart' show ButtonStyle, Colors, PopupMenuEntry, ValueChanged;
 import 'package:flutter/widgets.dart'
-    show
-        Color,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        OutlinedBorder,
-        TextOverflow,
-        TextStyle;
+    show Color, EdgeInsets, EdgeInsetsGeometry, OutlinedBorder, TextOverflow, TextStyle;
 
 import '../../../document/attribute.dart';
 import '../../../editor_toolbar_controller_shared/quill_configurations.dart';
 
-class QuillToolbarFontSizeButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarFontSizeButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarFontSizeButtonExtraOptions({
     required super.controller,
     required this.currentValue,

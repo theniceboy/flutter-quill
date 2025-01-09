@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart' show Axis;
 import '../../../document/attribute.dart';
 import '../../base_toolbar.dart';
 
-class QuillToolbarSelectHeaderStyleButtonsExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarSelectHeaderStyleButtonsExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarSelectHeaderStyleButtonsExtraOptions({
     required super.controller,
     required super.context,
@@ -12,10 +11,8 @@ class QuillToolbarSelectHeaderStyleButtonsExtraOptions
   });
 }
 
-class QuillToolbarSelectHeaderStyleButtonsOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarSelectHeaderStyleButtonsOptions,
-        QuillToolbarSelectHeaderStyleButtonsExtraOptions> {
+class QuillToolbarSelectHeaderStyleButtonsOptions extends QuillToolbarBaseButtonOptions<
+    QuillToolbarSelectHeaderStyleButtonsOptions, QuillToolbarSelectHeaderStyleButtonsExtraOptions> {
   const QuillToolbarSelectHeaderStyleButtonsOptions({
     super.afterButtonPressed,
     super.childBuilder,

@@ -72,8 +72,7 @@ class ResolveLineFormatRule extends FormatRule {
     return result;
   }
 
-  Delta _applyAttribute(String text, Operation op, Attribute attribute,
-      {bool firstOnly = false}) {
+  Delta _applyAttribute(String text, Operation op, Attribute attribute, {bool firstOnly = false}) {
     final result = Delta();
     var offset = 0;
     var lf = text.indexOf('\n');

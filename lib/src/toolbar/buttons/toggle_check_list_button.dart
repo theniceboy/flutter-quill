@@ -8,8 +8,7 @@ import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
 class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
-    QuillToolbarToggleCheckListButtonOptions,
-    QuillToolbarToggleCheckListButtonExtraOptions> {
+    QuillToolbarToggleCheckListButtonOptions, QuillToolbarToggleCheckListButtonExtraOptions> {
   const QuillToolbarToggleCheckListButton({
     required super.controller,
     super.options = const QuillToolbarToggleCheckListButtonOptions(),
@@ -17,16 +16,14 @@ class QuillToolbarToggleCheckListButton extends QuillToolbarBaseButton<
   });
 
   @override
-  QuillToolbarToggleCheckListButtonState createState() =>
-      QuillToolbarToggleCheckListButtonState();
+  QuillToolbarToggleCheckListButtonState createState() => QuillToolbarToggleCheckListButtonState();
 }
 
-class QuillToolbarToggleCheckListButtonState
-    extends QuillToolbarBaseButtonState<
-        QuillToolbarToggleCheckListButton,
-        QuillToolbarToggleCheckListButtonOptions,
-        QuillToolbarToggleCheckListButtonExtraOptions,
-        bool> {
+class QuillToolbarToggleCheckListButtonState extends QuillToolbarBaseButtonState<
+    QuillToolbarToggleCheckListButton,
+    QuillToolbarToggleCheckListButtonOptions,
+    QuillToolbarToggleCheckListButtonExtraOptions,
+    bool> {
   Style get _selectionStyle => controller.getSelectionStyle();
 
   @override
@@ -57,8 +54,7 @@ class QuillToolbarToggleCheckListButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -93,9 +89,7 @@ class QuillToolbarToggleCheckListButtonState
     controller
       ..skipRequestKeyboard = !options.isShouldRequestKeyboard
       ..formatSelection(
-        currentValue
-            ? Attribute.clone(Attribute.unchecked, null)
-            : Attribute.unchecked,
+        currentValue ? Attribute.clone(Attribute.unchecked, null) : Attribute.unchecked,
       );
   }
 }

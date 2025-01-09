@@ -94,8 +94,7 @@ class History {
     var len = 0;
     final ops = delta.toList();
     for (var i = 0; i < ops.length; i++) {
-      if ((ops[i].key == Operation.insertKey) ||
-          (ops[i].key == Operation.retainKey)) {
+      if ((ops[i].key == Operation.insertKey) || (ops[i].key == Operation.retainKey)) {
         len += ops[i].length ?? 0;
       }
     }

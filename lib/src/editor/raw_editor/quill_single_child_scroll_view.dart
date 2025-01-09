@@ -92,8 +92,7 @@ class _SingleChildViewport extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderSingleChildViewport renderObject) {
+  void updateRenderObject(BuildContext context, _RenderSingleChildViewport renderObject) {
     // Order dependency: The offset setter reads the axis direction.
     renderObject.offset = offset;
   }
@@ -313,8 +312,7 @@ class _RenderSingleChildViewport extends RenderBox
     leadingScrollOffset = bounds.top;
     targetMainAxisExtent = bounds.height;
 
-    final targetOffset = leadingScrollOffset -
-        (mainAxisExtent - targetMainAxisExtent) * alignment;
+    final targetOffset = leadingScrollOffset - (mainAxisExtent - targetMainAxisExtent) * alignment;
     final targetRect = bounds.shift(_paintOffsetForPosition(targetOffset));
     return RevealedOffset(offset: targetOffset, rect: targetRect);
   }

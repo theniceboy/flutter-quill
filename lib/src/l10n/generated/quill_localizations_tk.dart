@@ -255,8 +255,7 @@ class FlutterQuillLocalizationsTk extends FlutterQuillLocalizations {
   String get image => 'Surat';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Iňkisar we iň oňg söz gözleýinç';
+  String get caseSensitivityAndWholeWordSearch => 'Iňkisar we iň oňg söz gözleýinç';
 
   @override
   String get caseSensitive => 'Yazgy käbirlik';

@@ -152,11 +152,9 @@ class QuillEditorImageEmbedConfigurations {
   }) {
     return QuillEditorImageEmbedConfigurations(
       onImageRemovedCallback: onImageRemovedCallback ?? _onImageRemovedCallback,
-      shouldRemoveImageCallback:
-          shouldRemoveImageCallback ?? this.shouldRemoveImageCallback,
+      shouldRemoveImageCallback: shouldRemoveImageCallback ?? this.shouldRemoveImageCallback,
       imageProviderBuilder: imageProviderBuilder ?? this.imageProviderBuilder,
-      imageErrorWidgetBuilder:
-          imageErrorWidgetBuilder ?? this.imageErrorWidgetBuilder,
+      imageErrorWidgetBuilder: imageErrorWidgetBuilder ?? this.imageErrorWidgetBuilder,
     );
   }
 }

@@ -66,8 +66,8 @@ Future<void> main(List<String> args) async {
     version: passedVersion,
     versionContent: versionContent,
   );
-  final sourceChangeLog = jsonDecode(await sourceChangeLogFile.readAsString())
-      as Map<String, Object?>;
+  final sourceChangeLog =
+      jsonDecode(await sourceChangeLogFile.readAsString()) as Map<String, Object?>;
   final generatedChangeLogBuffer = StringBuffer()
     ..write(
       '<!-- This file is auto-generated from ${sourceChangeLogFile.uri.pathSegments.last} using a script - Manual changes will be overwritten -->\n\n',
@@ -103,8 +103,8 @@ Future<void> _replaceVersion({
   required String version,
   required String versionContent,
 }) async {
-  final sourceChangeLog = jsonDecode(await sourceChangeLogFile.readAsString())
-      as Map<String, Object?>;
+  final sourceChangeLog =
+      jsonDecode(await sourceChangeLogFile.readAsString()) as Map<String, Object?>;
   if (sourceChangeLog[version] != null) {
     sourceChangeLog[version] = versionContent;
   } else {

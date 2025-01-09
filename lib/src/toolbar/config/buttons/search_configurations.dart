@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../flutter_quill.dart';
 
-class QuillToolbarSearchButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarSearchButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarSearchButtonExtraOptions({
     required super.controller,
     required super.context,

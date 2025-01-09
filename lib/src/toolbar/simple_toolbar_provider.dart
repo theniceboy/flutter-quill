@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
-import 'package:flutter/widgets.dart'
-    show BuildContext, InheritedWidget, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, InheritedWidget, Widget;
 
 import 'config/simple_toolbar_configurations.dart';
 
@@ -21,8 +20,7 @@ class QuillSimpleToolbarProvider extends InheritedWidget {
 
   static QuillSimpleToolbarProvider? maybeOf(BuildContext context) {
     /// The configurations for the quill editor widget of flutter quill
-    return context
-        .dependOnInheritedWidgetOfExactType<QuillSimpleToolbarProvider>();
+    return context.dependOnInheritedWidgetOfExactType<QuillSimpleToolbarProvider>();
   }
 
   static QuillSimpleToolbarProvider of(BuildContext context) {

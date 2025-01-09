@@ -243,12 +243,10 @@ class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
   String get pleaseEnterTheLinkURL => 'z.B. \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Bitte geben Sie eine gültige Bild-URL ein';
+  String get pleaseEnterAValidImageURL => 'Bitte geben Sie eine gültige Bild-URL ein';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Bitte geben Sie eine gültige Video-URL ein';
+  String get pleaseEnterAValidVideoURL => 'Bitte geben Sie eine gültige Video-URL ein';
 
   @override
   String get photo => 'Foto';
@@ -257,8 +255,7 @@ class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
   String get image => 'Bild';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Groß- und Kleinschreibung sowie Ganzwortsuche';
+  String get caseSensitivityAndWholeWordSearch => 'Groß- und Kleinschreibung sowie Ganzwortsuche';
 
   @override
   String get caseSensitive => 'Groß- und Kleinschreibung beachten';
@@ -270,23 +267,19 @@ class FlutterQuillLocalizationsDe extends FlutterQuillLocalizations {
   String get insertImage => 'Bild einfügen';
 
   @override
-  String get pickAPhotoFromYourGallery =>
-      'Wählen Sie ein Foto aus Ihrer Galerie';
+  String get pickAPhotoFromYourGallery => 'Wählen Sie ein Foto aus Ihrer Galerie';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Machen Sie ein Foto mit Ihrer Kamera';
+  String get takeAPhotoUsingYourCamera => 'Machen Sie ein Foto mit Ihrer Kamera';
 
   @override
   String get pasteAPhotoUsingALink => 'Fügen Sie ein Foto über einen Link ein';
 
   @override
-  String get pickAVideoFromYourGallery =>
-      'Wählen Sie ein Video aus Ihrer Galerie';
+  String get pickAVideoFromYourGallery => 'Wählen Sie ein Video aus Ihrer Galerie';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Nehmen Sie ein Video mit Ihrer Kamera auf';
+  String get recordAVideoUsingYourCamera => 'Nehmen Sie ein Video mit Ihrer Kamera auf';
 
   @override
   String get pasteAVideoUsingALink => 'Video über einen Link einfügen';

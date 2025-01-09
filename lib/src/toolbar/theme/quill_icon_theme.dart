@@ -15,10 +15,8 @@ class QuillIconTheme {
     IconButtonData? iconButtonSelectedData,
   }) {
     return QuillIconTheme(
-      iconButtonUnselectedData:
-          iconButtonUnselectedData ?? this.iconButtonUnselectedData,
-      iconButtonSelectedData:
-          iconButtonSelectedData ?? this.iconButtonSelectedData,
+      iconButtonUnselectedData: iconButtonUnselectedData ?? this.iconButtonUnselectedData,
+      iconButtonSelectedData: iconButtonSelectedData ?? this.iconButtonSelectedData,
     );
   }
 }

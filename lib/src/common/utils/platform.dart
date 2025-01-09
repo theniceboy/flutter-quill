@@ -33,8 +33,7 @@ Future<bool> isIOSSimulator() async {
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isMobile =>
-    defaultTargetPlatform == TargetPlatform.iOS ||
-    defaultTargetPlatform == TargetPlatform.android;
+    defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android;
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isMobileApp => !kIsWeb && isMobile;
@@ -62,8 +61,7 @@ bool get isMacOSApp => !kIsWeb && isMacOS;
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isAppleOS =>
-    defaultTargetPlatform == TargetPlatform.iOS ||
-    defaultTargetPlatform == TargetPlatform.macOS;
+    defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS;
 
 @pragma('vm:platform-const-if', !kDebugMode)
 bool get isAppleOSApp => !kIsWeb && isAppleOS;
@@ -71,13 +69,11 @@ bool get isAppleOSApp => !kIsWeb && isAppleOS;
 // Keyboard
 
 @pragma('vm:platform-const-if', !kDebugMode)
-bool get isKeyboardOS =>
-    isDesktop || defaultTargetPlatform == TargetPlatform.fuchsia;
+bool get isKeyboardOS => isDesktop || defaultTargetPlatform == TargetPlatform.fuchsia;
 
 extension PlatformThemeCheckExtension on ThemeData {
   bool get isMaterial => !isCupertino;
-  bool get isCupertino =>
-      {TargetPlatform.iOS, TargetPlatform.macOS}.contains(platform);
+  bool get isCupertino => {TargetPlatform.iOS, TargetPlatform.macOS}.contains(platform);
 }
 
 /// Should check if [kIsWeb] is `false` before checking if

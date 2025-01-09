@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../../theme/quill_dialog_theme.dart';
 import '../base_button_configurations.dart';
 
-class QuillToolbarLinkStyleButton2ExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarLinkStyleButton2ExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarLinkStyleButton2ExtraOptions({
     required super.controller,
     required super.context,
@@ -13,8 +12,7 @@ class QuillToolbarLinkStyleButton2ExtraOptions
 }
 
 class QuillToolbarLinkStyleButton2Options extends QuillToolbarBaseButtonOptions<
-    QuillToolbarLinkStyleButton2Options,
-    QuillToolbarLinkStyleButton2ExtraOptions> {
+    QuillToolbarLinkStyleButton2Options, QuillToolbarLinkStyleButton2ExtraOptions> {
   const QuillToolbarLinkStyleButton2Options({
     super.iconSize,
     super.iconButtonFactor,

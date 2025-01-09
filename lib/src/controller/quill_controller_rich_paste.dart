@@ -39,8 +39,7 @@ extension QuillControllerRichPaste on QuillController {
     if (htmlText != null) {
       final htmlBody = html_parser.parse(htmlText).body?.outerHtml;
       // ignore: deprecated_member_use_from_same_package
-      final deltaFromClipboard =
-          DeltaX.fromHtml((htmlBody ?? htmlText).replaceAll('\r', ''));
+      final deltaFromClipboard = DeltaX.fromHtml((htmlBody ?? htmlText).replaceAll('\r', ''));
 
       _pasteUsingDelta(deltaFromClipboard);
 

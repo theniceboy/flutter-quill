@@ -114,9 +114,7 @@ class ImageOptionsMenu extends StatelessWidget {
                 Navigator.of(context).pop();
 
                 // Call the remove check callback if set
-                if (await configurations.shouldRemoveImageCallback
-                        ?.call(imageSource) ==
-                    false) {
+                if (await configurations.shouldRemoveImageCallback?.call(imageSource) == false) {
                   return;
                 }
 
@@ -160,10 +158,8 @@ class ImageOptionsMenu extends StatelessWidget {
                 }
 
                 var message = switch (saveImageResult.method) {
-                  SaveImageResultMethod.network =>
-                    localizations.savedUsingTheNetwork,
-                  SaveImageResultMethod.localStorage =>
-                    localizations.savedUsingLocalStorage,
+                  SaveImageResultMethod.network => localizations.savedUsingTheNetwork,
+                  SaveImageResultMethod.localStorage => localizations.savedUsingLocalStorage,
                 };
 
                 if (isDesktopApp) {
@@ -185,8 +181,7 @@ class ImageOptionsMenu extends StatelessWidget {
               MaterialPageRoute(
                 builder: (_) => ImageTapWrapper(
                   assetsPrefix:
-                      QuillSharedExtensionsConfigurations.get(context: context)
-                          .assetsPrefix,
+                      QuillSharedExtensionsConfigurations.get(context: context).assetsPrefix,
                   imageUrl: imageSource,
                   configurations: configurations,
                 ),

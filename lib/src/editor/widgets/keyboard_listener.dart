@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 
 class QuillPressedKeys extends ChangeNotifier {
   static QuillPressedKeys of(BuildContext context) {
-    final widget =
-        context.dependOnInheritedWidgetOfExactType<_QuillPressedKeysAccess>();
+    final widget = context.dependOnInheritedWidgetOfExactType<_QuillPressedKeysAccess>();
     return widget!.pressedKeys;
   }
 
@@ -53,8 +52,7 @@ class QuillKeyboardListenerState extends State<QuillKeyboardListener> {
   void initState() {
     super.initState();
     HardwareKeyboard.instance.addHandler(_keyEvent);
-    _pressedKeys
-        ._updatePressedKeys(HardwareKeyboard.instance.logicalKeysPressed);
+    _pressedKeys._updatePressedKeys(HardwareKeyboard.instance.logicalKeysPressed);
   }
 
   @override

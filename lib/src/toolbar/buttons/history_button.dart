@@ -4,8 +4,8 @@ import '../../l10n/extensions/localizations_ext.dart';
 import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 
-typedef QuillToolbarHistoryBaseButton = QuillToolbarBaseButton<
-    QuillToolbarHistoryButtonOptions, QuillToolbarHistoryButtonExtraOptions>;
+typedef QuillToolbarHistoryBaseButton = QuillToolbarBaseButton<QuillToolbarHistoryButtonOptions,
+    QuillToolbarHistoryButtonExtraOptions>;
 
 typedef QuillToolbarHistoryBaseButtonState<W extends QuillToolbarHistoryButton>
     = QuillToolbarCommonButtonState<W, QuillToolbarHistoryButtonOptions,
@@ -24,21 +24,17 @@ class QuillToolbarHistoryButton extends QuillToolbarHistoryBaseButton {
   final bool isUndo;
 
   @override
-  QuillToolbarHistoryButtonState createState() =>
-      QuillToolbarHistoryButtonState();
+  QuillToolbarHistoryButtonState createState() => QuillToolbarHistoryButtonState();
 }
 
-class QuillToolbarHistoryButtonState
-    extends QuillToolbarHistoryBaseButtonState {
+class QuillToolbarHistoryButtonState extends QuillToolbarHistoryBaseButtonState {
   var _canPressed = false;
 
   @override
-  String get defaultTooltip =>
-      widget.isUndo ? context.loc.undo : context.loc.redo;
+  String get defaultTooltip => widget.isUndo ? context.loc.undo : context.loc.redo;
 
   @override
-  IconData get defaultIconData =>
-      (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
+  IconData get defaultIconData => (widget.isUndo ? Icons.undo_outlined : Icons.redo_outlined);
 
   @override
   void initState() {
@@ -57,8 +53,7 @@ class QuillToolbarHistoryButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

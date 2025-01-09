@@ -4,8 +4,7 @@ import 'package:meta/meta.dart' show experimental, immutable;
 @experimental
 @Deprecated(
     'QuillToolbarTableButtonExtraOptions is not stable at this moment and it should not be used. Probably will be removed in future releases')
-class QuillToolbarTableButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarTableButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarTableButtonExtraOptions({
     required super.controller,
     required super.context,

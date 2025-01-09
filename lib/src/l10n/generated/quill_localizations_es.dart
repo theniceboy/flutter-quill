@@ -243,12 +243,10 @@ class FlutterQuillLocalizationsEs extends FlutterQuillLocalizations {
   String get pleaseEnterTheLinkURL => 'p.ej., \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Por favor, introduzca una URL de imagen válida';
+  String get pleaseEnterAValidImageURL => 'Por favor, introduzca una URL de imagen válida';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Por favor, ingrese una URL de video válida';
+  String get pleaseEnterAValidVideoURL => 'Por favor, ingrese una URL de video válida';
 
   @override
   String get photo => 'Foto';

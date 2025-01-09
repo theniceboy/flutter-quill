@@ -16,21 +16,16 @@ void main() {
       expect(line.length, 12);
       //
       expect(line.collectStyle(0, line.length), const Style());
-      expect(
-          line.collectStyle(7, 4), const Style.attr({'bold': Attribute.bold}));
-      expect(
-          line.collectStyle(7, 5), const Style.attr({'bold': Attribute.bold}),
+      expect(line.collectStyle(7, 4), const Style.attr({'bold': Attribute.bold}));
+      expect(line.collectStyle(7, 5), const Style.attr({'bold': Attribute.bold}),
           reason: 'Include trailing NL');
-      expect(
-          line.collectStyle(7, 6), const Style.attr({'bold': Attribute.bold}),
+      expect(line.collectStyle(7, 6), const Style.attr({'bold': Attribute.bold}),
           reason: 'Spans next NL');
-      expect(line.collectStyle(7, 7), const Style(),
-          reason: 'Spans into plain text');
+      expect(line.collectStyle(7, 7), const Style(), reason: 'Spans into plain text');
       //
       final line2 = document.queryChild(18).node as Line;
       expect(line2.length, 1);
-      expect(
-          line2.collectStyle(0, 1), const Style.attr({'bold': Attribute.bold}),
+      expect(line2.collectStyle(0, 1), const Style.attr({'bold': Attribute.bold}),
           reason: 'Empty line gets style from previous line');
     });
 
@@ -61,8 +56,8 @@ void main() {
       expect(second.collectStyle(2, 4),
           const Style.attr({'bold': Attribute.bold, 'list': orderedList}));
       //
-      expect(first.collectStyle(3, 5),
-          const Style.attr({'bold': Attribute.bold, 'list': orderedList}),
+      expect(
+          first.collectStyle(3, 5), const Style.attr({'bold': Attribute.bold, 'list': orderedList}),
           reason: 'spans first and second list entry');
       expect(second.collectStyle(3, 6), const Style.attr({'list': orderedList}),
           reason: 'spans second and third list entry');

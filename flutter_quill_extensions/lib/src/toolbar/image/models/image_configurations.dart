@@ -3,8 +3,7 @@ import 'package:meta/meta.dart' show immutable;
 
 import '../../../editor/image/image_embed_types.dart';
 
-class QuillToolbarImageButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarImageButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarImageButtonExtraOptions({
     required super.controller,
     required super.context,

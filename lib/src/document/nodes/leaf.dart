@@ -61,8 +61,7 @@ abstract base class Leaf extends Node {
 
   @override
   Delta toDelta() {
-    final data =
-        _value is Embeddable ? (_value as Embeddable).toJson() : _value;
+    final data = _value is Embeddable ? (_value as Embeddable).toJson() : _value;
     return Delta()..insert(data, style.toJson());
   }
 
@@ -208,8 +207,7 @@ abstract base class Leaf extends Node {
   /// instance. Returned node may still be the same as this node
   /// if provided [index] is `0`.
   Leaf _isolate(int index, int length) {
-    assert(
-        index >= 0 && index < this.length && (index + length <= this.length));
+    assert(index >= 0 && index < this.length && (index + length <= this.length));
     final target = splitAt(index)!..splitAt(length);
     return target;
   }

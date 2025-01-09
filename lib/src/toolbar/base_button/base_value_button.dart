@@ -4,11 +4,9 @@ import '../../../flutter_quill.dart';
 
 /// The [T] is the options for the button
 /// The [E] is the extra options for the button
-abstract class QuillToolbarBaseButton<
-    T extends QuillToolbarBaseButtonOptions<T, E>,
+abstract class QuillToolbarBaseButton<T extends QuillToolbarBaseButtonOptions<T, E>,
     E extends QuillToolbarBaseButtonExtraOptions> extends StatefulWidget {
-  const QuillToolbarBaseButton(
-      {required this.controller, required this.options, super.key});
+  const QuillToolbarBaseButton({required this.controller, required this.options, super.key});
 
   final T options;
 
@@ -29,26 +27,21 @@ abstract class QuillToolbarCommonButtonState<
 
   String get defaultTooltip;
 
-  String get tooltip =>
-      options.tooltip ?? baseButtonExtraOptions?.tooltip ?? defaultTooltip;
+  String get tooltip => options.tooltip ?? baseButtonExtraOptions?.tooltip ?? defaultTooltip;
 
   IconData get defaultIconData;
 
   IconData get iconData =>
-      options.iconData ??
-      context.quillToolbarBaseButtonOptions?.iconData ??
-      defaultIconData;
+      options.iconData ?? context.quillToolbarBaseButtonOptions?.iconData ?? defaultIconData;
 
-  double get iconSize =>
-      options.iconSize ?? baseButtonExtraOptions?.iconSize ?? kDefaultIconSize;
+  double get iconSize => options.iconSize ?? baseButtonExtraOptions?.iconSize ?? kDefaultIconSize;
 
   double get iconButtonFactor =>
       options.iconButtonFactor ??
       baseButtonExtraOptions?.iconButtonFactor ??
       kDefaultIconButtonFactor;
 
-  QuillIconTheme? get iconTheme =>
-      options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
+  QuillIconTheme? get iconTheme => options.iconTheme ?? baseButtonExtraOptions?.iconTheme;
 
   VoidCallback? get afterButtonPressed =>
       options.afterButtonPressed ??
@@ -113,10 +106,8 @@ abstract class QuillToolbarBaseButtonState<
 }
 
 typedef QuillToolbarToggleStyleBaseButton = QuillToolbarBaseButton<
-    QuillToolbarToggleStyleButtonOptions,
-    QuillToolbarToggleStyleButtonExtraOptions>;
+    QuillToolbarToggleStyleButtonOptions, QuillToolbarToggleStyleButtonExtraOptions>;
 
-typedef QuillToolbarToggleStyleBaseButtonState<
-        W extends QuillToolbarToggleStyleBaseButton>
+typedef QuillToolbarToggleStyleBaseButtonState<W extends QuillToolbarToggleStyleBaseButton>
     = QuillToolbarBaseButtonState<W, QuillToolbarToggleStyleButtonOptions,
         QuillToolbarToggleStyleButtonExtraOptions, bool>;

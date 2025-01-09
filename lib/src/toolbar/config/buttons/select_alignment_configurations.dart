@@ -4,8 +4,7 @@ import 'package:flutter/widgets.dart' show IconData, immutable;
 import '../../../document/attribute.dart';
 import '../base_button_configurations.dart';
 
-class QuillToolbarSelectAlignmentButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarSelectAlignmentButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarSelectAlignmentButtonExtraOptions({
     required super.controller,
     required super.context,
@@ -13,10 +12,8 @@ class QuillToolbarSelectAlignmentButtonExtraOptions
   });
 }
 
-class QuillToolbarSelectAlignmentButtonOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarSelectAlignmentButtonOptions,
-        QuillToolbarBaseButtonExtraOptions> {
+class QuillToolbarSelectAlignmentButtonOptions extends QuillToolbarBaseButtonOptions<
+    QuillToolbarSelectAlignmentButtonOptions, QuillToolbarBaseButtonExtraOptions> {
   const QuillToolbarSelectAlignmentButtonOptions({
     this.iconsData,
     this.tooltips,

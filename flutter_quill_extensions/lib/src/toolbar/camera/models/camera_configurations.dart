@@ -2,8 +2,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import '../camera_types.dart';
 
-class QuillToolbarCameraButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarCameraButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarCameraButtonExtraOptions({
     required super.controller,
     required super.context,

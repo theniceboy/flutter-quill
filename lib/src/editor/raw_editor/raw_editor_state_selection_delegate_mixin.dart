@@ -7,8 +7,7 @@ import '../../delta/delta_diff.dart';
 import '../../document/document.dart';
 import 'raw_editor.dart';
 
-mixin RawEditorStateSelectionDelegateMixin on EditorState
-    implements TextSelectionDelegate {
+mixin RawEditorStateSelectionDelegateMixin on EditorState implements TextSelectionDelegate {
   @override
   TextEditingValue get textEditingValue {
     return widget.controller.plainTextEditingValue;
@@ -25,8 +24,8 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       return;
     }
 
-    widget.controller.replaceTextWithEmbeds(
-        diff.start, diff.deleted.length, diff.inserted, value.selection);
+    widget.controller
+        .replaceTextWithEmbeds(diff.start, diff.deleted.length, diff.inserted, value.selection);
   }
 
   @override
@@ -55,8 +54,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   // calculated.
   RevealedOffset _getOffsetToRevealCaret(Rect rect, TextPosition position) {
     // Make sure scrollController is attached
-    if (scrollController.hasClients &&
-        !scrollController.position.allowImplicitScrolling) {
+    if (scrollController.hasClients && !scrollController.position.allowImplicitScrolling) {
       return RevealedOffset(offset: scrollController.offset, rect: rect);
     }
 
@@ -75,8 +73,7 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
 
     additionalOffset = expandedRect.height >= editableSize.height
         ? editableSize.height / 2 - expandedRect.center.dy
-        : 0.0
-            .clamp(expandedRect.bottom - editableSize.height, expandedRect.top);
+        : 0.0.clamp(expandedRect.bottom - editableSize.height, expandedRect.top);
     unitOffset = const Offset(0, 1);
 
     // No overscrolling when encountering tall fonts/scripts that extend past
@@ -89,11 +86,8 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
       );
     }
 
-    final offsetDelta =
-        (scrollController.hasClients ? scrollController.offset : 0) -
-            targetOffset;
-    return RevealedOffset(
-        rect: rect.shift(unitOffset * offsetDelta), offset: targetOffset);
+    final offsetDelta = (scrollController.hasClients ? scrollController.offset : 0) - targetOffset;
+    return RevealedOffset(rect: rect.shift(unitOffset * offsetDelta), offset: targetOffset);
   }
 
   @override
@@ -105,23 +99,20 @@ mixin RawEditorStateSelectionDelegateMixin on EditorState
   }
 
   @override
-  void userUpdateTextEditingValue(
-      TextEditingValue value, SelectionChangedCause cause) {
+  void userUpdateTextEditingValue(TextEditingValue value, SelectionChangedCause cause) {
     textEditingValue = value;
   }
 
   @override
   bool get cutEnabled =>
-      widget.configurations.contextMenuBuilder != null &&
-      !widget.configurations.readOnly;
+      widget.configurations.contextMenuBuilder != null && !widget.configurations.readOnly;
 
   @override
   bool get copyEnabled => widget.configurations.contextMenuBuilder != null;
 
   @override
   bool get pasteEnabled =>
-      widget.configurations.contextMenuBuilder != null &&
-      !widget.configurations.readOnly;
+      widget.configurations.contextMenuBuilder != null && !widget.configurations.readOnly;
 
   @override
   bool get selectAllEnabled => widget.configurations.contextMenuBuilder != null;

@@ -8,23 +8,20 @@ import '../base_button/base_value_button.dart';
 import '../base_toolbar.dart';
 import '../simple_toolbar_provider.dart';
 
-class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<
-    QuillToolbarFontSizeButtonOptions, QuillToolbarFontSizeButtonExtraOptions> {
+class QuillToolbarFontSizeButton extends QuillToolbarBaseButton<QuillToolbarFontSizeButtonOptions,
+    QuillToolbarFontSizeButtonExtraOptions> {
   QuillToolbarFontSizeButton({
     required super.controller,
-    @Deprecated('Please use the default display text from the options')
-    this.defaultDisplayText,
+    @Deprecated('Please use the default display text from the options') this.defaultDisplayText,
     super.options = const QuillToolbarFontSizeButtonOptions(),
     super.key,
   })  : assert(options.rawItemsMap?.isNotEmpty ?? true),
-        assert(options.initialValue == null ||
-            (options.initialValue?.isNotEmpty ?? true));
+        assert(options.initialValue == null || (options.initialValue?.isNotEmpty ?? true));
 
   final String? defaultDisplayText;
 
   @override
-  QuillToolbarFontSizeButtonState createState() =>
-      QuillToolbarFontSizeButtonState();
+  QuillToolbarFontSizeButtonState createState() => QuillToolbarFontSizeButtonState();
 }
 
 class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
@@ -65,8 +62,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
 
   @override
   String get currentStateValue {
-    final attribute =
-        controller.getSelectionStyle().attributes[options.attribute.key];
+    final attribute = controller.getSelectionStyle().attributes[options.attribute.key];
     return attribute == null
         ? _defaultDisplayText
         : (_getKeyName(attribute.value) ?? _defaultDisplayText);
@@ -99,8 +95,7 @@ class QuillToolbarFontSizeButtonState extends QuillToolbarBaseButtonState<
   @override
   Widget build(BuildContext context) {
     final baseButtonConfigurations = context.quillToolbarBaseButtonOptions;
-    final childBuilder =
-        options.childBuilder ?? baseButtonConfigurations?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonConfigurations?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

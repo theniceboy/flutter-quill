@@ -272,8 +272,7 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'وێنەیەک لە گەلەرییەکەت هەڵبژێرە';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'بە بەکارهێنانی کامێراکەت وێنەیەک بگرە';
+  String get takeAPhotoUsingYourCamera => 'بە بەکارهێنانی کامێراکەت وێنەیەک بگرە';
 
   @override
   String get pasteAPhotoUsingALink => 'لینکی وێنەیەک دابنێ';
@@ -282,8 +281,7 @@ class FlutterQuillLocalizationsKu extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'ڤیدیۆیەک لە گەلەرییەکەتەوە هەڵبژێرە';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'بە بەکارهێنانی کامێراکەت ڤیدیۆیەک تۆمار بکە';
+  String get recordAVideoUsingYourCamera => 'بە بەکارهێنانی کامێراکەت ڤیدیۆیەک تۆمار بکە';
 
   @override
   String get pasteAVideoUsingALink => 'لینکی ڤیدیۆیەک دابنێ';
@@ -574,8 +572,7 @@ class FlutterQuillLocalizationsKuCkb extends FlutterQuillLocalizationsKu {
   String get pickAPhotoFromYourGallery => 'وێنەیەک لە گەلەرییەکەت هەڵبژێرە';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'بە بەکارهێنانی کامێراکەت وێنەیەک بگرە';
+  String get takeAPhotoUsingYourCamera => 'بە بەکارهێنانی کامێراکەت وێنەیەک بگرە';
 
   @override
   String get pasteAPhotoUsingALink => 'لینکی وێنەیەک دابنێ';
@@ -584,8 +581,7 @@ class FlutterQuillLocalizationsKuCkb extends FlutterQuillLocalizationsKu {
   String get pickAVideoFromYourGallery => 'ڤیدیۆیەک لە گەلەرییەکەتەوە هەڵبژێرە';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'بە بەکارهێنانی کامێراکەت ڤیدیۆیەک تۆمار بکە';
+  String get recordAVideoUsingYourCamera => 'بە بەکارهێنانی کامێراکەت ڤیدیۆیەک تۆمار بکە';
 
   @override
   String get pasteAVideoUsingALink => 'لینکی ڤیدیۆیەک دابنێ';

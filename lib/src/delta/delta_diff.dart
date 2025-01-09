@@ -48,8 +48,7 @@ Diff getDiff(String oldText, String newText, int cursorPosition) {
   final deleted = (start >= end) ? '' : oldText.substring(start, end);
   // we need to make the check if the start is major than the end because if we directly get the
   // new inserted text without checking first, this will always throw an error since this is an unsafe op
-  final inserted =
-      (start >= end + delta) ? '' : newText.substring(start, end + delta);
+  final inserted = (start >= end + delta) ? '' : newText.substring(start, end + delta);
   return Diff(
     start: start,
     deleted: deleted,

@@ -10,8 +10,7 @@ import 'package:flutter/material.dart'
         SelectionChangedCause,
         SingleActivator,
         UndoTextIntent;
-import 'package:flutter/services.dart'
-    show LogicalKeyboardKey, SelectionChangedCause;
+import 'package:flutter/services.dart' show LogicalKeyboardKey, SelectionChangedCause;
 
 import '../../document/attribute.dart';
 import '../raw_editor/raw_editor_actions.dart'
@@ -230,12 +229,10 @@ Map<SingleActivator, Intent> defaultSinlgeActivatorActions(
         LogicalKeyboardKey.pageUp,
         control: !isDesktopMacOS,
         meta: isDesktopMacOS,
-      ): const ScrollIntent(
-          direction: AxisDirection.up, type: ScrollIncrementType.page),
+      ): const ScrollIntent(direction: AxisDirection.up, type: ScrollIncrementType.page),
       SingleActivator(
         LogicalKeyboardKey.pageDown,
         control: !isDesktopMacOS,
         meta: isDesktopMacOS,
-      ): const ScrollIntent(
-          direction: AxisDirection.down, type: ScrollIncrementType.page),
+      ): const ScrollIntent(direction: AxisDirection.down, type: ScrollIncrementType.page),
     };

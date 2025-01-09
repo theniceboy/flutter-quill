@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart'
-    show TargetPlatform, debugDefaultTargetPlatformOverride;
+import 'package:flutter/foundation.dart' show TargetPlatform, debugDefaultTargetPlatformOverride;
 import 'package:flutter_quill/src/common/utils/platform.dart';
 import 'package:test/test.dart';
 

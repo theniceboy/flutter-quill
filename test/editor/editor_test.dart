@@ -59,15 +59,12 @@ void main() {
       await tester.quillEnterText(find.byType(QuillEditor), 'test\n');
       await tester.idle();
 
-      const uri =
-          'content://com.google.android.inputmethod.latin.fileprovider/test.gif';
-      final messageBytes =
-          const JSONMessageCodec().encodeMessage(<String, dynamic>{
+      const uri = 'content://com.google.android.inputmethod.latin.fileprovider/test.gif';
+      final messageBytes = const JSONMessageCodec().encodeMessage(<String, dynamic>{
         'args': <dynamic>[
           -1,
           'TextInputAction.commitContent',
-          jsonDecode(
-              '{"mimeType": "image/gif", "data": [0,1,0,1,0,1,0,0,0], "uri": "$uri"}'),
+          jsonDecode('{"mimeType": "image/gif", "data": [0,1,0,1,0,1,0,0,0], "uri": "$uri"}'),
         ],
         'method': 'TextInputClient.performAction',
       });

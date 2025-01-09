@@ -14,8 +14,7 @@ import 'text/text_selection.dart';
 
 typedef CustomStyleBuilder = TextStyle Function(Attribute attribute);
 
-typedef CustomRecognizerBuilder = GestureRecognizer? Function(
-    Attribute attribute, Leaf leaf);
+typedef CustomRecognizerBuilder = GestureRecognizer? Function(Attribute attribute, Leaf leaf);
 
 /// Delegate interface for the [EditorTextSelectionGestureDetectorBuilder].
 ///
@@ -258,14 +257,11 @@ class EditorTextSelectionGestureDetectorBuilder {
   @protected
   void onTapDown(TapDragDownDetails details) {
     if (!delegate.selectionEnabled) return;
-    renderEditor!
-        .handleTapDown(TapDownDetails(globalPosition: details.globalPosition));
+    renderEditor!.handleTapDown(TapDownDetails(globalPosition: details.globalPosition));
     final kind = details.kind;
-    shouldShowSelectionToolbar = kind == null ||
-        kind == PointerDeviceKind.touch ||
-        kind == PointerDeviceKind.stylus;
-    final isShiftPressedValid =
-        _isShiftPressed && renderEditor?.selection.baseOffset != null;
+    shouldShowSelectionToolbar =
+        kind == null || kind == PointerDeviceKind.touch || kind == PointerDeviceKind.stylus;
+    final isShiftPressedValid = _isShiftPressed && renderEditor?.selection.baseOffset != null;
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
@@ -278,11 +274,9 @@ class EditorTextSelectionGestureDetectorBuilder {
         // On macOS, a shift-tapped unfocused field expands from 0, not from the
         // previous selection.
         if (isShiftPressedValid) {
-          final fromSelection = renderEditor?.hasFocus == true
-              ? null
-              : const TextSelection.collapsed(offset: 0);
-          _expandSelection(
-              details.globalPosition, SelectionChangedCause.tap, fromSelection);
+          final fromSelection =
+              renderEditor?.hasFocus == true ? null : const TextSelection.collapsed(offset: 0);
+          _expandSelection(details.globalPosition, SelectionChangedCause.tap, fromSelection);
           return;
         }
         renderEditor?.selectPosition(cause: SelectionChangedCause.tap);
@@ -479,8 +473,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        if (!_lastSecondaryTapWasOnSelection ||
-            renderEditor?.hasFocus == false) {
+        if (!_lastSecondaryTapWasOnSelection || renderEditor?.hasFocus == false) {
           renderEditor?.selectWord(SelectionChangedCause.tap);
         }
         if (shouldShowSelectionToolbar) {
@@ -509,8 +502,7 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///    callback.
   @protected
   void onSecondaryTapDown(TapDownDetails details) {
-    renderEditor?.handleSecondaryTapDown(
-        TapDownDetails(globalPosition: details.globalPosition));
+    renderEditor?.handleSecondaryTapDown(TapDownDetails(globalPosition: details.globalPosition));
     shouldShowSelectionToolbar = true;
   }
 
@@ -543,27 +535,21 @@ class EditorTextSelectionGestureDetectorBuilder {
 
   // Selects the set of paragraphs in a document that intersect a given range of
   // global positions.
-  void _selectParagraphsInRange(
-      {required Offset from, Offset? to, SelectionChangedCause? cause}) {
-    final TextBoundary paragraphBoundary =
-        ParagraphBoundary(editor!.textEditingValue.text);
-    _selectTextBoundariesInRange(
-        boundary: paragraphBoundary, from: from, to: to, cause: cause);
+  void _selectParagraphsInRange({required Offset from, Offset? to, SelectionChangedCause? cause}) {
+    final TextBoundary paragraphBoundary = ParagraphBoundary(editor!.textEditingValue.text);
+    _selectTextBoundariesInRange(boundary: paragraphBoundary, from: from, to: to, cause: cause);
   }
 
   // Selects the set of lines in a document that intersect a given range of
   // global positions.
-  void _selectLinesInRange(
-      {required Offset from, Offset? to, SelectionChangedCause? cause}) {
+  void _selectLinesInRange({required Offset from, Offset? to, SelectionChangedCause? cause}) {
     final TextBoundary lineBoundary = LineBoundary(renderEditor!);
-    _selectTextBoundariesInRange(
-        boundary: lineBoundary, from: from, to: to, cause: cause);
+    _selectTextBoundariesInRange(boundary: lineBoundary, from: from, to: to, cause: cause);
   }
 
   // Returns the location of a text boundary at `extent`. When `extent` is at
   // the end of the text, returns the previous text boundary's location.
-  TextRange _moveToTextBoundary(
-      TextPosition extent, TextBoundary textBoundary) {
+  TextRange _moveToTextBoundary(TextPosition extent, TextBoundary textBoundary) {
     assert(extent.offset >= 0);
     final start = textBoundary.getLeadingTextBoundaryAt(
             extent.offset == editor!.textEditingValue.text.length
@@ -590,19 +576,16 @@ class EditorTextSelectionGestureDetectorBuilder {
       SelectionChangedCause? cause}) {
     final fromPosition = renderEditor!.getPositionForOffset(from);
     final fromRange = _moveToTextBoundary(fromPosition, boundary);
-    final toPosition =
-        to == null ? fromPosition : renderEditor!.getPositionForOffset(to);
-    final toRange = toPosition == fromPosition
-        ? fromRange
-        : _moveToTextBoundary(toPosition, boundary);
+    final toPosition = to == null ? fromPosition : renderEditor!.getPositionForOffset(to);
+    final toRange =
+        toPosition == fromPosition ? fromRange : _moveToTextBoundary(toPosition, boundary);
     final isFromBoundaryBeforeToBoundary = fromRange.start < toRange.end;
 
     final newSelection = isFromBoundaryBeforeToBoundary
         ? TextSelection(baseOffset: fromRange.start, extentOffset: toRange.end)
         : TextSelection(baseOffset: fromRange.end, extentOffset: toRange.start);
 
-    editor!.userUpdateTextEditingValue(
-        editor!.textEditingValue.copyWith(selection: newSelection),
+    editor!.userUpdateTextEditingValue(editor!.textEditingValue.copyWith(selection: newSelection),
         cause ?? SelectionChangedCause.drag);
   }
 
@@ -628,11 +611,9 @@ class EditorTextSelectionGestureDetectorBuilder {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
       case TargetPlatform.windows:
-        _selectParagraphsInRange(
-            from: details.globalPosition, cause: SelectionChangedCause.tap);
+        _selectParagraphsInRange(from: details.globalPosition, cause: SelectionChangedCause.tap);
       case TargetPlatform.linux:
-        _selectLinesInRange(
-            from: details.globalPosition, cause: SelectionChangedCause.tap);
+        _selectLinesInRange(from: details.globalPosition, cause: SelectionChangedCause.tap);
     }
 
     if (shouldShowSelectionToolbar) {
@@ -658,9 +639,8 @@ class EditorTextSelectionGestureDetectorBuilder {
     // if (editor?.textEditingValue.selection.isCollapsed == false) return;
 
     final kind = details.kind;
-    shouldShowSelectionToolbar = kind == null ||
-        kind == PointerDeviceKind.touch ||
-        kind == PointerDeviceKind.stylus;
+    shouldShowSelectionToolbar =
+        kind == null || kind == PointerDeviceKind.touch || kind == PointerDeviceKind.stylus;
     _dragStartSelection = renderEditor?.selection;
     _dragStartScrollOffset = _scrollPosition;
     _dragStartViewportOffset = renderEditor?.offset?.pixels ?? 0.0;
@@ -679,15 +659,13 @@ class EditorTextSelectionGestureDetectorBuilder {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
         case TargetPlatform.macOS:
-          renderEditor?.extendSelection(details.globalPosition,
-              cause: SelectionChangedCause.drag);
+          renderEditor?.extendSelection(details.globalPosition, cause: SelectionChangedCause.drag);
 
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
         case TargetPlatform.linux:
         case TargetPlatform.windows:
-          renderEditor?.extendSelection(details.globalPosition,
-              cause: SelectionChangedCause.drag);
+          renderEditor?.extendSelection(details.globalPosition, cause: SelectionChangedCause.drag);
       }
     } else {
       switch (defaultTargetPlatform) {
@@ -706,8 +684,7 @@ class EditorTextSelectionGestureDetectorBuilder {
               // For iOS platforms, a touch drag does not initiate unless the
               // editable has focus and the drag began on the previous selection.
               assert(_dragBeganOnPreviousSelection != null);
-              if (renderEditor?.hasFocus == true &&
-                  _dragBeganOnPreviousSelection!) {
+              if (renderEditor?.hasFocus == true && _dragBeganOnPreviousSelection!) {
                 _dragStartSelection = renderEditor?.selectPositionAt(
                   from: details.globalPosition,
                   cause: SelectionChangedCause.drag,
@@ -766,12 +743,10 @@ class EditorTextSelectionGestureDetectorBuilder {
     // if (editor?.textEditingValue.selection.isCollapsed == false) return;
     if (!_isShiftPressed) {
       // Adjust the drag start offset for possible viewport offset changes.
-      final editableOffset = Offset(
-          0, (renderEditor!.offset?.pixels ?? 0) - _dragStartViewportOffset);
-      final scrollableOffset =
-          Offset(0, _scrollPosition - _dragStartScrollOffset);
-      final dragStartGlobalPosition =
-          updateDetails.globalPosition - updateDetails.offsetFromOrigin;
+      final editableOffset =
+          Offset(0, (renderEditor!.offset?.pixels ?? 0) - _dragStartViewportOffset);
+      final scrollableOffset = Offset(0, _scrollPosition - _dragStartScrollOffset);
+      final dragStartGlobalPosition = updateDetails.globalPosition - updateDetails.offsetFromOrigin;
 
       // Select word by word.
       if (EditorTextSelectionGestureDetector.getEffectiveConsecutiveTapCount(
@@ -808,9 +783,7 @@ class EditorTextSelectionGestureDetectorBuilder {
               case PointerDeviceKind.mouse:
               case PointerDeviceKind.trackpad:
                 return _selectParagraphsInRange(
-                  from: dragStartGlobalPosition -
-                      editableOffset -
-                      scrollableOffset,
+                  from: dragStartGlobalPosition - editableOffset - scrollableOffset,
                   to: updateDetails.globalPosition,
                   cause: SelectionChangedCause.drag,
                 );
@@ -852,8 +825,7 @@ class EditorTextSelectionGestureDetectorBuilder {
             case PointerDeviceKind.mouse:
             case PointerDeviceKind.trackpad:
               renderEditor?.selectPositionAt(
-                from:
-                    dragStartGlobalPosition - editableOffset - scrollableOffset,
+                from: dragStartGlobalPosition - editableOffset - scrollableOffset,
                 to: updateDetails.globalPosition,
                 cause: SelectionChangedCause.drag,
               );
@@ -887,8 +859,7 @@ class EditorTextSelectionGestureDetectorBuilder {
             case PointerDeviceKind.stylus:
             case PointerDeviceKind.invertedStylus:
               renderEditor?.selectPositionAt(
-                from:
-                    dragStartGlobalPosition - editableOffset - scrollableOffset,
+                from: dragStartGlobalPosition - editableOffset - scrollableOffset,
                 to: updateDetails.globalPosition,
                 cause: SelectionChangedCause.drag,
               );
@@ -920,15 +891,13 @@ class EditorTextSelectionGestureDetectorBuilder {
     if (_dragStartSelection!.isCollapsed ||
         (defaultTargetPlatform != TargetPlatform.iOS &&
             defaultTargetPlatform != TargetPlatform.macOS)) {
-      return _extendSelection(
-          updateDetails.globalPosition, SelectionChangedCause.drag);
+      return _extendSelection(updateDetails.globalPosition, SelectionChangedCause.drag);
     }
 
     // If the drag inverts the selection, Mac and iOS revert to the initial
     // selection.
     final selection = renderEditor!.selection;
-    final nextExtent =
-        renderEditor!.getPositionForOffset(updateDetails.globalPosition);
+    final nextExtent = renderEditor!.getPositionForOffset(updateDetails.globalPosition);
 
     final isShiftTapDragSelectionForward =
         _dragStartSelection!.baseOffset < _dragStartSelection!.extentOffset;
@@ -958,8 +927,7 @@ class EditorTextSelectionGestureDetectorBuilder {
         SelectionChangedCause.drag,
       );
     } else {
-      _extendSelection(
-          updateDetails.globalPosition, SelectionChangedCause.drag);
+      _extendSelection(updateDetails.globalPosition, SelectionChangedCause.drag);
     }
   }
 

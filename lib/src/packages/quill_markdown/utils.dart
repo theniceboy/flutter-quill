@@ -46,9 +46,8 @@ void autoAppendNewlineAfterEmbeddable(
     res.push(Operation.insert('\n'));
   }
   // embed could be image or video
-  final opInsertEmbed = op.isInsert &&
-      op.data is Map &&
-      types.any((type) => (op.data as Map).containsKey(type));
+  final opInsertEmbed =
+      op.isInsert && op.data is Map && types.any((type) => (op.data as Map).containsKey(type));
   final nextOpIsLineBreak = i + 1 < ops.length &&
       ops[i + 1].isInsert &&
       ops[i + 1].data is String &&

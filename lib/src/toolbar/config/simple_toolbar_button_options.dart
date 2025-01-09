@@ -66,11 +66,9 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
     this.color = const QuillToolbarColorButtonOptions(),
     this.backgroundColor = const QuillToolbarColorButtonOptions(),
     this.clearFormat = const QuillToolbarClearFormatButtonOptions(),
-    this.selectAlignmentButtons =
-        const QuillToolbarSelectAlignmentButtonOptions(),
+    this.selectAlignmentButtons = const QuillToolbarSelectAlignmentButtonOptions(),
     this.search = const QuillToolbarSearchButtonOptions(),
-    this.selectHeaderStyleButtons =
-        const QuillToolbarSelectHeaderStyleButtonsOptions(),
+    this.selectHeaderStyleButtons = const QuillToolbarSelectHeaderStyleButtonsOptions(),
     this.selectHeaderStyleDropdownButton =
         const QuillToolbarSelectHeaderStyleDropdownButtonOptions(),
     this.selectLineHeightStyleDropdownButton =
@@ -131,11 +129,9 @@ class QuillSimpleToolbarButtonOptions extends Equatable {
   /// The reason we call this buttons in the end because this is responsible
   /// for all the header style buttons and not just one, you still
   /// can customize it and you also have child builder
-  final QuillToolbarSelectHeaderStyleDropdownButtonOptions
-      selectHeaderStyleDropdownButton;
+  final QuillToolbarSelectHeaderStyleDropdownButtonOptions selectHeaderStyleDropdownButton;
 
-  final QuillToolbarSelectLineHeightStyleDropdownButtonOptions
-      selectLineHeightStyleDropdownButton;
+  final QuillToolbarSelectLineHeightStyleDropdownButtonOptions selectLineHeightStyleDropdownButton;
 
   final QuillToolbarLinkStyleButtonOptions linkStyle;
   final QuillToolbarLinkStyleButton2Options linkStyle2;

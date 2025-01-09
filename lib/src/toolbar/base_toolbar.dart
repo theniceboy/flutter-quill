@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../flutter_quill.dart'
-    show QuillToolbarProvider, kDefaultToolbarSize;
+import '../../flutter_quill.dart' show QuillToolbarProvider, kDefaultToolbarSize;
 import '../controller/quill_controller.dart';
 import '../l10n/widgets/localizations.dart';
 import 'config/simple_toolbar_configurations.dart';
@@ -41,8 +40,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   static QuillSimpleToolbar simple(
-      {QuillController? controller,
-      QuillSimpleToolbarConfigurations? configurations}) {
+      {QuillController? controller, QuillSimpleToolbarConfigurations? configurations}) {
     return QuillSimpleToolbar(
       controller: controller,
       configurations: configurations,

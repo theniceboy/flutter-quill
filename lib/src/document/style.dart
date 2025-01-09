@@ -20,21 +20,20 @@ class Style {
 
     final result = attributes.map((key, dynamic value) {
       final attr = Attribute.fromKeyValue(key, value);
-      return MapEntry<String, Attribute>(
-          key, attr ?? Attribute(key, AttributeScope.ignore, value));
+      return MapEntry<String, Attribute>(key, attr ?? Attribute(key, AttributeScope.ignore, value));
     });
     return Style.attr(result);
   }
 
   Map<String, dynamic>? toJson() => _attributes.isEmpty
       ? null
-      : _attributes.map<String, dynamic>((_, attribute) =>
-          MapEntry<String, dynamic>(attribute.key, attribute.value));
+      : _attributes.map<String, dynamic>(
+          (_, attribute) => MapEntry<String, dynamic>(attribute.key, attribute.value));
 
   Iterable<String> get keys => _attributes.keys;
 
-  Iterable<Attribute> get values => _attributes.values.sorted(
-      (a, b) => Attribute.getRegistryOrder(a) - Attribute.getRegistryOrder(b));
+  Iterable<Attribute> get values => _attributes.values
+      .sorted((a, b) => Attribute.getRegistryOrder(a) - Attribute.getRegistryOrder(b));
 
   Map<String, Attribute> get attributes => _attributes;
 
@@ -44,11 +43,9 @@ class Style {
 
   bool get isInline => isNotEmpty && values.every((item) => item.isInline);
 
-  bool get isBlock =>
-      isNotEmpty && values.every((item) => item.scope == AttributeScope.block);
+  bool get isBlock => isNotEmpty && values.every((item) => item.scope == AttributeScope.block);
 
-  bool get isIgnored =>
-      isNotEmpty && values.every((item) => item.scope == AttributeScope.ignore);
+  bool get isIgnored => isNotEmpty && values.every((item) => item.scope == AttributeScope.ignore);
 
   Attribute get single => _attributes.values.single;
 
@@ -123,8 +120,7 @@ class Style {
 
   @override
   int get hashCode {
-    final hashes =
-        _attributes.entries.map((entry) => hash2(entry.key, entry.value));
+    final hashes = _attributes.entries.map((entry) => hash2(entry.key, entry.value));
     return hashObjects(hashes);
   }
 

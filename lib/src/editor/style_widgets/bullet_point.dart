@@ -25,8 +25,7 @@ class QuillEditorBulletPoint extends StatelessWidget {
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
       color: backgroundColor,
-      child: context.quillEditorConfigurations?.elementOptions.unorderedList
-              .customWidget ??
+      child: context.quillEditorConfigurations?.elementOptions.unorderedList.customWidget ??
           Text(
             '•',
             style: style,

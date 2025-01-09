@@ -241,8 +241,7 @@ class FlutterQuillLocalizationsTh extends FlutterQuillLocalizations {
       'กรุณาใส่ข้อความสำหรับลิงก์ของคุณ (เช่น \'เรียนรู้เพิ่มเติม\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'กรุณาใส่ URL ของลิงก์ (เช่น \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'กรุณาใส่ URL ของลิงก์ (เช่น \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'กรุณาใส่ URL รูปภาพที่ถูกต้อง';
@@ -257,8 +256,7 @@ class FlutterQuillLocalizationsTh extends FlutterQuillLocalizations {
   String get image => 'รูปภาพ';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'การค้นหาแบบคำนึงถึงตัวพิมพ์ใหญ่-เล็กและคำเต็ม';
+  String get caseSensitivityAndWholeWordSearch => 'การค้นหาแบบคำนึงถึงตัวพิมพ์ใหญ่-เล็กและคำเต็ม';
 
   @override
   String get caseSensitive => 'คำนึงถึงตัวพิมพ์ใหญ่-เล็ก';

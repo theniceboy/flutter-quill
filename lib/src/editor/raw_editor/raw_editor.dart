@@ -28,11 +28,9 @@ class QuillRawEditor extends StatefulWidget {
         assert((controller ?? configurations.controller) != null),
         // ignore: deprecated_member_use_from_same_package
         controller = controller ?? configurations.controller,
-        assert(
-            configurations.maxHeight == null || configurations.maxHeight! > 0,
+        assert(configurations.maxHeight == null || configurations.maxHeight! > 0,
             'maxHeight cannot be null'),
-        assert(
-            configurations.minHeight == null || configurations.minHeight! >= 0,
+        assert(configurations.minHeight == null || configurations.minHeight! >= 0,
             'minHeight cannot be null'),
         assert(
             configurations.maxHeight == null ||
@@ -72,8 +70,7 @@ class QuillEditorGlyphHeights {
 
 /// Base interface for the editor state which defines contract used by
 /// various mixins.
-abstract class EditorState extends State<QuillRawEditor>
-    implements TextSelectionDelegate {
+abstract class EditorState extends State<QuillRawEditor> implements TextSelectionDelegate {
   ScrollController get scrollController;
 
   RenderEditor get renderEditor;

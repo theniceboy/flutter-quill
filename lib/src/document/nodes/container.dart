@@ -119,9 +119,7 @@ abstract base class QuillContainer<T extends Node?> extends Node {
     Iterable<EmbedBuilder>? embedBuilders,
     EmbedBuilder? unknownEmbedBuilder,
   ]) =>
-      children
-          .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
-          .join();
+      children.map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder)).join();
 
   @override
   int get length {

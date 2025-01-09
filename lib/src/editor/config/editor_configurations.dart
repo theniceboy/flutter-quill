@@ -335,26 +335,21 @@ class QuillEditorConfigurations extends Equatable {
   final ValueChanged<String>? onLaunchUrl;
 
   // Returns whether gesture is handled
-  final bool Function(
-          TapDragDownDetails details, TextPosition Function(Offset offset))?
-      onTapDown;
+  final bool Function(TapDragDownDetails details, TextPosition Function(Offset offset))? onTapDown;
 
   // Returns whether gesture is handled
-  final bool Function(
-      TapDragUpDetails details, TextPosition Function(Offset offset))? onTapUp;
+  final bool Function(TapDragUpDetails details, TextPosition Function(Offset offset))? onTapUp;
 
   // Returns whether gesture is handled
-  final bool Function(
-          LongPressStartDetails details, TextPosition Function(Offset offset))?
+  final bool Function(LongPressStartDetails details, TextPosition Function(Offset offset))?
       onSingleLongTapStart;
 
   // Returns whether gesture is handled
-  final bool Function(LongPressMoveUpdateDetails details,
-      TextPosition Function(Offset offset))? onSingleLongTapMoveUpdate;
+  final bool Function(LongPressMoveUpdateDetails details, TextPosition Function(Offset offset))?
+      onSingleLongTapMoveUpdate;
 
   // Returns whether gesture is handled
-  final bool Function(
-          LongPressEndDetails details, TextPosition Function(Offset offset))?
+  final bool Function(LongPressEndDetails details, TextPosition Function(Offset offset))?
       onSingleLongTapEnd;
 
   final Iterable<EmbedBuilder>? embedBuilders;
@@ -540,8 +535,7 @@ class QuillEditorConfigurations extends Equatable {
   }) {
     return QuillEditorConfigurations(
       sharedConfigurations: sharedConfigurations ?? this.sharedConfigurations,
-      customLeadingBlockBuilder:
-          customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
+      customLeadingBlockBuilder: customLeadingBlockBuilder ?? this.customLeadingBlockBuilder,
       // ignore: deprecated_member_use_from_same_package
       controller: controller ?? this.controller,
       placeholder: placeholder ?? this.placeholder,
@@ -549,26 +543,21 @@ class QuillEditorConfigurations extends Equatable {
       disableClipboard: disableClipboard ?? this.disableClipboard,
       scrollable: scrollable ?? this.scrollable,
       scrollBottomInset: scrollBottomInset ?? this.scrollBottomInset,
-      characterShortcutEvents:
-          characterShortcutEvents ?? this.characterShortcutEvents,
+      characterShortcutEvents: characterShortcutEvents ?? this.characterShortcutEvents,
       spaceShortcutEvents: spaceShortcutEvents ?? this.spaceShortcutEvents,
       padding: padding ?? this.padding,
       // ignore: deprecated_member_use_from_same_package
       enableMarkdownStyleConversion:
           // ignore: deprecated_member_use_from_same_package
           enableMarkdownStyleConversion ?? this.enableMarkdownStyleConversion,
-      enableAlwaysIndentOnTab:
-          enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,
+      enableAlwaysIndentOnTab: enableAlwaysIndentOnTab ?? this.enableAlwaysIndentOnTab,
       autoFocus: autoFocus ?? this.autoFocus,
-      isOnTapOutsideEnabled:
-          isOnTapOutsideEnabled ?? this.isOnTapOutsideEnabled,
+      isOnTapOutsideEnabled: isOnTapOutsideEnabled ?? this.isOnTapOutsideEnabled,
       onTapOutside: onTapOutside ?? this.onTapOutside,
       showCursor: showCursor ?? this.showCursor,
       paintCursorAboveText: paintCursorAboveText ?? this.paintCursorAboveText,
-      enableInteractiveSelection:
-          enableInteractiveSelection ?? this.enableInteractiveSelection,
-      enableSelectionToolbar:
-          enableSelectionToolbar ?? this.enableSelectionToolbar,
+      enableInteractiveSelection: enableInteractiveSelection ?? this.enableInteractiveSelection,
+      enableSelectionToolbar: enableSelectionToolbar ?? this.enableSelectionToolbar,
       minHeight: minHeight ?? this.minHeight,
       maxHeight: maxHeight ?? this.maxHeight,
       maxContentWidth: maxContentWidth ?? this.maxContentWidth,
@@ -582,14 +571,10 @@ class QuillEditorConfigurations extends Equatable {
       unknownEmbedBuilder: unknownEmbedBuilder ?? this.unknownEmbedBuilder,
       searchConfigurations: searchConfigurations ?? this.searchConfigurations,
       customStyleBuilder: customStyleBuilder ?? this.customStyleBuilder,
-      customRecognizerBuilder:
-          customRecognizerBuilder ?? this.customRecognizerBuilder,
-      linkActionPickerDelegate:
-          linkActionPickerDelegate ?? this.linkActionPickerDelegate,
-      floatingCursorDisabled:
-          floatingCursorDisabled ?? this.floatingCursorDisabled,
-      textSelectionControls:
-          textSelectionControls ?? this.textSelectionControls,
+      customRecognizerBuilder: customRecognizerBuilder ?? this.customRecognizerBuilder,
+      linkActionPickerDelegate: linkActionPickerDelegate ?? this.linkActionPickerDelegate,
+      floatingCursorDisabled: floatingCursorDisabled ?? this.floatingCursorDisabled,
+      textSelectionControls: textSelectionControls ?? this.textSelectionControls,
       onImagePaste: onImagePaste ?? this.onImagePaste,
       onGifPaste: onGifPaste ?? this.onGifPaste,
       customShortcuts: customShortcuts ?? this.customShortcuts,
@@ -603,15 +588,12 @@ class QuillEditorConfigurations extends Equatable {
       contentInsertionConfiguration:
           contentInsertionConfiguration ?? this.contentInsertionConfiguration,
       editorKey: editorKey ?? this.editorKey,
-      textSelectionThemeData:
-          textSelectionThemeData ?? this.textSelectionThemeData,
+      textSelectionThemeData: textSelectionThemeData ?? this.textSelectionThemeData,
       requestKeyboardFocusOnCheckListChanged:
-          requestKeyboardFocusOnCheckListChanged ??
-              this.requestKeyboardFocusOnCheckListChanged,
+          requestKeyboardFocusOnCheckListChanged ?? this.requestKeyboardFocusOnCheckListChanged,
       elementOptions: elementOptions ?? this.elementOptions,
       builder: builder ?? this.builder,
-      magnifierConfiguration:
-          magnifierConfiguration ?? this.magnifierConfiguration,
+      magnifierConfiguration: magnifierConfiguration ?? this.magnifierConfiguration,
       textInputAction: textInputAction ?? this.textInputAction,
       enableScribble: enableScribble ?? this.enableScribble,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,

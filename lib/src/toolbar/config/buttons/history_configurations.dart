@@ -3,8 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import '../../../../flutter_quill.dart';
 
 @immutable
-class QuillToolbarHistoryButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarHistoryButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarHistoryButtonExtraOptions({
     required this.canPressed,
     required super.controller,

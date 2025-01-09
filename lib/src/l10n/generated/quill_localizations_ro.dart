@@ -245,12 +245,10 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
       'Vă rugăm să introduceți URL-ul link-ului (de exemplu, \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Vă rugăm să introduceți un URL de imagine valid';
+  String get pleaseEnterAValidImageURL => 'Vă rugăm să introduceți un URL de imagine valid';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Vă rugăm să introduceți un URL de video valid';
+  String get pleaseEnterAValidVideoURL => 'Vă rugăm să introduceți un URL de video valid';
 
   @override
   String get photo => 'Fotografie';
@@ -284,8 +282,7 @@ class FlutterQuillLocalizationsRo extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Alege un video din galeria ta';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Înregistrează un video folosind camera ta';
+  String get recordAVideoUsingYourCamera => 'Înregistrează un video folosind camera ta';
 
   @override
   String get pasteAVideoUsingALink => 'Lipește un video folosind un link';
@@ -549,12 +546,10 @@ class FlutterQuillLocalizationsRoRo extends FlutterQuillLocalizationsRo {
       'Vă rugăm să introduceți URL-ul link-ului (de exemplu, \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Vă rugăm să introduceți un URL de imagine valid';
+  String get pleaseEnterAValidImageURL => 'Vă rugăm să introduceți un URL de imagine valid';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Vă rugăm să introduceți un URL de video valid';
+  String get pleaseEnterAValidVideoURL => 'Vă rugăm să introduceți un URL de video valid';
 
   @override
   String get photo => 'Fotografie';
@@ -588,8 +583,7 @@ class FlutterQuillLocalizationsRoRo extends FlutterQuillLocalizationsRo {
   String get pickAVideoFromYourGallery => 'Alege un video din galeria ta';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Înregistrează un video folosind camera ta';
+  String get recordAVideoUsingYourCamera => 'Înregistrează un video folosind camera ta';
 
   @override
   String get pasteAVideoUsingALink => 'Lipește un video folosind un link';

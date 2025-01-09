@@ -66,16 +66,14 @@ class YoutubeVideoAppState extends State<YoutubeVideoApp> {
         break;
       // ignore: deprecated_member_use_from_same_package
       case YoutubeVideoSupportMode.customPlayerWithDownloadUrl:
-        _loadYoutubeVideoByDownloadUrlFuture =
-            _loadYoutubeVideoWithVideoPlayerByVideoUrl();
+        _loadYoutubeVideoByDownloadUrlFuture = _loadYoutubeVideoWithVideoPlayerByVideoUrl();
         break;
     }
   }
 
   Future<String> _loadYoutubeVideoWithVideoPlayerByVideoUrl() async {
     final youtubeExplode = YoutubeExplode();
-    final manifest =
-        await youtubeExplode.videos.streamsClient.getManifest(_videoId);
+    final manifest = await youtubeExplode.videos.streamsClient.getManifest(_videoId);
     final streamInfo = manifest.muxed.withHighestBitrate();
     final videoDownloadUri = streamInfo.url;
     return videoDownloadUri.toString();
@@ -86,8 +84,7 @@ class YoutubeVideoAppState extends State<YoutubeVideoApp> {
       text: TextSpan(
         text: widget.videoUrl,
         style: defaultStyles.link,
-        recognizer: TapGestureRecognizer()
-          ..onTap = () => launchUrlString(widget.videoUrl),
+        recognizer: TapGestureRecognizer()..onTap = () => launchUrlString(widget.videoUrl),
       ),
     );
   }

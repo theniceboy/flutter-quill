@@ -35,8 +35,7 @@ class QuillEditorNumberPoint extends StatelessWidget {
         width: width,
         padding: EdgeInsetsDirectional.only(end: padding),
         color: backgroundColor,
-        child: context.quillEditorConfigurations?.elementOptions.orderedList
-                .customWidget ??
+        child: context.quillEditorConfigurations?.elementOptions.orderedList.customWidget ??
             Text(
               withDot ? '$index.' : index,
               style: style,
@@ -49,8 +48,7 @@ class QuillEditorNumberPoint extends StatelessWidget {
       width: width,
       padding: EdgeInsetsDirectional.only(end: padding),
       color: backgroundColor,
-      child: context.quillEditorConfigurations?.elementOptions.orderedList
-              .customWidget ??
+      child: context.quillEditorConfigurations?.elementOptions.orderedList.customWidget ??
           Text(
             withDot ? '$index.' : index,
             style: style,

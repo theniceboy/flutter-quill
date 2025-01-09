@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Tersimpan menggunakan jaringan';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Tersimpan menggunakan penyimpanan lokal';
+  String get savedUsingLocalStorage => 'Tersimpan menggunakan penyimpanan lokal';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -242,12 +241,10 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
       'Harap masukkan teks untuk tautan Anda (contoh: \'Pelajari lebih lanjut\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Harap masukkan URL tautan (contoh: \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Harap masukkan URL tautan (contoh: \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Harap masukkan URL gambar yang valid';
+  String get pleaseEnterAValidImageURL => 'Harap masukkan URL gambar yang valid';
 
   @override
   String get pleaseEnterAValidVideoURL => 'Harap masukkan URL video yang valid';
@@ -284,8 +281,7 @@ class FlutterQuillLocalizationsId extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Pilih video dari galeri Anda';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Rekam video menggunakan kamera Anda';
+  String get recordAVideoUsingYourCamera => 'Rekam video menggunakan kamera Anda';
 
   @override
   String get pasteAVideoUsingALink => 'Tempel video menggunakan tautan';

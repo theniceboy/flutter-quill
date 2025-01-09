@@ -246,8 +246,7 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Lütfen geçerli bir video URL\'si girin';
+  String get pleaseEnterAValidVideoURL => 'Lütfen geçerli bir video URL\'si girin';
 
   @override
   String get photo => 'Fotoğraf';
@@ -275,8 +274,7 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
   String get takeAPhotoUsingYourCamera => 'Kameranızla fotoğraf çekin';
 
   @override
-  String get pasteAPhotoUsingALink =>
-      'Bir bağlantı kullanarak fotoğraf yapıştırın';
+  String get pasteAPhotoUsingALink => 'Bir bağlantı kullanarak fotoğraf yapıştırın';
 
   @override
   String get pickAVideoFromYourGallery => 'Galeriğinizden video seçin';
@@ -285,8 +283,7 @@ class FlutterQuillLocalizationsTr extends FlutterQuillLocalizations {
   String get recordAVideoUsingYourCamera => 'Kameranızla video kaydedin';
 
   @override
-  String get pasteAVideoUsingALink =>
-      'Bir bağlantı kullanarak video yapıştırın';
+  String get pasteAVideoUsingALink => 'Bir bağlantı kullanarak video yapıştırın';
 
   @override
   String get close => 'Kapat';

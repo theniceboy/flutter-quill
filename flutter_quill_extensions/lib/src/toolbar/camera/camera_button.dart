@@ -39,8 +39,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
@@ -52,15 +51,11 @@ class QuillToolbarCameraButton extends StatelessWidget {
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.photo_camera;
+    return options.iconData ?? baseButtonExtraOptions(context)?.iconData ?? Icons.photo_camera;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.camera;
+    return options.tooltip ?? baseButtonExtraOptions(context)?.tooltip ?? context.loc.camera;
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -79,8 +74,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
     final iconData = _iconData(context);
     final iconButtonFactor = _iconButtonFactor(context);
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
     if (childBuilder != null) {
       childBuilder(
@@ -115,8 +109,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
   }
 
   Future<CameraAction?> _getCameraAction(BuildContext context) async {
-    final customCallback =
-        options.cameraConfigurations.onRequestCameraActionCallback;
+    final customCallback = options.cameraConfigurations.onRequestCameraActionCallback;
     if (customCallback != null) {
       return await customCallback(context);
     }
@@ -132,8 +125,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
     QuillController controller,
   ) async {
     final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
+        QuillSharedExtensionsConfigurations.get(context: context).imagePickerService;
 
     final cameraAction = await _getCameraAction(context);
 
@@ -153,8 +145,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
           videoFile.path,
           controller,
         );
-        await options.cameraConfigurations.onVideoInsertedCallback
-            ?.call(videoFile.path);
+        await options.cameraConfigurations.onVideoInsertedCallback?.call(videoFile.path);
       case CameraAction.image:
         final imageFile = await imagePickerService.pickImage(
           source: ImageSource.camera,
@@ -166,8 +157,7 @@ class QuillToolbarCameraButton extends StatelessWidget {
           imageFile.path,
           controller,
         );
-        await options.cameraConfigurations.onImageInsertedCallback
-            ?.call(imageFile.path);
+        await options.cameraConfigurations.onImageInsertedCallback?.call(imageFile.path);
     }
   }
 }

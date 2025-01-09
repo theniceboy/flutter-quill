@@ -94,21 +94,18 @@ void main() {
       final document = Document.fromDelta(delta);
       //
       expect(rule.apply(document, 0, data: 'X', len: 0), null,
-          reason:
-              'Insert before image must pickup inline attribute for the image');
+          reason: 'Insert before image must pickup inline attribute for the image');
       expect(
           rule.apply(document, 1, data: 'X', len: 0),
           Delta()
             ..retain(1)
             ..insert('X', <String, dynamic>{'bold': true}),
-          reason:
-              'Insert after image must pickup style for text following the image');
+          reason: 'Insert after image must pickup style for text following the image');
     });
 
     test('Insert around image with inline attribute', () {
       final delta = Delta()
-        ..insert(
-            <String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
+        ..insert(<String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
         ..insert('data\n', <String, dynamic>{'bold': true});
       final document = Document.fromDelta(delta);
       //
@@ -139,10 +136,8 @@ void main() {
 
     test('Insert around multiple images', () {
       final delta = Delta()
-        ..insert(
-            <String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
-        ..insert(<String, String>{'image': 'url2'},
-            <String, dynamic>{'italic': true})
+        ..insert(<String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
+        ..insert(<String, String>{'image': 'url2'}, <String, dynamic>{'italic': true})
         ..insert('data\n', <String, dynamic>{'underline': true});
       final document = Document.fromDelta(delta);
       //
@@ -162,11 +157,9 @@ void main() {
 
     test('Insert around mix of text and images', () {
       final delta = Delta()
-        ..insert(
-            <String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
+        ..insert(<String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
         ..insert('p\n')
-        ..insert(<String, String>{'image': 'url2'},
-            <String, dynamic>{'italic': true})
+        ..insert(<String, String>{'image': 'url2'}, <String, dynamic>{'italic': true})
         ..insert('data\n', <String, dynamic>{'underline': true});
       final document = Document.fromDelta(delta);
       //
@@ -180,11 +173,9 @@ void main() {
     test('Insert around images with NL', () {
       final delta = Delta()
         ..insert('\n\n\n', <String, dynamic>{'strike': true})
-        ..insert(
-            <String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
+        ..insert(<String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
         ..insert('\n\n\n', <String, dynamic>{'strike': true})
-        ..insert(<String, String>{'image': 'url2'},
-            <String, dynamic>{'italic': true})
+        ..insert(<String, String>{'image': 'url2'}, <String, dynamic>{'italic': true})
         ..insert('data\n', <String, dynamic>{'underline': true});
       final document = Document.fromDelta(delta);
       //
@@ -222,15 +213,13 @@ void main() {
         ..insert('\n\n', <String, dynamic>{'list': 'ordered'})
         ..insert('D', <String, dynamic>{'strike': true})
         ..insert('\n', <String, dynamic>{'list': 'ordered'})
-        ..insert(
-            <String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
+        ..insert(<String, String>{'image': 'url'}, <String, dynamic>{'bold': true})
         ..insert('\n', <String, dynamic>{'list': 'ordered'})
         ..insert(' plain\n');
       final document = Document.fromDelta(delta);
       //
       expect(rule.apply(document, 0, data: 'X', len: 0), null);
-      expect(rule.apply(document, 5, data: 'X', len: 0), null,
-          reason: '1. plain text');
+      expect(rule.apply(document, 5, data: 'X', len: 0), null, reason: '1. plain text');
       expect(
           rule.apply(document, 11, data: 'X', len: 0),
           Delta()
@@ -257,14 +246,12 @@ void main() {
           reason: '5. bold image');
       expect(rule.apply(document, 20, data: 'X', len: 0), null);
       //
-      expect(rule.apply(document, 16, data: LogicalKeyboardKey.enter, len: 0),
-          null);
+      expect(rule.apply(document, 16, data: LogicalKeyboardKey.enter, len: 0), null);
     });
 
     test('Insert around link, insert within link label', () {
       final delta = Delta()
-        ..insert(<String, String>{'image': 'imageUrl'},
-            <String, dynamic>{'link': 'linkURL'})
+        ..insert(<String, String>{'image': 'imageUrl'}, <String, dynamic>{'link': 'linkURL'})
         ..insert('data\n')
         ..insert('link', <String, dynamic>{'link': 'linkURL', 'bold': true})
         ..insert('\n');

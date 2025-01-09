@@ -44,8 +44,7 @@ extension on Object? {
 }
 
 /// Convertor from [Delta] to quill Markdown string.
-class DeltaToMarkdown extends Converter<Delta, String>
-    implements _NodeVisitor<StringSink> {
+class DeltaToMarkdown extends Converter<Delta, String> implements _NodeVisitor<StringSink> {
   ///
   DeltaToMarkdown({
     Map<String, EmbedToMarkdown>? customEmbedHandlers,
@@ -77,8 +76,9 @@ class DeltaToMarkdown extends Converter<Delta, String>
           );
         }
         if (infoString.isEmpty) {
-          final linesWithLang = (node as Block).children.where((child) =>
-              child.containsAttr(CodeBlockLanguageAttribute.attrKey));
+          final linesWithLang = (node as Block)
+              .children
+              .where((child) => child.containsAttr(CodeBlockLanguageAttribute.attrKey));
           if (linesWithLang.isNotEmpty) {
             infoString = linesWithLang.first.getAttrValueOr(
               CodeBlockLanguageAttribute.attrKey,
@@ -166,8 +166,7 @@ class DeltaToMarkdown extends Converter<Delta, String>
     ),
     Attribute.link.key: _AttributeHandler(
       beforeContent: (attribute, node, output) {
-        if (node.previous?.containsAttr(attribute.key, attribute.value) !=
-            true) {
+        if (node.previous?.containsAttr(attribute.key, attribute.value) != true) {
           output.write('[');
         }
       },
@@ -217,8 +216,7 @@ class DeltaToMarkdown extends Converter<Delta, String>
         leaf.accept(this, out);
       }
     });
-    if (style.isEmpty ||
-        style.values.every((item) => item.scope != AttributeScope.block)) {
+    if (style.isEmpty || style.values.every((item) => item.scope != AttributeScope.block)) {
       out.writeln();
     }
     if (style.containsKey(Attribute.list.key) &&
@@ -241,10 +239,9 @@ class DeltaToMarkdown extends Converter<Delta, String>
         var content = text.value;
         if (!(style.containsKey(Attribute.codeBlock.key) ||
             style.containsKey(Attribute.inlineCode.key) ||
-            (text.parent?.style.containsKey(Attribute.codeBlock.key) ??
-                false))) {
-          content = content.replaceAllMapped(
-              RegExp(r'[\\\`\*\_\{\}\[\]\(\)\#\+\-\.\!\>\<]'), (match) {
+            (text.parent?.style.containsKey(Attribute.codeBlock.key) ?? false))) {
+          content =
+              content.replaceAllMapped(RegExp(r'[\\\`\*\_\{\}\[\]\(\)\#\+\-\.\!\>\<]'), (match) {
             return '\\${match[0]}';
           });
         }
@@ -273,9 +270,8 @@ class DeltaToMarkdown extends Converter<Delta, String>
     VoidCallback contentHandler, {
     bool sortedAttrsBySpan = false,
   }) {
-    final attrs = sortedAttrsBySpan
-        ? node.attrsSortedByLongestSpan()
-        : node.style.attributes.values.toList();
+    final attrs =
+        sortedAttrsBySpan ? node.attrsSortedByLongestSpan() : node.style.attributes.values.toList();
     final handlersToUse = attrs
         .where((attr) => handlers.containsKey(attr.key))
         .map((attr) => MapEntry(attr.key, handlers[attr.key]!))
@@ -359,8 +355,8 @@ extension _NodeX on Node {
       node = node.next!;
     }
 
-    final attrs = style.attributes.values.sorted(
-        (attr1, attr2) => attrCount[attr2]!.compareTo(attrCount[attr1]!));
+    final attrs = style.attributes.values
+        .sorted((attr1, attr2) => attrCount[attr2]!.compareTo(attrCount[attr1]!));
 
     return attrs;
   }

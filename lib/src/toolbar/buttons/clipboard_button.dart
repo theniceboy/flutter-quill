@@ -20,8 +20,7 @@ class ClipboardMonitor {
   void monitorClipboard(bool add, void Function() listener) {
     if (kIsWeb) return;
     if (add) {
-      _timer = Timer.periodic(
-          const Duration(seconds: 1), (timer) => _update(listener));
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) => _update(listener));
     } else {
       _timer?.cancel();
     }
@@ -52,8 +51,7 @@ class QuillToolbarClipboardButton extends QuillToolbarToggleStyleBaseButton {
 }
 
 class QuillToolbarClipboardButtonState
-    extends QuillToolbarToggleStyleBaseButtonState<
-        QuillToolbarClipboardButton> {
+    extends QuillToolbarToggleStyleBaseButtonState<QuillToolbarClipboardButton> {
   @override
   bool get currentStateValue {
     switch (widget.clipboardAction) {
@@ -113,8 +111,8 @@ class QuillToolbarClipboardButtonState
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder = options.childBuilder ??
-        context.quillToolbarBaseButtonOptions?.childBuilder;
+    final childBuilder =
+        options.childBuilder ?? context.quillToolbarBaseButtonOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,

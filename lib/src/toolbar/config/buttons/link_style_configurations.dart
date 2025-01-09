@@ -4,8 +4,7 @@ import '../../base_toolbar.dart';
 import '../../structs/link_dialog_action.dart';
 import '../../theme/quill_dialog_theme.dart';
 
-class QuillToolbarLinkStyleButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarLinkStyleButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarLinkStyleButtonExtraOptions({
     required super.controller,
     required super.context,
@@ -14,8 +13,7 @@ class QuillToolbarLinkStyleButtonExtraOptions
 }
 
 class QuillToolbarLinkStyleButtonOptions extends QuillToolbarBaseButtonOptions<
-    QuillToolbarLinkStyleButtonOptions,
-    QuillToolbarLinkStyleButtonExtraOptions> {
+    QuillToolbarLinkStyleButtonOptions, QuillToolbarLinkStyleButtonExtraOptions> {
   const QuillToolbarLinkStyleButtonOptions({
     this.dialogTheme,
     this.linkRegExp,

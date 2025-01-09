@@ -58,11 +58,9 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
       }, {
         ...defaultSinlgeActivatorActions(
           isDesktopMacOS,
-          handleEscapeKey:
-              configurations.keyInterceptorConfig?.onEscapeHit == null,
+          handleEscapeKey: configurations.keyInterceptorConfig?.onEscapeHit == null,
           handleFormattingKeys: configurations.commonConfig.allowStyleShortcuts,
-          handleFontsizeKeys:
-              configurations.commonConfig.allowFontsizeShortcuts,
+          handleFontsizeKeys: configurations.commonConfig.allowFontsizeShortcuts,
           allowCheckLists: configurations.commonConfig.allowLists,
           allowLists: configurations.commonConfig.allowLists,
           handleImageKey: configurations.commonConfig.allowImages,
@@ -131,12 +129,10 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
     final isTab = event.logicalKey == LogicalKeyboardKey.tab &&
         configurations.keyInterceptorConfig?.onTabHit == null;
     final isSpace = event.logicalKey == LogicalKeyboardKey.space;
-    final containsSelection =
-        controller.selection.baseOffset != controller.selection.extentOffset;
+    final containsSelection = controller.selection.baseOffset != controller.selection.extentOffset;
     if (!isTab && !isSpace && event.character != '\n' && !containsSelection) {
       for (final charEvents in characterEvents) {
-        if (event.character != null &&
-            event.character == charEvents.character) {
+        if (event.character != null && event.character == charEvents.character) {
           final executed = charEvents.execute(controller);
           if (executed) {
             return KeyEventResult.handled;
@@ -168,8 +164,7 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
   }
 
   KeyEventResult _handleSpaceKey(KeyEvent event) {
-    final child =
-        controller.document.queryChild(controller.selection.baseOffset);
+    final child = controller.document.queryChild(controller.selection.baseOffset);
     if (child.node == null) {
       return KeyEventResult.ignored;
     }
@@ -200,8 +195,7 @@ class QuillKeyboardServiceWidget extends StatelessWidget {
   }
 
   KeyEventResult _handleTabKey(KeyEvent event) {
-    final child =
-        controller.document.queryChild(controller.selection.baseOffset);
+    final child = controller.document.queryChild(controller.selection.baseOffset);
 
     KeyEventResult insertTabCharacter() {
       if (readOnly) {

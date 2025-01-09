@@ -241,8 +241,7 @@ class FlutterQuillLocalizationsCs extends FlutterQuillLocalizations {
       'Zadejte text pro váš odkaz (např., \'Dozvědět se více\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Zadejte URL odkazu (např., \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Zadejte URL odkazu (např., \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Zadejte platnou URL adresu obrázku';

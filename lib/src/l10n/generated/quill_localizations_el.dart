@@ -270,27 +270,22 @@ class FlutterQuillLocalizationsEl extends FlutterQuillLocalizations {
   String get insertImage => 'Εισαγωγή εικόνας';
 
   @override
-  String get pickAPhotoFromYourGallery =>
-      'Επιλέξτε φωτογραφία από τη συλλογή σας';
+  String get pickAPhotoFromYourGallery => 'Επιλέξτε φωτογραφία από τη συλλογή σας';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Τραβήξτε φωτογραφία χρησιμοποιώντας την κάμερα σας';
+  String get takeAPhotoUsingYourCamera => 'Τραβήξτε φωτογραφία χρησιμοποιώντας την κάμερα σας';
 
   @override
-  String get pasteAPhotoUsingALink =>
-      'Επικολλήστε φωτογραφία χρησιμοποιώντας έναν σύνδεσμο';
+  String get pasteAPhotoUsingALink => 'Επικολλήστε φωτογραφία χρησιμοποιώντας έναν σύνδεσμο';
 
   @override
   String get pickAVideoFromYourGallery => 'Επιλέξτε βίντεο από τη συλλογή σας';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Καταγράψτε βίντεο χρησιμοποιώντας την κάμερα σας';
+  String get recordAVideoUsingYourCamera => 'Καταγράψτε βίντεο χρησιμοποιώντας την κάμερα σας';
 
   @override
-  String get pasteAVideoUsingALink =>
-      'Επικολλήστε βίντεο χρησιμοποιώντας έναν σύνδεσμο';
+  String get pasteAVideoUsingALink => 'Επικολλήστε βίντεο χρησιμοποιώντας έναν σύνδεσμο';
 
   @override
   String get close => 'Κλείσιμο';

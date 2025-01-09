@@ -241,16 +241,13 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
       'Prosím zadajte text pre váš odkaz (napr. \'Ďalšie informácie\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Prosím zadajte URL odkazu (napr. \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Prosím zadajte URL odkazu (napr. \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Prosím zadajte platnú URL adresu obrázka';
+  String get pleaseEnterAValidImageURL => 'Prosím zadajte platnú URL adresu obrázka';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Prosím zadajte platnú URL adresu videa';
+  String get pleaseEnterAValidVideoURL => 'Prosím zadajte platnú URL adresu videa';
 
   @override
   String get photo => 'Fotografia';
@@ -275,8 +272,7 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'Vyberte fotografiu z vašej galérie';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Odfotografovať fotografiu pomocou vašej kamery';
+  String get takeAPhotoUsingYourCamera => 'Odfotografovať fotografiu pomocou vašej kamery';
 
   @override
   String get pasteAPhotoUsingALink => 'Vložiť fotografiu pomocou odkazu';
@@ -285,8 +281,7 @@ class FlutterQuillLocalizationsSk extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Vyberte video z vašej galérie';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Natočiť video pomocou vašej kamery';
+  String get recordAVideoUsingYourCamera => 'Natočiť video pomocou vašej kamery';
 
   @override
   String get pasteAVideoUsingALink => 'Vložiť video pomocou odkazu';

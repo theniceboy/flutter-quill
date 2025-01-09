@@ -245,12 +245,10 @@ class FlutterQuillLocalizationsNl extends FlutterQuillLocalizations {
       'Voer de URL van de link in (bijvoorbeeld \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Voer een geldige URL voor de afbeelding in';
+  String get pleaseEnterAValidImageURL => 'Voer een geldige URL voor de afbeelding in';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Voer een geldige URL voor de video in';
+  String get pleaseEnterAValidVideoURL => 'Voer een geldige URL voor de video in';
 
   @override
   String get photo => 'Foto';

@@ -55,8 +55,7 @@ class QuillEditorWhitespaceBoundary extends QuillEditorTextBoundary {
   @override
   TextPosition getLeadingTextBoundaryAt(TextPosition position) {
     for (var index = position.offset; index >= 0; index -= 1) {
-      if (!TextLayoutMetrics.isWhitespace(
-          textEditingValue.text.codeUnitAt(index))) {
+      if (!TextLayoutMetrics.isWhitespace(textEditingValue.text.codeUnitAt(index))) {
         return TextPosition(offset: index);
       }
     }
@@ -65,11 +64,8 @@ class QuillEditorWhitespaceBoundary extends QuillEditorTextBoundary {
 
   @override
   TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    for (var index = position.offset;
-        index < textEditingValue.text.length;
-        index += 1) {
-      if (!TextLayoutMetrics.isWhitespace(
-          textEditingValue.text.codeUnitAt(index))) {
+    for (var index = position.offset; index < textEditingValue.text.length; index += 1) {
+      if (!TextLayoutMetrics.isWhitespace(textEditingValue.text.codeUnitAt(index))) {
         return TextPosition(offset: index + 1);
       }
     }
@@ -88,21 +84,17 @@ class QuillEditorCharacterBoundary extends QuillEditorTextBoundary {
 
   @override
   TextPosition getLeadingTextBoundaryAt(TextPosition position) {
-    final int endOffset =
-        math.min(position.offset + 1, textEditingValue.text.length);
+    final int endOffset = math.min(position.offset + 1, textEditingValue.text.length);
     return TextPosition(
       offset:
-          CharacterRange.at(textEditingValue.text, position.offset, endOffset)
-              .stringBeforeLength,
+          CharacterRange.at(textEditingValue.text, position.offset, endOffset).stringBeforeLength,
     );
   }
 
   @override
   TextPosition getTrailingTextBoundaryAt(TextPosition position) {
-    final int endOffset =
-        math.min(position.offset + 1, textEditingValue.text.length);
-    final range =
-        CharacterRange.at(textEditingValue.text, position.offset, endOffset);
+    final int endOffset = math.min(position.offset + 1, textEditingValue.text.length);
+    final range = CharacterRange.at(textEditingValue.text, position.offset, endOffset);
     return TextPosition(
       offset: textEditingValue.text.length - range.stringAfterLength,
     );
@@ -110,10 +102,8 @@ class QuillEditorCharacterBoundary extends QuillEditorTextBoundary {
 
   @override
   TextRange getTextBoundaryAt(TextPosition position) {
-    final int endOffset =
-        math.min(position.offset + 1, textEditingValue.text.length);
-    final range =
-        CharacterRange.at(textEditingValue.text, position.offset, endOffset);
+    final int endOffset = math.min(position.offset + 1, textEditingValue.text.length);
+    final range = CharacterRange.at(textEditingValue.text, position.offset, endOffset);
     return TextRange(
       start: range.stringBeforeLength,
       end: textEditingValue.text.length - range.stringAfterLength,
@@ -185,8 +175,7 @@ class QuillEditorDocumentBoundary extends QuillEditorTextBoundary {
   final TextEditingValue textEditingValue;
 
   @override
-  TextPosition getLeadingTextBoundaryAt(TextPosition position) =>
-      const TextPosition(offset: 0);
+  TextPosition getLeadingTextBoundaryAt(TextPosition position) => const TextPosition(offset: 0);
 
   @override
   TextPosition getTrailingTextBoundaryAt(TextPosition position) {
@@ -201,16 +190,14 @@ class QuillEditorDocumentBoundary extends QuillEditorTextBoundary {
 
 // Expands the innerTextBoundary with outerTextBoundary.
 class QuillEditorExpandedTextBoundary extends QuillEditorTextBoundary {
-  QuillEditorExpandedTextBoundary(
-      this.innerTextBoundary, this.outerTextBoundary);
+  QuillEditorExpandedTextBoundary(this.innerTextBoundary, this.outerTextBoundary);
 
   final QuillEditorTextBoundary innerTextBoundary;
   final QuillEditorTextBoundary outerTextBoundary;
 
   @override
   TextEditingValue get textEditingValue {
-    assert(innerTextBoundary.textEditingValue ==
-        outerTextBoundary.textEditingValue);
+    assert(innerTextBoundary.textEditingValue == outerTextBoundary.textEditingValue);
     return innerTextBoundary.textEditingValue;
   }
 
@@ -249,8 +236,7 @@ class QuillEditorCollapsedSelectionBoundary extends QuillEditorTextBoundary {
         ? innerTextBoundary.getLeadingTextBoundaryAt(position)
         : position.offset <= 0
             ? const TextPosition(offset: 0)
-            : innerTextBoundary.getLeadingTextBoundaryAt(
-                TextPosition(offset: position.offset - 1));
+            : innerTextBoundary.getLeadingTextBoundaryAt(TextPosition(offset: position.offset - 1));
   }
 
   @override
@@ -259,8 +245,8 @@ class QuillEditorCollapsedSelectionBoundary extends QuillEditorTextBoundary {
         ? innerTextBoundary.getTrailingTextBoundaryAt(position)
         : position.offset <= 0
             ? const TextPosition(offset: 0)
-            : innerTextBoundary.getTrailingTextBoundaryAt(
-                TextPosition(offset: position.offset - 1));
+            : innerTextBoundary
+                .getTrailingTextBoundaryAt(TextPosition(offset: position.offset - 1));
   }
 }
 
@@ -275,8 +261,7 @@ class QuillEditorMixedBoundary extends QuillEditorTextBoundary {
 
   @override
   TextEditingValue get textEditingValue {
-    assert(leadingTextBoundary.textEditingValue ==
-        trailingTextBoundary.textEditingValue);
+    assert(leadingTextBoundary.textEditingValue == trailingTextBoundary.textEditingValue);
     return leadingTextBoundary.textEditingValue;
   }
 

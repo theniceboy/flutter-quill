@@ -99,47 +99,41 @@ void main() {
 
       /// Test rawData mode
       document.editorConfigurations = const QuillEditorConfigurations(
-          searchConfigurations: QuillSearchConfigurations(
-              searchEmbedMode: SearchEmbedMode.rawData));
+          searchConfigurations:
+              QuillSearchConfigurations(searchEmbedMode: SearchEmbedMode.rawData));
       expect(document.search('18'), [7], reason: 'raw data finds timeStamp');
       expect(document.search('d52'), [5], reason: 'raw data finds image');
-      expect(document.search('08'), [5, 7],
-          reason: 'raw data finds both embeds');
+      expect(document.search('08'), [5, 7], reason: 'raw data finds both embeds');
       //
       document.editorConfigurations = const QuillEditorConfigurations(
-          searchConfigurations: QuillSearchConfigurations(
-              searchEmbedMode: SearchEmbedMode.plainText));
+          searchConfigurations:
+              QuillSearchConfigurations(searchEmbedMode: SearchEmbedMode.plainText));
       expect(document.search('2024'), [], reason: 'No embed builders');
 
       /// Test plainText mode
       document.editorConfigurations = const QuillEditorConfigurations(
-        searchConfigurations: QuillSearchConfigurations(
-            searchEmbedMode: SearchEmbedMode.plainText),
+        searchConfigurations: QuillSearchConfigurations(searchEmbedMode: SearchEmbedMode.plainText),
         embedBuilders: [
           TestTimeStampEmbedBuilderWidget(),
         ],
       );
-      expect(document.search('2024'), [7],
-          reason: 'timeStamp embed builder overrides toPlainText');
+      expect(document.search('2024'), [7], reason: 'timeStamp embed builder overrides toPlainText');
       expect(document.search('18'), [],
           reason: 'timeStamp overrides toPlainText returns date not time');
-      expect(document.search('08'), [7],
-          reason: 'image does not override toPlainText');
+      expect(document.search('08'), [7], reason: 'image does not override toPlainText');
 
       /// Test unknownEmbedBuilder
       document.editorConfigurations = const QuillEditorConfigurations(
-          searchConfigurations: QuillSearchConfigurations(
-              searchEmbedMode: SearchEmbedMode.plainText),
+          searchConfigurations:
+              QuillSearchConfigurations(searchEmbedMode: SearchEmbedMode.plainText),
           embedBuilders: [
             TestTimeStampEmbedBuilderWidget(),
           ],
           unknownEmbedBuilder: TestUnknownEmbedBuilder());
       expect(document.search('7900'), [],
-          reason:
-              'image not found because unknown returns first 5 chars of rawData');
+          reason: 'image not found because unknown returns first 5 chars of rawData');
       expect(document.search('https'), [5],
-          reason:
-              'image found because unknown returns first 5 chars of rawData');
+          reason: 'image found because unknown returns first 5 chars of rawData');
       expect(document.search('http'), [5]);
     });
   });

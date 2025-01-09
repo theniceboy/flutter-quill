@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
-import 'package:flutter/widgets.dart'
-    show BuildContext, InheritedWidget, Widget;
+import 'package:flutter/widgets.dart' show BuildContext, InheritedWidget, Widget;
 
 import '../controller/quill_controller.dart';
 import 'config/editor_configurations.dart';

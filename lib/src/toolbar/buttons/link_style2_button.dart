@@ -16,11 +16,9 @@ import '../theme/quill_dialog_theme.dart';
 import '../theme/quill_icon_theme.dart';
 
 typedef QuillToolbarLinkStyleBaseButton2 = QuillToolbarBaseButton<
-    QuillToolbarLinkStyleButton2Options,
-    QuillToolbarLinkStyleButton2ExtraOptions>;
+    QuillToolbarLinkStyleButton2Options, QuillToolbarLinkStyleButton2ExtraOptions>;
 
-typedef QuillToolbarLinkStyleBaseButton2State<
-        W extends QuillToolbarLinkStyleBaseButton2>
+typedef QuillToolbarLinkStyleBaseButton2State<W extends QuillToolbarLinkStyleBaseButton2>
     = QuillToolbarCommonButtonState<W, QuillToolbarLinkStyleButton2Options,
         QuillToolbarLinkStyleButton2ExtraOptions>;
 
@@ -32,21 +30,17 @@ class QuillToolbarLinkStyleButton2 extends QuillToolbarLinkStyleBaseButton2 {
     required super.controller,
     super.options = const QuillToolbarLinkStyleButton2Options(),
     super.key,
-  })  : assert(options.addLinkLabel == null ||
-            (options.addLinkLabel?.isNotEmpty ?? true)),
-        assert(options.editLinkLabel == null ||
-            (options.editLinkLabel?.isNotEmpty ?? true)),
+  })  : assert(options.addLinkLabel == null || (options.addLinkLabel?.isNotEmpty ?? true)),
+        assert(options.editLinkLabel == null || (options.editLinkLabel?.isNotEmpty ?? true)),
         assert(options.childrenSpacing > 0),
-        assert(options.validationMessage == null ||
-            (options.validationMessage?.isNotEmpty ?? true));
+        assert(
+            options.validationMessage == null || (options.validationMessage?.isNotEmpty ?? true));
 
   @override
-  State<QuillToolbarLinkStyleButton2> createState() =>
-      _QuillToolbarLinkStyleButton2State();
+  State<QuillToolbarLinkStyleButton2> createState() => _QuillToolbarLinkStyleButton2State();
 }
 
-class _QuillToolbarLinkStyleButton2State
-    extends State<QuillToolbarLinkStyleButton2> {
+class _QuillToolbarLinkStyleButton2State extends State<QuillToolbarLinkStyleButton2> {
   @override
   void dispose() {
     super.dispose();
@@ -89,8 +83,7 @@ class _QuillToolbarLinkStyleButton2State
   }
 
   VoidCallback? get afterButtonPressed {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions?.afterButtonPressed;
   }
 
   QuillIconTheme? get iconTheme {
@@ -102,9 +95,7 @@ class _QuillToolbarLinkStyleButton2State
   }
 
   String get tooltip {
-    return options.tooltip ??
-        baseButtonExtraOptions?.tooltip ??
-        context.loc.insertURL;
+    return options.tooltip ?? baseButtonExtraOptions?.tooltip ?? context.loc.insertURL;
   }
 
   IconData get iconData {
@@ -119,8 +110,7 @@ class _QuillToolbarLinkStyleButton2State
 
   @override
   Widget build(BuildContext context) {
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
     if (childBuilder != null) {
       return childBuilder(
         options,
@@ -191,8 +181,7 @@ class LinkStyleDialog extends StatefulWidget {
     this.link,
     this.dialogTheme,
     this.constraints,
-    this.contentPadding =
-        const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+    this.contentPadding = const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
     this.addLinkLabel,
     this.editLinkLabel,
     this.linkColor,
@@ -298,8 +287,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
                 ),
               ),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
+                padding: EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
                 child: Link(
                   uri: Uri.parse(_linkController.text),
                   builder: (context, followLink) {
@@ -348,8 +336,7 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
                 child: child,
               ),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
+                padding: EdgeInsets.symmetric(horizontal: widget.childrenSpacing),
                 child: TextFormField(
                   controller: _linkController,
                   style: widget.dialogTheme?.inputTextStyle,
@@ -406,18 +393,14 @@ class _LinkStyleDialogState extends State<LinkStyleDialog> {
 
   String? _validateLink(String? value) {
     if ((value?.isEmpty ?? false) ||
-        !const AutoFormatMultipleLinksRule()
-            .oneLineLinkRegExp
-            .hasMatch(value!)) {
+        !const AutoFormatMultipleLinksRule().oneLineLinkRegExp.hasMatch(value!)) {
       return widget.validationMessage ?? 'That is not a valid URL';
     }
 
     return null;
   }
 
-  void _applyLink() =>
-      Navigator.pop(context, QuillTextLink(_text.trim(), _link.trim()));
+  void _applyLink() => Navigator.pop(context, QuillTextLink(_text.trim(), _link.trim()));
 
-  void _removeLink() =>
-      Navigator.pop(context, QuillTextLink(_text.trim(), null));
+  void _removeLink() => Navigator.pop(context, QuillTextLink(_text.trim(), null));
 }

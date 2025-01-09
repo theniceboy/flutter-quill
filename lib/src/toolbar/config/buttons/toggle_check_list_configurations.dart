@@ -3,8 +3,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import '../../../document/attribute.dart';
 import '../../../editor_toolbar_controller_shared/quill_configurations.dart';
 
-class QuillToolbarToggleCheckListButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarToggleCheckListButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarToggleCheckListButtonExtraOptions({
     required super.controller,
     required super.context,
@@ -15,10 +14,8 @@ class QuillToolbarToggleCheckListButtonExtraOptions
 }
 
 @immutable
-class QuillToolbarToggleCheckListButtonOptions
-    extends QuillToolbarBaseButtonOptions<
-        QuillToolbarToggleCheckListButtonOptions,
-        QuillToolbarToggleCheckListButtonExtraOptions> {
+class QuillToolbarToggleCheckListButtonOptions extends QuillToolbarBaseButtonOptions<
+    QuillToolbarToggleCheckListButtonOptions, QuillToolbarToggleCheckListButtonExtraOptions> {
   const QuillToolbarToggleCheckListButtonOptions({
     super.iconSize,
     super.iconButtonFactor,

@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Збережено за допомогою мережі';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Збережено за допомогою локального сховища';
+  String get savedUsingLocalStorage => 'Збережено за допомогою локального сховища';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -244,12 +243,10 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get pleaseEnterTheLinkURL => 'Наприклад, \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Будь ласка, введіть правильний URL-адресу зображення';
+  String get pleaseEnterAValidImageURL => 'Будь ласка, введіть правильний URL-адресу зображення';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Будь ласка, введіть дійсну URL-адресу відео';
+  String get pleaseEnterAValidVideoURL => 'Будь ласка, введіть дійсну URL-адресу відео';
 
   @override
   String get photo => 'Фото';
@@ -258,8 +255,7 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get image => 'Зображення';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Чутливість до регістру та пошук цілих слів';
+  String get caseSensitivityAndWholeWordSearch => 'Чутливість до регістру та пошук цілих слів';
 
   @override
   String get caseSensitive => 'Чутливість до регістру';
@@ -274,19 +270,16 @@ class FlutterQuillLocalizationsUk extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'Оберіть фотографію з вашої галереї';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Створіть фотографію, використовуючи фотокамеру';
+  String get takeAPhotoUsingYourCamera => 'Створіть фотографію, використовуючи фотокамеру';
 
   @override
-  String get pasteAPhotoUsingALink =>
-      'Вставте фотографію, використовуючи посилання';
+  String get pasteAPhotoUsingALink => 'Вставте фотографію, використовуючи посилання';
 
   @override
   String get pickAVideoFromYourGallery => 'Оберіть відео з вашої галереї';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Запишіть відео, використовуючи відеокамеру';
+  String get recordAVideoUsingYourCamera => 'Запишіть відео, використовуючи відеокамеру';
 
   @override
   String get pasteAVideoUsingALink => 'Вставте відео, використовуючи посилання';

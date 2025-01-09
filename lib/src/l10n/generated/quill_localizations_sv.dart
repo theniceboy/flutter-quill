@@ -237,12 +237,10 @@ class FlutterQuillLocalizationsSv extends FlutterQuillLocalizations {
   String get errorWhileSavingImage => 'Fel vid när bilden skulle sparas';
 
   @override
-  String get pleaseEnterTextForYourLink =>
-      'Ange text för din länk (t.ex. \'Lär dig mer\')';
+  String get pleaseEnterTextForYourLink => 'Ange text för din länk (t.ex. \'Lär dig mer\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Ange URL för länken (t.ex. \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Ange URL för länken (t.ex. \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Ange en giltig bild-URL';
@@ -257,8 +255,7 @@ class FlutterQuillLocalizationsSv extends FlutterQuillLocalizations {
   String get image => 'Bild';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Skiftlägeskänsligt och helordsökning';
+  String get caseSensitivityAndWholeWordSearch => 'Skiftlägeskänsligt och helordsökning';
 
   @override
   String get caseSensitive => 'Skilja mellan versaler och gemener';

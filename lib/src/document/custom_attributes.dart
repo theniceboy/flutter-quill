@@ -11,15 +11,11 @@ class LineHeightAttribute extends Attribute<double?> {
   const LineHeightAttribute({double? lineHeight})
       : super('line-height', AttributeScope.block, lineHeight);
 
-  static const Attribute<double?> lineHeightNormal =
-      LineHeightAttribute(lineHeight: 1);
+  static const Attribute<double?> lineHeightNormal = LineHeightAttribute(lineHeight: 1);
 
-  static const Attribute<double?> lineHeightTight =
-      LineHeightAttribute(lineHeight: 1.15);
+  static const Attribute<double?> lineHeightTight = LineHeightAttribute(lineHeight: 1.15);
 
-  static const Attribute<double?> lineHeightOneAndHalf =
-      LineHeightAttribute(lineHeight: 1.5);
+  static const Attribute<double?> lineHeightOneAndHalf = LineHeightAttribute(lineHeight: 1.5);
 
-  static const Attribute<double?> lineHeightDouble =
-      LineHeightAttribute(lineHeight: 2);
+  static const Attribute<double?> lineHeightDouble = LineHeightAttribute(lineHeight: 2);
 }

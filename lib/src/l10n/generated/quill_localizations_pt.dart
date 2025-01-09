@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Guardado através da network';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Guardado através do armazenamento local';
+  String get savedUsingLocalStorage => 'Guardado através do armazenamento local';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -247,8 +246,7 @@ class FlutterQuillLocalizationsPt extends FlutterQuillLocalizations {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Por favor, insira uma URL de vídeo válida';
+  String get pleaseEnterAValidVideoURL => 'Por favor, insira uma URL de vídeo válida';
 
   @override
   String get photo => 'Foto';
@@ -547,8 +545,7 @@ class FlutterQuillLocalizationsPtBr extends FlutterQuillLocalizationsPt {
   String get pleaseEnterAValidImageURL => 'Please enter a valid image URL';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Por favor, insira uma URL de vídeo válida';
+  String get pleaseEnterAValidVideoURL => 'Por favor, insira uma URL de vídeo válida';
 
   @override
   String get photo => 'Foto';

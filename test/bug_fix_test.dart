@@ -9,8 +9,7 @@ void main() {
     group(
         '1266 - QuillToolbar.basic() custom buttons do not have correct fill'
         'color set', () {
-      testWidgets('fillColor of custom buttons and builtin buttons match',
-          (tester) async {
+      testWidgets('fillColor of custom buttons and builtin buttons match', (tester) async {
         const tooltip = 'custom button';
 
         final controller = QuillController.basic();
@@ -42,8 +41,8 @@ void main() {
 
         final customFinder = find.descendant(
             of: find.byType(QuillToolbar),
-            matching: find.byWidgetPredicate((widget) =>
-                widget is QuillToolbarIconButton && widget.tooltip == tooltip),
+            matching: find.byWidgetPredicate(
+                (widget) => widget is QuillToolbarIconButton && widget.tooltip == tooltip),
             matchRoot: true);
         expect(customFinder, findsOneWidget);
       });
@@ -64,8 +63,7 @@ void main() {
         controller.dispose();
       });
 
-      testWidgets('Refocus editor after controller clears document',
-          (tester) async {
+      testWidgets('Refocus editor after controller clears document', (tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Column(
@@ -83,8 +81,7 @@ void main() {
         expect(tester.takeException(), isNull);
       });
 
-      testWidgets('Refocus editor after removing block attribute',
-          (tester) async {
+      testWidgets('Refocus editor after removing block attribute', (tester) async {
         await tester.pumpWidget(MaterialApp(
           home: Column(
             children: [editor],
@@ -132,8 +129,7 @@ void main() {
     });
 
     for (final device in [PointerDeviceKind.mouse, PointerDeviceKind.touch]) {
-      testWidgets(
-          '1742 - Disable context menu after selection for desktop platform $device',
+      testWidgets('1742 - Disable context menu after selection for desktop platform $device',
           (tester) async {
         await tester.pumpWidget(
           MaterialApp(
@@ -157,8 +153,7 @@ void main() {
           // Verify custom widget not shows
           expect(find.byType(AdaptiveTextSelectionToolbar), findsNothing);
 
-          await tester.tap(find.byType(QuillEditor),
-              buttons: kSecondaryButton, kind: device);
+          await tester.tap(find.byType(QuillEditor), buttons: kSecondaryButton, kind: device);
           await tester.pumpAndSettle();
 
           // Verify custom widget shows

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:flutter/widgets.dart'
-    show Axis, WrapAlignment, WrapCrossAlignment;
+import 'package:flutter/widgets.dart' show Axis, WrapAlignment, WrapCrossAlignment;
 
 import '../../controller/quill_controller.dart';
 import '../buttons/hearder_style/select_header_style_buttons.dart';

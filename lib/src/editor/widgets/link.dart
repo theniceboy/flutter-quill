@@ -147,8 +147,7 @@ class QuillTextLink {
   }
 }
 
-Future<LinkMenuAction> _showCupertinoLinkMenu(
-    BuildContext context, String link) async {
+Future<LinkMenuAction> _showCupertinoLinkMenu(BuildContext context, String link) async {
   final result = await showCupertinoModalPopup<LinkMenuAction>(
     context: context,
     builder: (ctx) {
@@ -216,8 +215,7 @@ class _CupertinoAction extends StatelessWidget {
   }
 }
 
-Future<LinkMenuAction> _showMaterialMenu(
-    BuildContext context, String link) async {
+Future<LinkMenuAction> _showMaterialMenu(BuildContext context, String link) async {
   final result = await showModalBottomSheet<LinkMenuAction>(
     context: context,
     builder: (ctx) {

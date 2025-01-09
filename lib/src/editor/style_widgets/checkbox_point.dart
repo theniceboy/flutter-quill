@@ -17,8 +17,7 @@ class QuillEditorCheckboxPoint extends StatefulWidget {
   final QuillCheckboxBuilder? uiBuilder;
 
   @override
-  QuillEditorCheckboxPointState createState() =>
-      QuillEditorCheckboxPointState();
+  QuillEditorCheckboxPointState createState() => QuillEditorCheckboxPointState();
 }
 
 class QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
@@ -39,9 +38,7 @@ class QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
             : theme.colorScheme.onSurface.withOpacity(0.5))
         : theme.colorScheme.surface;
     final borderColor = widget.value
-        ? (widget.enabled
-            ? theme.colorScheme.primary
-            : theme.colorScheme.onSurface.withOpacity(0))
+        ? (widget.enabled ? theme.colorScheme.primary : theme.colorScheme.onSurface.withOpacity(0))
         : (widget.enabled
             ? theme.colorScheme.onSurface.withOpacity(0.5)
             : theme.colorScheme.onSurface.withOpacity(0.3));
@@ -60,8 +57,7 @@ class QuillEditorCheckboxPointState extends State<QuillEditorCheckboxPoint> {
             borderRadius: BorderRadius.circular(2),
           ),
           child: InkWell(
-            onTap:
-                widget.enabled ? () => widget.onChanged(!widget.value) : null,
+            onTap: widget.enabled ? () => widget.onChanged(!widget.value) : null,
             child: widget.value
                 ? Icon(
                     Icons.check,

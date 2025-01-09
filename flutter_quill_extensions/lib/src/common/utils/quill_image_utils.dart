@@ -208,8 +208,7 @@ class QuillImageUtilities {
       final insertValue = item[Operation.insertKey];
 
       // Check if the insert value is a map with the "image" key
-      if (insertValue is Map &&
-          insertValue.containsKey(quill.BlockEmbed.imageType)) {
+      if (insertValue is Map && insertValue.containsKey(quill.BlockEmbed.imageType)) {
         final String imageUrl = insertValue[quill.BlockEmbed.imageType];
         images.add(imageUrl);
       }

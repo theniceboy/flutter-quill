@@ -245,12 +245,10 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
       'कृपया लिङ्क URL प्रविष्ट गर्नुहोस् (जस्तै, \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'कृपया वैध छवि URL प्रविष्ट गर्नुहोस्';
+  String get pleaseEnterAValidImageURL => 'कृपया वैध छवि URL प्रविष्ट गर्नुहोस्';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'कृपया एउटा मान्य भिडियो url प्रविष्ट गर्नुहोस्';
+  String get pleaseEnterAValidVideoURL => 'कृपया एउटा मान्य भिडियो url प्रविष्ट गर्नुहोस्';
 
   @override
   String get photo => 'फोटो';
@@ -259,8 +257,7 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
   String get image => 'तस्बिर';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'केस संवेदनशीलता र सम्पूर्ण शब्द खोज';
+  String get caseSensitivityAndWholeWordSearch => 'केस संवेदनशीलता र सम्पूर्ण शब्द खोज';
 
   @override
   String get caseSensitive => 'वर्ण केस संवेदनशील';
@@ -275,8 +272,7 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'आफ्नो ग्यालरीबाट फोटो छान्नुहोस्';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'आफ्नो क्यामेरा प्रयोग गरेर फोटो खिच्नुहोस्';
+  String get takeAPhotoUsingYourCamera => 'आफ्नो क्यामेरा प्रयोग गरेर फोटो खिच्नुहोस्';
 
   @override
   String get pasteAPhotoUsingALink => 'लिङ्क प्रयोग गरेर फोटो टाँस्नुहोस्';
@@ -285,8 +281,7 @@ class FlutterQuillLocalizationsNe extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'आफ्नो ग्यालरीबाट भिडियो छान्नुहोस्';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'आफ्नो क्यामेरा प्रयोग गरेर भिडियो रेकर्ड गर्नुहोस्';
+  String get recordAVideoUsingYourCamera => 'आफ्नो क्यामेरा प्रयोग गरेर भिडियो रेकर्ड गर्नुहोस्';
 
   @override
   String get pasteAVideoUsingALink => 'लिङ्क प्रयोग गरेर भिडियो टाँस्नुहोस्';

@@ -27,8 +27,7 @@ class EnsureLastLineBreakDeleteRule extends DeleteRule {
   const EnsureLastLineBreakDeleteRule();
 
   @override
-  Delta? applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(Document document, int index, {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document.toDelta())..skip(index + len!);
 
     return Delta()
@@ -44,8 +43,7 @@ class CatchAllDeleteRule extends DeleteRule {
   const CatchAllDeleteRule();
 
   @override
-  Delta applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta applyRule(Document document, int index, {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document.toDelta())..skip(index + len!);
 
     return Delta()
@@ -65,8 +63,7 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
   const PreserveLineStyleOnMergeRule();
 
   @override
-  Delta? applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(Document document, int index, {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document.toDelta())..skip(index);
     var op = itr.next(1);
     if (op.data != '\n') {
@@ -101,12 +98,10 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
 
       while (currentBlockItr.hasNext) {
         currentBlockOp = currentBlockItr.next();
-        if (currentBlockOp.data is String &&
-            (currentBlockOp.data as String).contains('\n')) {
+        if (currentBlockOp.data is String && (currentBlockOp.data as String).contains('\n')) {
           break;
         }
-        if (currentBlockOp.data is String &&
-            (currentBlockOp.data as String).trim().isNotEmpty) {
+        if (currentBlockOp.data is String && (currentBlockOp.data as String).trim().isNotEmpty) {
           isBlockNotEmpty = true;
         }
       }
@@ -126,8 +121,8 @@ class PreserveLineStyleOnMergeRule extends DeleteRule {
         continue;
       }
 
-      var attributes = op.attributes?.map<String, dynamic>(
-          (key, dynamic value) => MapEntry<String, dynamic>(key, null));
+      var attributes = op.attributes
+          ?.map<String, dynamic>((key, dynamic value) => MapEntry<String, dynamic>(key, null));
 
       if (isNotPlain) {
         attributes ??= <String, dynamic>{};
@@ -150,8 +145,7 @@ class EnsureEmbedLineRule extends DeleteRule {
   const EnsureEmbedLineRule();
 
   @override
-  Delta? applyRule(Document document, int index,
-      {int? len, Object? data, Attribute? attribute}) {
+  Delta? applyRule(Document document, int index, {int? len, Object? data, Attribute? attribute}) {
     final itr = DeltaIterator(document.toDelta());
 
     var op = itr.skip(index);
@@ -164,8 +158,7 @@ class EnsureEmbedLineRule extends DeleteRule {
 
     int? indexDelta = 0, lengthDelta = 0, remain = len;
     var embedFound = op != null && op.data is! String;
-    final hasLineBreakBefore =
-        !embedFound && (op == null || (op.data as String).endsWith('\n'));
+    final hasLineBreakBefore = !embedFound && (op == null || (op.data as String).endsWith('\n'));
     if (embedFound) {
       var candidate = itr.next(1);
       if (remain != null) {
@@ -184,8 +177,7 @@ class EnsureEmbedLineRule extends DeleteRule {
     }
 
     op = itr.skip(remain!);
-    if (op != null &&
-        (op.data is String ? op.data as String? : '')!.endsWith('\n')) {
+    if (op != null && (op.data is String ? op.data as String? : '')!.endsWith('\n')) {
       final candidate = itr.next(1);
       if (candidate.data is! String && !hasLineBreakBefore) {
         embedFound = true;
@@ -203,8 +195,6 @@ class EnsureEmbedLineRule extends DeleteRule {
   }
 
   bool _isVideo(op) {
-    return op != null &&
-        op.data is! String &&
-        !(op.data as Map).containsKey(BlockEmbed.videoType);
+    return op != null && op.data is! String && !(op.data as Map).containsKey(BlockEmbed.videoType);
   }
 }

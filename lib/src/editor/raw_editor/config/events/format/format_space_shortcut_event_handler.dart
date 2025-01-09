@@ -42,10 +42,9 @@ bool handleFormatBlockStyleBySpaceEvent({
   return false;
 }
 
-void _updateSelectionForKeyPhrase(
-    String phrase, Attribute attribute, QuillController controller) {
-  controller.replaceText(controller.selection.baseOffset - phrase.length,
-      phrase.length, '\n', null);
+void _updateSelectionForKeyPhrase(String phrase, Attribute attribute, QuillController controller) {
+  controller.replaceText(
+      controller.selection.baseOffset - phrase.length, phrase.length, '\n', null);
   _moveCursor(-phrase.length, controller);
   controller
     ..formatSelection(attribute)
@@ -57,8 +56,7 @@ void _moveCursor(int chars, QuillController controller) {
   final selection = controller.selection;
   controller.updateSelection(
       controller.selection.copyWith(
-          baseOffset: selection.baseOffset + chars,
-          extentOffset: selection.baseOffset + chars),
+          baseOffset: selection.baseOffset + chars, extentOffset: selection.baseOffset + chars),
       ChangeSource.local);
 }
 

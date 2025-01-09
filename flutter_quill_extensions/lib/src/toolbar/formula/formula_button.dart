@@ -26,8 +26,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
@@ -39,15 +38,11 @@ class QuillToolbarFormulaButton extends StatelessWidget {
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.functions;
+    return options.iconData ?? baseButtonExtraOptions(context)?.iconData ?? Icons.functions;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        'Insert formula';
+    return options.tooltip ?? baseButtonExtraOptions(context)?.tooltip ?? 'Insert formula';
     // ('Insert formula'.i18n);
   }
 
@@ -64,8 +59,7 @@ class QuillToolbarFormulaButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

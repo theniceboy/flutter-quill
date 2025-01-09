@@ -241,16 +241,13 @@ class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
       'Kérjük, írja be a link szövegét (pl. „További információ”).';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Kérjük, írja be a link URL-t (pl. \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Kérjük, írja be a link URL-t (pl. \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Kérjük, adjon meg egy érvényes kép URL-t';
+  String get pleaseEnterAValidImageURL => 'Kérjük, adjon meg egy érvényes kép URL-t';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Kérjük, adjon meg egy érvényes videó URL-t';
+  String get pleaseEnterAValidVideoURL => 'Kérjük, adjon meg egy érvényes videó URL-t';
 
   @override
   String get photo => 'Fénykép';
@@ -272,12 +269,10 @@ class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
   String get insertImage => 'Kép beszúrása';
 
   @override
-  String get pickAPhotoFromYourGallery =>
-      'Válasszon egy fényképet a galériájából';
+  String get pickAPhotoFromYourGallery => 'Válasszon egy fényképet a galériájából';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Készítsen egy fényképet a kamerájával';
+  String get takeAPhotoUsingYourCamera => 'Készítsen egy fényképet a kamerájával';
 
   @override
   String get pasteAPhotoUsingALink => 'Illesszen be egy fényképet egy linkkel';
@@ -286,8 +281,7 @@ class FlutterQuillLocalizationsHu extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Válasszon egy videót a galériájából';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Vegyen fel egy videót a kamerájával';
+  String get recordAVideoUsingYourCamera => 'Vegyen fel egy videót a kamerájával';
 
   @override
   String get pasteAVideoUsingALink => 'Illesszen be egy videót egy linkkel';

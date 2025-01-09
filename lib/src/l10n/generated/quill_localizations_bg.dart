@@ -243,12 +243,10 @@ class FlutterQuillLocalizationsBg extends FlutterQuillLocalizations {
   String get pleaseEnterTheLinkURL => 'Например, \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Моля, въведете валиден URL на изображението';
+  String get pleaseEnterAValidImageURL => 'Моля, въведете валиден URL на изображението';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Моля, въведете валиден URL адрес за видео';
+  String get pleaseEnterAValidVideoURL => 'Моля, въведете валиден URL адрес за видео';
 
   @override
   String get photo => 'Снимка';

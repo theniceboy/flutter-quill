@@ -1,5 +1,4 @@
-import 'package:flutter/cupertino.dart'
-    show CupertinoActionSheet, CupertinoActionSheetAction;
+import 'package:flutter/cupertino.dart' show CupertinoActionSheet, CupertinoActionSheetAction;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart' show Slider, Card;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;

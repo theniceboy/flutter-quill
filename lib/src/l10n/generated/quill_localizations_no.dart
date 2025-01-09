@@ -245,12 +245,10 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
       'Vennligst skriv inn lenkens URL (for eksempel \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Vennligst skriv inn en gyldig bilde-URL';
+  String get pleaseEnterAValidImageURL => 'Vennligst skriv inn en gyldig bilde-URL';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Vennligst skriv inn en gyldig video-URL';
+  String get pleaseEnterAValidVideoURL => 'Vennligst skriv inn en gyldig video-URL';
 
   @override
   String get photo => 'Bilde';
@@ -259,8 +257,7 @@ class FlutterQuillLocalizationsNo extends FlutterQuillLocalizations {
   String get image => 'Bilde';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Stor/liten bokstavfølsomhet og helordsøk';
+  String get caseSensitivityAndWholeWordSearch => 'Stor/liten bokstavfølsomhet og helordsøk';
 
   @override
   String get caseSensitive => 'Sakens følsomhet';

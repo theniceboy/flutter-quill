@@ -18,12 +18,10 @@ class QuillToolbarLegacySearchDialog extends StatefulWidget {
   final String? text;
 
   @override
-  QuillToolbarLegacySearchDialogState createState() =>
-      QuillToolbarLegacySearchDialogState();
+  QuillToolbarLegacySearchDialogState createState() => QuillToolbarLegacySearchDialogState();
 }
 
-class QuillToolbarLegacySearchDialogState
-    extends State<QuillToolbarLegacySearchDialog> {
+class QuillToolbarLegacySearchDialogState extends State<QuillToolbarLegacySearchDialog> {
   late String _text;
   late TextEditingController _controller;
   late List<int>? _offsets;
@@ -130,8 +128,7 @@ class QuillToolbarLegacySearchDialogState
                     IconButton(
                       icon: const Icon(Icons.keyboard_arrow_up),
                       tooltip: context.loc.moveToPreviousOccurrence,
-                      onPressed:
-                          (_offsets!.isNotEmpty) ? _moveToPrevious : null,
+                      onPressed: (_offsets!.isNotEmpty) ? _moveToPrevious : null,
                     ),
                   if (_offsets != null)
                     IconButton(

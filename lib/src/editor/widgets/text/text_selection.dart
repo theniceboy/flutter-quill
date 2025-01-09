@@ -200,8 +200,7 @@ class EditorTextSelectionOverlay {
     handlesVisible = visible;
     // If we are in build state, it will be too late to update visibility.
     // We will need to schedule the build in next frame.
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
+    if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) {
       SchedulerBinding.instance.addPostFrameCallback(markNeedsBuild);
     } else {
       markNeedsBuild();
@@ -234,8 +233,7 @@ class EditorTextSelectionOverlay {
     toolbar = OverlayEntry(builder: (context) {
       return contextMenuBuilder!(context);
     });
-    Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
-        .insert(toolbar!);
+    Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor).insert(toolbar!);
 
     // make sure handles are visible as well
     if (_handles == null) {
@@ -243,10 +241,8 @@ class EditorTextSelectionOverlay {
     }
   }
 
-  Widget _buildHandle(
-      BuildContext context, _TextSelectionHandlePosition position) {
-    if (_selection.isCollapsed &&
-        position == _TextSelectionHandlePosition.end) {
+  Widget _buildHandle(BuildContext context, _TextSelectionHandlePosition position) {
+    if (_selection.isCollapsed && position == _TextSelectionHandlePosition.end) {
       return const SizedBox.shrink();
     }
     return Visibility(
@@ -283,8 +279,7 @@ class EditorTextSelectionOverlay {
       return;
     }
     value = newValue;
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
+    if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) {
       SchedulerBinding.instance.addPostFrameCallback(markNeedsBuild);
     } else {
       markNeedsBuild();
@@ -298,14 +293,10 @@ class EditorTextSelectionOverlay {
     TextPosition textPosition;
     switch (position) {
       case _TextSelectionHandlePosition.start:
-        textPosition = newSelection != null
-            ? newSelection.base
-            : const TextPosition(offset: 0);
+        textPosition = newSelection != null ? newSelection.base : const TextPosition(offset: 0);
         break;
       case _TextSelectionHandlePosition.end:
-        textPosition = newSelection != null
-            ? newSelection.extent
-            : const TextPosition(offset: 0);
+        textPosition = newSelection != null ? newSelection.extent : const TextPosition(offset: 0);
         break;
       default:
         throw ArgumentError('Invalid position');
@@ -361,16 +352,11 @@ class EditorTextSelectionOverlay {
   void showHandles() {
     if (_handles != null) return;
     _handles = <OverlayEntry>[
-      OverlayEntry(
-          builder: (context) =>
-              _buildHandle(context, _TextSelectionHandlePosition.start)),
-      OverlayEntry(
-          builder: (context) =>
-              _buildHandle(context, _TextSelectionHandlePosition.end)),
+      OverlayEntry(builder: (context) => _buildHandle(context, _TextSelectionHandlePosition.start)),
+      OverlayEntry(builder: (context) => _buildHandle(context, _TextSelectionHandlePosition.end)),
     ];
 
-    Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor)
-        .insertAll(_handles!);
+    Overlay.of(context, rootOverlay: true, debugRequiredFor: debugRequiredFor).insertAll(_handles!);
   }
 
   /// Causes the overlay to update its rendering.
@@ -402,8 +388,7 @@ class EditorTextSelectionOverlay {
     hideMagnifier();
   }
 
-  void showMagnifier(
-      TextPosition position, Offset offset, RenderEditor editor) {
+  void showMagnifier(TextPosition position, Offset offset, RenderEditor editor) {
     _showMagnifier(
       _buildMagnifier(
         currentTextPosition: position,
@@ -442,8 +427,7 @@ class EditorTextSelectionOverlay {
     );
   }
 
-  void updateMagnifier(
-      TextPosition position, Offset offset, RenderEditor editor) {
+  void updateMagnifier(TextPosition position, Offset offset, RenderEditor editor) {
     _updateMagnifier(
       _buildMagnifier(
         currentTextPosition: position,
@@ -476,10 +460,8 @@ class EditorTextSelectionOverlay {
       {required RenderEditor renderEditable,
       required Offset globalGesturePosition,
       required TextPosition currentTextPosition}) {
-    final globalRenderEditableTopLeft =
-        renderEditable.localToGlobal(Offset.zero);
-    final localCaretRect =
-        renderEditable.getLocalRectForCaret(currentTextPosition);
+    final globalRenderEditableTopLeft = renderEditable.localToGlobal(Offset.zero);
+    final localCaretRect = renderEditable.getLocalRectForCaret(currentTextPosition);
 
     final lineAtOffset = renderEditable.getLineAtOffset(currentTextPosition);
     final positionAtEndOfLine = TextPosition(
@@ -539,8 +521,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   final DragStartBehavior dragStartBehavior;
 
   @override
-  _TextSelectionHandleOverlayState createState() =>
-      _TextSelectionHandleOverlayState();
+  _TextSelectionHandleOverlayState createState() => _TextSelectionHandleOverlayState();
 
   ValueListenable<bool> get _visibility {
     switch (position) {
@@ -554,8 +535,7 @@ class _TextSelectionHandleOverlay extends StatefulWidget {
   }
 }
 
-class _TextSelectionHandleOverlayState
-    extends State<_TextSelectionHandleOverlay>
+class _TextSelectionHandleOverlayState extends State<_TextSelectionHandleOverlay>
     with SingleTickerProviderStateMixin {
   // ignore: unused_field
   late Offset _dragPosition;
@@ -568,8 +548,7 @@ class _TextSelectionHandleOverlayState
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 150), vsync: this);
+    _controller = AnimationController(duration: const Duration(milliseconds: 150), vsync: this);
 
     _handleVisibilityChanged();
     widget._visibility.addListener(_handleVisibilityChanged);
@@ -612,31 +591,25 @@ class _TextSelectionHandleOverlayState
   void _handleDragUpdate(DragUpdateDetails details) {
     if (!widget.renderObject.attached) return;
     _dragPosition += details.delta;
-    final position =
-        widget.renderObject.getPositionForOffset(details.globalPosition);
+    final position = widget.renderObject.getPositionForOffset(details.globalPosition);
     if (widget.selection.isCollapsed) {
       widget.onSelectionHandleChanged(TextSelection.fromPosition(position));
       return;
     }
 
-    final isNormalized =
-        widget.selection.extentOffset >= widget.selection.baseOffset;
+    final isNormalized = widget.selection.extentOffset >= widget.selection.baseOffset;
     TextSelection newSelection;
     switch (widget.position) {
       case _TextSelectionHandlePosition.start:
         newSelection = TextSelection(
-          baseOffset:
-              isNormalized ? position.offset : widget.selection.baseOffset,
-          extentOffset:
-              isNormalized ? widget.selection.extentOffset : position.offset,
+          baseOffset: isNormalized ? position.offset : widget.selection.baseOffset,
+          extentOffset: isNormalized ? widget.selection.extentOffset : position.offset,
         );
         break;
       case _TextSelectionHandlePosition.end:
         newSelection = TextSelection(
-          baseOffset:
-              isNormalized ? widget.selection.baseOffset : position.offset,
-          extentOffset:
-              isNormalized ? position.offset : widget.selection.extentOffset,
+          baseOffset: isNormalized ? widget.selection.baseOffset : position.offset,
+          extentOffset: isNormalized ? position.offset : widget.selection.extentOffset,
         );
         break;
       default:
@@ -699,8 +672,7 @@ class _TextSelectionHandleOverlayState
         ? widget.selection.base
         : widget.selection.extent;
     final lineHeight = widget.renderObject.preferredLineHeight(textPosition);
-    final handleAnchor =
-        widget.selectionControls.getHandleAnchor(type!, lineHeight);
+    final handleAnchor = widget.selectionControls.getHandleAnchor(type!, lineHeight);
     final handleSize = widget.selectionControls.getHandleSize(lineHeight);
 
     final handleRect = Rect.fromLTWH(
@@ -712,8 +684,7 @@ class _TextSelectionHandleOverlayState
 
     // Make sure the GestureDetector is big enough to be easily interactive.
     final interactiveRect = handleRect.expandToInclude(
-      Rect.fromCircle(
-          center: handleRect.center, radius: kMinInteractiveDimension / 2),
+      Rect.fromCircle(center: handleRect.center, radius: kMinInteractiveDimension / 2),
     );
     final padding = RelativeRect.fromLTRB(
       math.max((interactiveRect.width - handleRect.width) / 2, 0),
@@ -904,8 +875,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
   final Widget child;
 
   @override
-  State<StatefulWidget> createState() =>
-      _EditorTextSelectionGestureDetectorState();
+  State<StatefulWidget> createState() => _EditorTextSelectionGestureDetectorState();
 
   static int getEffectiveConsecutiveTapCount(int rawCount) {
     switch (defaultTargetPlatform) {
@@ -918,9 +888,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
         // selection is moved to the precise click position, on the fifth click
         // the word at the position is selected, and on the sixth click the
         // paragraph at the position is selected.
-        return rawCount <= 3
-            ? rawCount
-            : (rawCount % 3 == 0 ? 3 : rawCount % 3);
+        return rawCount <= 3 ? rawCount : (rawCount % 3 == 0 ? 3 : rawCount % 3);
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         // From observation, these platform's either hold their tap count at 3.
@@ -939,8 +907,7 @@ class EditorTextSelectionGestureDetector extends StatefulWidget {
   }
 }
 
-class _EditorTextSelectionGestureDetectorState
-    extends State<EditorTextSelectionGestureDetector> {
+class _EditorTextSelectionGestureDetectorState extends State<EditorTextSelectionGestureDetector> {
   // Converts the details.consecutiveTapCount from a TapAndDrag*Details object,
   // which can grow to be infinitely large, to a value between 1 and 3. The value
   // that the raw count is converted to is based on the default observed behavior
@@ -1035,8 +1002,7 @@ class _EditorTextSelectionGestureDetectorState
   Widget build(BuildContext context) {
     final gestures = <Type, GestureRecognizerFactory>{};
 
-    gestures[TapGestureRecognizer] =
-        GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
+    gestures[TapGestureRecognizer] = GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
       () => TapGestureRecognizer(debugOwner: this),
       (instance) {
         instance
@@ -1051,8 +1017,7 @@ class _EditorTextSelectionGestureDetectorState
       gestures[LongPressGestureRecognizer] =
           GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
         () => LongPressGestureRecognizer(
-            debugOwner: this,
-            supportedDevices: <PointerDeviceKind>{PointerDeviceKind.touch}),
+            debugOwner: this, supportedDevices: <PointerDeviceKind>{PointerDeviceKind.touch}),
         (instance) {
           instance
             ..onLongPressStart = _handleLongPressStart
@@ -1070,8 +1035,7 @@ class _EditorTextSelectionGestureDetectorState
         case TargetPlatform.fuchsia:
         case TargetPlatform.iOS:
           gestures[TapAndHorizontalDragGestureRecognizer] =
-              GestureRecognizerFactoryWithHandlers<
-                  TapAndHorizontalDragGestureRecognizer>(
+              GestureRecognizerFactoryWithHandlers<TapAndHorizontalDragGestureRecognizer>(
             () => TapAndHorizontalDragGestureRecognizer(debugOwner: this),
             (instance) {
               instance
@@ -1118,8 +1082,7 @@ class _EditorTextSelectionGestureDetectorState
         () => ForcePressGestureRecognizer(debugOwner: this),
         (instance) {
           instance
-            ..onStart =
-                widget.onForcePressStart != null ? _forcePressStarted : null
+            ..onStart = widget.onForcePressStart != null ? _forcePressStarted : null
             ..onEnd = widget.onForcePressEnd != null ? _forcePressEnded : null;
         },
       );

@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'نیٹ ورک کا استعمال کر کے محفوظ ہوا';
 
   @override
-  String get savedUsingLocalStorage =>
-      'مقامی ذخیرہ کار استعمال کر کے محفوظ ہوا';
+  String get savedUsingLocalStorage => 'مقامی ذخیرہ کار استعمال کر کے محفوظ ہوا';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -246,12 +245,10 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
       'براہ کرم لنک کا URL درج کریں (مثال کے طور پر، \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'براہ کرم ایک درست تصویر URL درج کریں';
+  String get pleaseEnterAValidImageURL => 'براہ کرم ایک درست تصویر URL درج کریں';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'براہ کرم ایک درست ویڈیو URL درج کریں';
+  String get pleaseEnterAValidVideoURL => 'براہ کرم ایک درست ویڈیو URL درج کریں';
 
   @override
   String get photo => 'تصویر';
@@ -260,8 +257,7 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get image => 'تصویر';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'معاملے کی حساسیت اور پورے الفاظ کی تلاش';
+  String get caseSensitivityAndWholeWordSearch => 'معاملے کی حساسیت اور پورے الفاظ کی تلاش';
 
   @override
   String get caseSensitive => 'بڑی اور چھوٹی حروف کے لئے حساس';
@@ -285,8 +281,7 @@ class FlutterQuillLocalizationsUr extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'اپنی گیلری سے ویڈیو منتخب کریں';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'اپنی کیمرہ استعمال کر کے ویڈیو ریکارڈ کریں';
+  String get recordAVideoUsingYourCamera => 'اپنی کیمرہ استعمال کر کے ویڈیو ریکارڈ کریں';
 
   @override
   String get pasteAVideoUsingALink => 'لنک استعمال کر کے ویڈیو چسپاں کریں';

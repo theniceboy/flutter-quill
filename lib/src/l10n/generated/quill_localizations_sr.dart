@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Sačuvano korišćenjem mreže';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Sačuvano korišćenjem lokalnog skladišta';
+  String get savedUsingLocalStorage => 'Sačuvano korišćenjem lokalnog skladišta';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -242,8 +241,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
       'Unesite tekst za svoj link (na primer, \'Saznajte više\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'Unesite URL linka (na primer, \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'Unesite URL linka (na primer, \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'Unesite važeći URL slike';
@@ -274,8 +272,7 @@ class FlutterQuillLocalizationsSr extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'Izaberite sliku iz vaše galerije';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Napravite fotografiju koristeći vašu kameru';
+  String get takeAPhotoUsingYourCamera => 'Napravite fotografiju koristeći vašu kameru';
 
   @override
   String get pasteAPhotoUsingALink => 'Zalepite sliku koristeći link';

@@ -243,8 +243,7 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get pleaseEnterTheLinkURL => 'Kwa mfano, \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Tafadhali ingiza URL halali ya picha';
+  String get pleaseEnterAValidImageURL => 'Tafadhali ingiza URL halali ya picha';
 
   @override
   String get pleaseEnterAValidVideoURL => 'Tafadhali ingiza URL ya video ili';
@@ -269,8 +268,7 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get insertImage => 'Weka Picha';
 
   @override
-  String get pickAPhotoFromYourGallery =>
-      'Chagua picha kutoka kwenye galleri yako';
+  String get pickAPhotoFromYourGallery => 'Chagua picha kutoka kwenye galleri yako';
 
   @override
   String get takeAPhotoUsingYourCamera => 'Piga picha kwa kutumia kamera yako';
@@ -279,12 +277,10 @@ class FlutterQuillLocalizationsSw extends FlutterQuillLocalizations {
   String get pasteAPhotoUsingALink => 'Pasta picha kwa kutumia kiungo';
 
   @override
-  String get pickAVideoFromYourGallery =>
-      'Chagua video kutoka kwenye galleri yako';
+  String get pickAVideoFromYourGallery => 'Chagua video kutoka kwenye galleri yako';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Record video kwa kutumia kamera yako';
+  String get recordAVideoUsingYourCamera => 'Record video kwa kutumia kamera yako';
 
   @override
   String get pasteAVideoUsingALink => 'Pasta video kwa kutumia kiungo';

@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show Color, Colors, Locale;
 
-import '../../editor/config/editor_configurations.dart'
-    show QuillEditorConfigurations;
+import '../../editor/config/editor_configurations.dart' show QuillEditorConfigurations;
 import '../../toolbar/config/simple_toolbar_configurations.dart'
     show QuillSimpleToolbarConfigurations;
 import '../../toolbar/theme/quill_dialog_theme.dart';

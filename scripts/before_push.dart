@@ -42,8 +42,7 @@ Future<void> runCommand(
 }) async {
   print(
       "Running '$executable ${arguments.join(' ')}' in directory '${workingDirectory ?? 'root'}'...");
-  final result = await Process.run(executable, arguments,
-      workingDirectory: workingDirectory);
+  final result = await Process.run(executable, arguments, workingDirectory: workingDirectory);
   print(result.stdout);
   print(result.stderr);
 }

@@ -255,8 +255,7 @@ class FlutterQuillLocalizationsAr extends FlutterQuillLocalizations {
   String get image => 'صورة';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'حالة الحساسية والبحث عن كلمة كاملة';
+  String get caseSensitivityAndWholeWordSearch => 'حالة الحساسية والبحث عن كلمة كاملة';
 
   @override
   String get caseSensitive => 'حساسية الحالة';

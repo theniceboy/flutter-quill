@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'नेटवर्क का उपयोग करके सहेजा गया';
 
   @override
-  String get savedUsingLocalStorage =>
-      'स्थानीय संग्रहण का उपयोग करके सहेजा गया';
+  String get savedUsingLocalStorage => 'स्थानीय संग्रहण का उपयोग करके सहेजा गया';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -242,8 +241,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
       'कृपया अपने लिंक के लिए एक पाठ दर्ज करें (उदाहरण: \'और अधिक जानें\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'कृपया लिंक URL दर्ज करें (उदाहरण: \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'कृपया लिंक URL दर्ज करें (उदाहरण: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'कृपया एक वैध चित्र URL दर्ज करें';
@@ -258,8 +256,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get image => 'छवि';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'केस सेंसिटिविटी और पूरे शब्द की खोज';
+  String get caseSensitivityAndWholeWordSearch => 'केस सेंसिटिविटी और पूरे शब्द की खोज';
 
   @override
   String get caseSensitive => 'केस संवेदनशील';
@@ -274,8 +271,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'अपनी गैलरी से एक फोटो चुनें';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'अपनी कैमरा का उपयोग करके एक फोटो लें';
+  String get takeAPhotoUsingYourCamera => 'अपनी कैमरा का उपयोग करके एक फोटो लें';
 
   @override
   String get pasteAPhotoUsingALink => 'लिंक का उपयोग करके एक फोटो पेस्ट करें';
@@ -284,8 +280,7 @@ class FlutterQuillLocalizationsHi extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'अपनी गैलरी से एक वीडियो चुनें';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'अपनी कैमरा का उपयोग करके एक वीडियो रिकॉर्ड करें';
+  String get recordAVideoUsingYourCamera => 'अपनी कैमरा का उपयोग करके एक वीडियो रिकॉर्ड करें';
 
   @override
   String get pasteAVideoUsingALink => 'लिंक का उपयोग करके एक वीडियो पेस्ट करें';

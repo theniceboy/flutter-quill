@@ -23,13 +23,11 @@ class SimpleSpellCheckerService extends SpellCheckerService<Object?> {
         ''',
       );
   @override
-  void addCustomLanguage({required Object? languageIdentifier}) =>
-      _featureNoLongerAvailable();
+  void addCustomLanguage({required Object? languageIdentifier}) => _featureNoLongerAvailable();
 
   @override
   List<TextSpan>? checkSpelling(String text,
-      {LongPressGestureRecognizer Function(String p1)?
-          customLongPressRecognizerOnWrongSpan}) {
+      {LongPressGestureRecognizer Function(String p1)? customLongPressRecognizerOnWrongSpan}) {
     _featureNoLongerAvailable();
     throw UnimplementedError();
   }
@@ -44,8 +42,7 @@ class SimpleSpellCheckerService extends SpellCheckerService<Object?> {
   }
 
   @override
-  void setNewLanguageState({required String language}) =>
-      _featureNoLongerAvailable();
+  void setNewLanguageState({required String language}) => _featureNoLongerAvailable();
 
   @override
   void toggleChecker() => _featureNoLongerAvailable();

@@ -26,8 +26,7 @@ RelativeRect renderPosition(BuildContext context, [Size? size]) {
   final position = RelativeRect.fromRect(
     Rect.fromPoints(
       button.localToGlobal(const Offset(0, -65), ancestor: overlay),
-      button.localToGlobal(
-          button.size.bottomRight(Offset.zero) + const Offset(-50, 0),
+      button.localToGlobal(button.size.bottomRight(Offset.zero) + const Offset(-50, 0),
           ancestor: overlay),
     ),
     Offset.zero & size * 0.40,
@@ -35,23 +34,19 @@ RelativeRect renderPosition(BuildContext context, [Size? size]) {
   return position;
 }
 
-void insertTable(int rows, int columns, QuillController quillController,
-    ChangeSource? changeFrom) {
+void insertTable(int rows, int columns, QuillController quillController, ChangeSource? changeFrom) {
   final tableData = _createTableData(rows, columns);
   final delta = Delta()..insert({'table': tableData});
   final selection = quillController.selection;
   final replacedLength = selection.extentOffset - selection.baseOffset;
   final newBaseOffset = selection.baseOffset;
-  final newExtentOffsetCandidate =
-      (selection.baseOffset + 1 - replacedLength).toInt();
-  final newExtentOffsetAdjusted =
-      newExtentOffsetCandidate < 0 ? 0 : newExtentOffsetCandidate;
+  final newExtentOffsetCandidate = (selection.baseOffset + 1 - replacedLength).toInt();
+  final newExtentOffsetAdjusted = newExtentOffsetCandidate < 0 ? 0 : newExtentOffsetCandidate;
   quillController.replaceText(
     newBaseOffset,
     replacedLength,
     delta,
-    TextSelection(
-        baseOffset: newBaseOffset, extentOffset: newExtentOffsetAdjusted),
+    TextSelection(baseOffset: newBaseOffset, extentOffset: newExtentOffsetAdjusted),
   );
 }
 

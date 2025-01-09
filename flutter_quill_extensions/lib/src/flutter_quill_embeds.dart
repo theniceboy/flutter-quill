@@ -115,10 +115,8 @@ class FlutterQuillEmbeds {
   ///
   /// The returned list contains embed button builders for the Quill toolbar.
   static List<fq.EmbedButtonBuilder> toolbarButtons({
-    QuillToolbarImageButtonOptions? imageButtonOptions =
-        const QuillToolbarImageButtonOptions(),
-    QuillToolbarVideoButtonOptions? videoButtonOptions =
-        const QuillToolbarVideoButtonOptions(),
+    QuillToolbarImageButtonOptions? imageButtonOptions = const QuillToolbarImageButtonOptions(),
+    QuillToolbarVideoButtonOptions? videoButtonOptions = const QuillToolbarVideoButtonOptions(),
     QuillToolbarCameraButtonOptions? cameraButtonOptions,
     @experimental
     @Deprecated(
@@ -127,20 +125,17 @@ class FlutterQuillEmbeds {
   }) =>
       [
         if (imageButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarImageButton(
+          (controller, toolbarIconSize, iconTheme, dialogTheme) => QuillToolbarImageButton(
                 controller: controller,
                 options: imageButtonOptions,
               ),
         if (videoButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarVideoButton(
+          (controller, toolbarIconSize, iconTheme, dialogTheme) => QuillToolbarVideoButton(
                 controller: controller,
                 options: videoButtonOptions,
               ),
         if (cameraButtonOptions != null)
-          (controller, toolbarIconSize, iconTheme, dialogTheme) =>
-              QuillToolbarCameraButton(
+          (controller, toolbarIconSize, iconTheme, dialogTheme) => QuillToolbarCameraButton(
                 controller: controller,
                 options: cameraButtonOptions,
               ),

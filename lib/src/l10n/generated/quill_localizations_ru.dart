@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Сохранено с использованием сети';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Сохранено с использованием локального хранилища';
+  String get savedUsingLocalStorage => 'Сохранено с использованием локального хранилища';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -244,12 +243,10 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get pleaseEnterTheLinkURL => 'например, \'https://example.com\'';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Пожалуйста, введите действительный URL изображения';
+  String get pleaseEnterAValidImageURL => 'Пожалуйста, введите действительный URL изображения';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Пожалуйста, введите действительный URL-адрес видео';
+  String get pleaseEnterAValidVideoURL => 'Пожалуйста, введите действительный URL-адрес видео';
 
   @override
   String get photo => 'Фото';
@@ -258,8 +255,7 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get image => 'Изображение';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'Учет регистра и поиск по всему слову';
+  String get caseSensitivityAndWholeWordSearch => 'Учет регистра и поиск по всему слову';
 
   @override
   String get caseSensitive => 'Чувствителен к регистру';
@@ -271,12 +267,10 @@ class FlutterQuillLocalizationsRu extends FlutterQuillLocalizations {
   String get insertImage => 'Вставить изображение';
 
   @override
-  String get pickAPhotoFromYourGallery =>
-      'Выберите фотографию из вашей галереи';
+  String get pickAPhotoFromYourGallery => 'Выберите фотографию из вашей галереи';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Сделайте фотографию, используя камеру';
+  String get takeAPhotoUsingYourCamera => 'Сделайте фотографию, используя камеру';
 
   @override
   String get pasteAPhotoUsingALink => 'Вставьте фотографию, используя ссылку';

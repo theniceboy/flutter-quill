@@ -2,8 +2,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import 'video.dart';
 
-class QuillToolbarVideoButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarVideoButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarVideoButtonExtraOptions({
     required super.controller,
     required super.context,

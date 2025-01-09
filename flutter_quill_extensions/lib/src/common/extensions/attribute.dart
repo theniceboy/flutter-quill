@@ -1,5 +1,4 @@
-import 'package:flutter_quill/flutter_quill.dart'
-    show Attribute, AttributeScope;
+import 'package:flutter_quill/flutter_quill.dart' show Attribute, AttributeScope;
 
 // class FlutterWidthAttribute extends Attribute<String?> {
 //   const FlutterWidthAttribute(String? val)
@@ -27,6 +26,5 @@ extension AttributeExt on Attribute {
   //     FlutterHeightAttribute(null);
   // static const FlutterMarginAttribute flutterMargin =
   //     FlutterMarginAttribute(null);
-  static const FlutterAlignmentAttribute flutterAlignment =
-      FlutterAlignmentAttribute(null);
+  static const FlutterAlignmentAttribute flutterAlignment = FlutterAlignmentAttribute(null);
 }

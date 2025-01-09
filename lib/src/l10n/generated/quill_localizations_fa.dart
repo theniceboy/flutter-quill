@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'با استفاده از شبکه ذخیره شده است';
 
   @override
-  String get savedUsingLocalStorage =>
-      'ذخیره شده با استفاده از فضای ذخیره محلی';
+  String get savedUsingLocalStorage => 'ذخیره شده با استفاده از فضای ذخیره محلی';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -242,8 +241,7 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
       'لطفاً متن لینک خود را وارد کنید (مثال: \'بیشتر بدانید\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'لطفاً URL لینک را وارد کنید (مثال: \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'لطفاً URL لینک را وارد کنید (مثال: \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'لطفاً یک URL تصویر معتبر وارد کنید';
@@ -258,8 +256,7 @@ class FlutterQuillLocalizationsFa extends FlutterQuillLocalizations {
   String get image => 'تصویر';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'حساسیت به کوچکی و بزرگی حروف و جستجوی کلمه کامل';
+  String get caseSensitivityAndWholeWordSearch => 'حساسیت به کوچکی و بزرگی حروف و جستجوی کلمه کامل';
 
   @override
   String get caseSensitive => 'حساس به بزرگی و کوچکی حروف';

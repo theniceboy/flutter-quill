@@ -11,8 +11,7 @@ class ImagePickerService extends ImagePickerInterface {
         ImagePickerPackageImpl(),
       );
 
-  factory ImagePickerService.defaultImpl() =>
-      ImagePickerService.imagePickerPackage();
+  factory ImagePickerService.defaultImpl() => ImagePickerService.imagePickerPackage();
 
   final ImagePickerInterface _impl;
   @override

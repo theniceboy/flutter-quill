@@ -46,9 +46,7 @@ double? parseCssPropertyAsDouble(
   }
 
   // If not then if it's a css numberic value then we will try to parse it
-  final unit = _CssUnit.values
-      .where((element) => value.endsWith(element.cssName))
-      .firstOrNull;
+  final unit = _CssUnit.values.where((element) => value.endsWith(element.cssName)).firstOrNull;
   if (unit == null) {
     return null;
   }

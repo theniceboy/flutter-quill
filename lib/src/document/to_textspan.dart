@@ -4,8 +4,8 @@ import '../../../flutter_quill.dart';
 import '../editor/widgets/text/text_line.dart';
 
 extension DocToTextSpanExt on Document {
-  TextSpan toTextSpan(BuildContext context,
-      QuillRawEditorConfigurations configurations, QuillController controller) {
+  TextSpan toTextSpan(BuildContext context, QuillRawEditorConfigurations configurations,
+      QuillController controller) {
     final spans = <InlineSpan>[];
     final textspan = TextSpan(children: spans);
     Future<LinkMenuAction> linkActionPicker(Node linkNode) async {
@@ -37,8 +37,7 @@ extension DocToTextSpanExt on Document {
           customLinkPrefixes: configurations.customLinkPrefixes,
           composingRange: TextRange.empty,
         );
-        final textSpan =
-            TextLineState.getTextSpanForWholeLine(widget, context, null);
+        final textSpan = TextLineState.getTextSpanForWholeLine(widget, context, null);
         if (lineIsEmpty) spans.add(TextSpan(text: ' ', style: textSpan.style));
         spans.add(textSpan);
       } else if (node is Block) {
@@ -50,8 +49,7 @@ extension DocToTextSpanExt on Document {
             spans.add(const TextSpan(text: '\n'));
           }
           if (node is Line) {
-            final indent =
-                (node.style.attributes[Attribute.indent.key]?.value ?? 0) + 1;
+            final indent = (node.style.attributes[Attribute.indent.key]?.value ?? 0) + 1;
             final indentStr = '       ' * indent;
             final widget = TextLine(
               line: node,
@@ -67,11 +65,9 @@ extension DocToTextSpanExt on Document {
               customLinkPrefixes: configurations.customLinkPrefixes,
               composingRange: TextRange.empty,
             );
-            final textSpan =
-                TextLineState.getTextSpanForWholeLine(widget, context, null);
+            final textSpan = TextLineState.getTextSpanForWholeLine(widget, context, null);
             spans
-              ..add(TextSpan(
-                  text: '${indentStr.substring(0, indentStr.length - 2)}- '))
+              ..add(TextSpan(text: '${indentStr.substring(0, indentStr.length - 2)}- '))
               ..add(textSpan);
           }
         }

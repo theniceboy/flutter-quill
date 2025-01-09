@@ -241,8 +241,7 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
       'আপনার লিঙ্কের জন্য একটি টেক্সট লিখুন (উদাঃ \'আরও জানুন\')';
 
   @override
-  String get pleaseEnterTheLinkURL =>
-      'দয়া করে লিঙ্ক URL লিখুন (উদাঃ \'https://example.com\')';
+  String get pleaseEnterTheLinkURL => 'দয়া করে লিঙ্ক URL লিখুন (উদাঃ \'https://example.com\')';
 
   @override
   String get pleaseEnterAValidImageURL => 'দয়া করে একটি বৈধ চিত্র URL লিখুন';
@@ -257,8 +256,7 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
   String get image => 'চিত্র';
 
   @override
-  String get caseSensitivityAndWholeWordSearch =>
-      'কেস সেন্সিটিভিটি এবং পূর্ণ শব্দ অনুসন্ধান';
+  String get caseSensitivityAndWholeWordSearch => 'কেস সেন্সিটিভিটি এবং পূর্ণ শব্দ অনুসন্ধান';
 
   @override
   String get caseSensitive => 'বড়-ছোট অক্ষর বিভাজন';
@@ -270,28 +268,22 @@ class FlutterQuillLocalizationsBn extends FlutterQuillLocalizations {
   String get insertImage => 'চিত্র সন্নিবেশ';
 
   @override
-  String get pickAPhotoFromYourGallery =>
-      'আপনার গ্যালারি থেকে একটি ছবি নির্বাচন করুন';
+  String get pickAPhotoFromYourGallery => 'আপনার গ্যালারি থেকে একটি ছবি নির্বাচন করুন';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'আপনার ক্যামেরা ব্যবহার করে একটি ছবি তুলুন';
+  String get takeAPhotoUsingYourCamera => 'আপনার ক্যামেরা ব্যবহার করে একটি ছবি তুলুন';
 
   @override
-  String get pasteAPhotoUsingALink =>
-      'একটি লিঙ্ক ব্যবহার করে একটি ছবি পেস্ট করুন';
+  String get pasteAPhotoUsingALink => 'একটি লিঙ্ক ব্যবহার করে একটি ছবি পেস্ট করুন';
 
   @override
-  String get pickAVideoFromYourGallery =>
-      'আপনার গ্যালারি থেকে একটি ভিডিও নির্বাচন করুন';
+  String get pickAVideoFromYourGallery => 'আপনার গ্যালারি থেকে একটি ভিডিও নির্বাচন করুন';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'আপনার ক্যামেরা ব্যবহার করে একটি ভিডিও রেকর্ড করুন';
+  String get recordAVideoUsingYourCamera => 'আপনার ক্যামেরা ব্যবহার করে একটি ভিডিও রেকর্ড করুন';
 
   @override
-  String get pasteAVideoUsingALink =>
-      'একটি লিঙ্ক ব্যবহার করে একটি ভিডিও পেস্ট করুন';
+  String get pasteAVideoUsingALink => 'একটি লিঙ্ক ব্যবহার করে একটি ভিডিও পেস্ট করুন';
 
   @override
   String get close => 'বন্ধ করুন';

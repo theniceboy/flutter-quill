@@ -13,8 +13,7 @@ final standardCharactersShortcutEvents =
 
 /// These all the common SpaceShortcutEvent that are implemented
 /// by the package and correspond with markdown syntax
-final standardSpaceShorcutEvents =
-    List<SpaceShortcutEvent>.unmodifiable(<SpaceShortcutEvent>[
+final standardSpaceShorcutEvents = List<SpaceShortcutEvent>.unmodifiable(<SpaceShortcutEvent>[
   formatOrderedNumberToList,
   formatHyphenToBulletList,
   formatHeaderToHeaderStyle,

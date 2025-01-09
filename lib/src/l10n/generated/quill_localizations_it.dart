@@ -226,8 +226,7 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get savedUsingTheNetwork => 'Salvato utilizzando la rete';
 
   @override
-  String get savedUsingLocalStorage =>
-      'Salvato utilizzando la memorizzazione locale';
+  String get savedUsingLocalStorage => 'Salvato utilizzando la memorizzazione locale';
 
   @override
   String theImageHasBeenSavedAt(String imagePath) {
@@ -235,8 +234,7 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   }
 
   @override
-  String get errorWhileSavingImage =>
-      'Errore durante il salvataggio dell\'immagine';
+  String get errorWhileSavingImage => 'Errore durante il salvataggio dell\'immagine';
 
   @override
   String get pleaseEnterTextForYourLink =>
@@ -275,8 +273,7 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get pickAPhotoFromYourGallery => 'Scegli una foto dalla tua galleria';
 
   @override
-  String get takeAPhotoUsingYourCamera =>
-      'Scatta una foto con la tua fotocamera';
+  String get takeAPhotoUsingYourCamera => 'Scatta una foto con la tua fotocamera';
 
   @override
   String get pasteAPhotoUsingALink => 'Incolla una foto utilizzando un link';
@@ -285,8 +282,7 @@ class FlutterQuillLocalizationsIt extends FlutterQuillLocalizations {
   String get pickAVideoFromYourGallery => 'Scegli un video dalla tua galleria';
 
   @override
-  String get recordAVideoUsingYourCamera =>
-      'Registra un video con la tua fotocamera';
+  String get recordAVideoUsingYourCamera => 'Registra un video con la tua fotocamera';
 
   @override
   String get pasteAVideoUsingALink => 'Incolla un video utilizzando un link';

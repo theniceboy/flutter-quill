@@ -35,8 +35,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
@@ -48,15 +47,11 @@ class QuillToolbarVideoButton extends StatelessWidget {
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.movie_creation;
+    return options.iconData ?? baseButtonExtraOptions(context)?.iconData ?? Icons.movie_creation;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        'Insert video';
+    return options.tooltip ?? baseButtonExtraOptions(context)?.tooltip ?? 'Insert video';
     // ('Insert video'.i18n);
   }
 
@@ -71,8 +66,7 @@ class QuillToolbarVideoButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(
@@ -109,17 +103,14 @@ class QuillToolbarVideoButton extends StatelessWidget {
 
   Future<void> _onPressedHandler(BuildContext context) async {
     final imagePickerService =
-        QuillSharedExtensionsConfigurations.get(context: context)
-            .imagePickerService;
+        QuillSharedExtensionsConfigurations.get(context: context).imagePickerService;
 
     final onRequestPickVideo = options.videoConfigurations.onRequestPickVideo;
     if (onRequestPickVideo != null) {
       final videoUrl = await onRequestPickVideo(context, imagePickerService);
       if (videoUrl != null) {
-        await options.videoConfigurations
-            .onVideoInsertCallback(videoUrl, controller);
-        await options.videoConfigurations.onVideoInsertedCallback
-            ?.call(videoUrl);
+        await options.videoConfigurations.onVideoInsertCallback(videoUrl, controller);
+        await options.videoConfigurations.onVideoInsertedCallback?.call(videoUrl);
       }
       return;
     }
@@ -135,16 +126,14 @@ class QuillToolbarVideoButton extends StatelessWidget {
         (await imagePickerService.pickVideo(source: ImageSource.gallery))?.path,
       InsertVideoSource.camera =>
         (await imagePickerService.pickVideo(source: ImageSource.camera))?.path,
-      InsertVideoSource.link =>
-        context.mounted ? await _typeLink(context) : null,
+      InsertVideoSource.link => context.mounted ? await _typeLink(context) : null,
     };
     if (videoUrl == null) {
       return;
     }
 
     if (videoUrl.trim().isNotEmpty) {
-      await options.videoConfigurations
-          .onVideoInsertCallback(videoUrl, controller);
+      await options.videoConfigurations.onVideoInsertCallback(videoUrl, controller);
       await options.videoConfigurations.onVideoInsertedCallback?.call(videoUrl);
     }
   }

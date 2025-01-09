@@ -11,18 +11,14 @@ import '../../simple_toolbar_provider.dart';
 import '../quill_icon_button.dart';
 
 typedef QuillToolbarSelectHeaderStyleBaseButtons = QuillToolbarBaseButton<
-    QuillToolbarSelectHeaderStyleButtonsOptions,
-    QuillToolbarSelectHeaderStyleButtonsExtraOptions>;
+    QuillToolbarSelectHeaderStyleButtonsOptions, QuillToolbarSelectHeaderStyleButtonsExtraOptions>;
 
 typedef QuillToolbarSelectHeaderStyleBaseButtonsState<
         W extends QuillToolbarSelectHeaderStyleBaseButtons>
-    = QuillToolbarCommonButtonState<
-        W,
-        QuillToolbarSelectHeaderStyleButtonsOptions,
+    = QuillToolbarCommonButtonState<W, QuillToolbarSelectHeaderStyleButtonsOptions,
         QuillToolbarSelectHeaderStyleButtonsExtraOptions>;
 
-class QuillToolbarSelectHeaderStyleButtons
-    extends QuillToolbarSelectHeaderStyleBaseButtons {
+class QuillToolbarSelectHeaderStyleButtons extends QuillToolbarSelectHeaderStyleBaseButtons {
   const QuillToolbarSelectHeaderStyleButtons({
     required super.controller,
     super.options = const QuillToolbarSelectHeaderStyleButtonsOptions(),
@@ -70,8 +66,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
   }
 
   void _sharedOnPressed(Attribute attribute) {
-    final attribute0 =
-        _selectedAttribute == attribute ? Attribute.header : attribute;
+    final attribute0 = _selectedAttribute == attribute ? Attribute.header : attribute;
     controller.formatSelection(attribute0);
     afterButtonPressed?.call();
   }
@@ -100,8 +95,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
       fontSize: iconSize * 0.7,
     );
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions?.childBuilder;
 
     final children = _attributes.map((attribute) {
       if (childBuilder != null) {
@@ -166,8 +160,7 @@ class QuillToolbarSelectHeaderStyleButtonsState
   }
 
   @override
-  void didUpdateWidget(
-      covariant QuillToolbarSelectHeaderStyleButtons oldWidget) {
+  void didUpdateWidget(covariant QuillToolbarSelectHeaderStyleButtons oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != controller) {
       oldWidget.controller.removeListener(_didChangeEditingValue);

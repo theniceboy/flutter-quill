@@ -16,8 +16,7 @@ class QuillToolbarCustomButton extends StatelessWidget {
   final QuillToolbarCustomButtonOptions options;
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
@@ -42,8 +41,7 @@ class QuillToolbarCustomButton extends StatelessWidget {
     final iconTheme = _iconTheme(context);
     final tooltip = _tooltip(context);
 
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
     final afterButtonPressed = _afterButtonPressed(context);
 
     if (childBuilder != null) {

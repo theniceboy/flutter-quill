@@ -12,9 +12,7 @@ class UtilityWidgets {
     required Widget child,
     String? message,
   }) =>
-      (message?.isNotEmpty ?? false)
-          ? Tooltip(message: message, child: child)
-          : child;
+      (message?.isNotEmpty ?? false) ? Tooltip(message: message, child: child) : child;
 
   /// Conditionally wraps the [child] with [wrapper] widget if [enabled]
   /// is true.

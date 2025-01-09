@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../base_button_configurations.dart';
 
-class QuillToolbarIndentButtonExtraOptions
-    extends QuillToolbarBaseButtonExtraOptions {
+class QuillToolbarIndentButtonExtraOptions extends QuillToolbarBaseButtonExtraOptions {
   const QuillToolbarIndentButtonExtraOptions({
     required super.controller,
     required super.context,

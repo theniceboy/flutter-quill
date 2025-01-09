@@ -59,8 +59,7 @@ class QuillToolbarSearchDialog extends StatefulWidget {
   final AlignmentGeometry? searchBarAlignment;
 
   @override
-  QuillToolbarSearchDialogState createState() =>
-      QuillToolbarSearchDialogState();
+  QuillToolbarSearchDialogState createState() => QuillToolbarSearchDialogState();
 }
 
 class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
@@ -107,8 +106,7 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
       );
     }
 
-    final searchBarAlignment =
-        widget.searchBarAlignment ?? Alignment.bottomCenter;
+    final searchBarAlignment = widget.searchBarAlignment ?? Alignment.bottomCenter;
     final searchBarAtBottom = (searchBarAlignment == Alignment.bottomCenter) ||
         (searchBarAlignment == Alignment.bottomLeft) ||
         (searchBarAlignment == Alignment.bottomRight);
@@ -234,11 +232,9 @@ class QuillToolbarSearchDialogState extends State<QuillToolbarSearchDialog> {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (_searchSettingsUnfolded && searchBarAtBottom)
-                  searchSettings,
+                if (_searchSettingsUnfolded && searchBarAtBottom) searchSettings,
                 searchBar,
-                if (_searchSettingsUnfolded && !searchBarAtBottom)
-                  searchSettings,
+                if (_searchSettingsUnfolded && !searchBarAtBottom) searchSettings,
               ],
             );
           },

@@ -105,8 +105,7 @@ abstract class FlutterQuillLocalizations {
   final String localeName;
 
   static FlutterQuillLocalizations? of(BuildContext context) {
-    return Localizations.of<FlutterQuillLocalizations>(
-        context, FlutterQuillLocalizations);
+    return Localizations.of<FlutterQuillLocalizations>(context, FlutterQuillLocalizations);
   }
 
   static const LocalizationsDelegate<FlutterQuillLocalizations> delegate =
@@ -762,14 +761,12 @@ abstract class FlutterQuillLocalizations {
   String get insertTable;
 }
 
-class _FlutterQuillLocalizationsDelegate
-    extends LocalizationsDelegate<FlutterQuillLocalizations> {
+class _FlutterQuillLocalizationsDelegate extends LocalizationsDelegate<FlutterQuillLocalizations> {
   const _FlutterQuillLocalizationsDelegate();
 
   @override
   Future<FlutterQuillLocalizations> load(Locale locale) {
-    return SynchronousFuture<FlutterQuillLocalizations>(
-        lookupFlutterQuillLocalizations(locale));
+    return SynchronousFuture<FlutterQuillLocalizations>(lookupFlutterQuillLocalizations(locale));
   }
 
   @override

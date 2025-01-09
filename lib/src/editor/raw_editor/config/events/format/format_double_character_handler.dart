@@ -63,8 +63,7 @@ bool handleFormatByWrappingWithDoubleCharacter({
   final lastCharIndex = charIndexList[charIndexList.length - 1];
   // make sure the third *[char] and second *[char] are connected
   // make sure the second *[char] and last *[char] are split by at least one character
-  if (secondLastCharIndex != thirdLastCharIndex + 1 ||
-      lastCharIndex == secondLastCharIndex + 1) {
+  if (secondLastCharIndex != thirdLastCharIndex + 1 || lastCharIndex == secondLastCharIndex + 1) {
     return false;
   }
 
@@ -85,9 +84,7 @@ bool handleFormatByWrappingWithDoubleCharacter({
     ..retain(thirdLastCharIndex) // get all text before double chars
     ..delete(2) // delete both start double char
     ..retain(
-        lastCharIndex -
-            (thirdLastCharIndex +
-                (secondLastCharIndex - (thirdLastCharIndex - 1))),
+        lastCharIndex - (thirdLastCharIndex + (secondLastCharIndex - (thirdLastCharIndex - 1))),
         style == null
             ? null
             : {

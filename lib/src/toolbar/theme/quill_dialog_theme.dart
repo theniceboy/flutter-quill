@@ -1,13 +1,6 @@
 import 'package:flutter/foundation.dart' show Diagnosticable, immutable;
 import 'package:flutter/material.dart'
-    show
-        BoxConstraints,
-        ButtonStyle,
-        Color,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        ShapeBorder,
-        TextStyle;
+    show BoxConstraints, ButtonStyle, Color, EdgeInsets, EdgeInsetsGeometry, ShapeBorder, TextStyle;
 
 /// Used to configure the dialog's look and feel.
 
@@ -90,17 +83,13 @@ class QuillDialogTheme with Diagnosticable {
       buttonTextStyle: buttonTextStyle ?? this.buttonTextStyle,
       labelTextStyle: labelTextStyle ?? this.labelTextStyle,
       inputTextStyle: inputTextStyle ?? this.inputTextStyle,
-      dialogBackgroundColor:
-          dialogBackgroundColor ?? this.dialogBackgroundColor,
+      dialogBackgroundColor: dialogBackgroundColor ?? this.dialogBackgroundColor,
       shape: shape ?? this.shape,
       buttonStyle: buttonStyle ?? this.buttonStyle,
-      linkDialogConstraints:
-          linkDialogConstraints ?? this.linkDialogConstraints,
+      linkDialogConstraints: linkDialogConstraints ?? this.linkDialogConstraints,
       linkDialogPadding: linkDialogPadding ?? this.linkDialogPadding,
-      mediaSelectorDialogConstraints:
-          imageDialogConstraints ?? mediaSelectorDialogConstraints,
-      mediaSelectorDialogPadding:
-          mediaDialogPadding ?? mediaSelectorDialogPadding,
+      mediaSelectorDialogConstraints: imageDialogConstraints ?? mediaSelectorDialogConstraints,
+      mediaSelectorDialogPadding: mediaDialogPadding ?? mediaSelectorDialogPadding,
       isWrappable: isWrappable ?? this.isWrappable,
       runSpacing: runSpacing ?? this.runSpacing,
     );
@@ -120,8 +109,7 @@ class QuillDialogTheme with Diagnosticable {
         other.buttonStyle == buttonStyle &&
         other.linkDialogConstraints == linkDialogConstraints &&
         other.linkDialogPadding == linkDialogPadding &&
-        other.mediaSelectorDialogConstraints ==
-            mediaSelectorDialogConstraints &&
+        other.mediaSelectorDialogConstraints == mediaSelectorDialogConstraints &&
         other.mediaSelectorDialogPadding == mediaSelectorDialogPadding &&
         other.isWrappable == isWrappable &&
         other.runSpacing == runSpacing;

@@ -7,8 +7,7 @@ import '../../common/utils/quill_table_utils.dart';
 import 'models/table_configurations.dart';
 
 @experimental
-@Deprecated(
-    'QuillToolbarTableButton will no longer used and will be removed in future releases')
+@Deprecated('QuillToolbarTableButton will no longer used and will be removed in future releases')
 class QuillToolbarTableButton extends StatelessWidget {
   const QuillToolbarTableButton({
     required this.controller,
@@ -33,8 +32,7 @@ class QuillToolbarTableButton extends StatelessWidget {
   }
 
   VoidCallback? _afterButtonPressed(BuildContext context) {
-    return options.afterButtonPressed ??
-        baseButtonExtraOptions(context)?.afterButtonPressed;
+    return options.afterButtonPressed ?? baseButtonExtraOptions(context)?.afterButtonPressed;
   }
 
   QuillIconTheme? _iconTheme(BuildContext context) {
@@ -46,15 +44,11 @@ class QuillToolbarTableButton extends StatelessWidget {
   }
 
   IconData _iconData(BuildContext context) {
-    return options.iconData ??
-        baseButtonExtraOptions(context)?.iconData ??
-        Icons.table_chart;
+    return options.iconData ?? baseButtonExtraOptions(context)?.iconData ?? Icons.table_chart;
   }
 
   String _tooltip(BuildContext context) {
-    return options.tooltip ??
-        baseButtonExtraOptions(context)?.tooltip ??
-        context.loc.insertTable;
+    return options.tooltip ?? baseButtonExtraOptions(context)?.tooltip ?? context.loc.insertTable;
   }
 
   void _sharedOnPressed(BuildContext context) {
@@ -68,8 +62,7 @@ class QuillToolbarTableButton extends StatelessWidget {
     final iconSize = _iconSize(context);
     final iconButtonFactor = _iconButtonFactor(context);
     final iconData = _iconData(context);
-    final childBuilder =
-        options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
+    final childBuilder = options.childBuilder ?? baseButtonExtraOptions(context)?.childBuilder;
 
     if (childBuilder != null) {
       return childBuilder(

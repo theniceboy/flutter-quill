@@ -55,8 +55,7 @@ class QuillToolbarClearFormatButton extends QuillToolbarBaseButton {
   }
 
   @override
-  IconData Function(BuildContext context) get getDefaultIconData =>
-      (context) => Icons.format_clear;
+  IconData Function(BuildContext context) get getDefaultIconData => (context) => Icons.format_clear;
 
   @override
   String Function(BuildContext context) get getDefaultTooltip =>

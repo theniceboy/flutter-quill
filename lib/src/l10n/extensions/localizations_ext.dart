@@ -7,8 +7,7 @@ typedef FlutterQuillLocalizations = generated.FlutterQuillLocalizations;
 class MissingFlutterQuillLocalizationException extends UnimplementedError {
   MissingFlutterQuillLocalizationException();
   @override
-  String? get message =>
-      'FlutterQuillLocalizations instance is required and could not found. '
+  String? get message => 'FlutterQuillLocalizations instance is required and could not found. '
       'Ensure that you are wrapping the current widget with '
       'FlutterQuillLocalizationsWidget or add '
       'FlutterQuillLocalizations.delegate to the localizationsDelegates '
@@ -20,7 +19,6 @@ extension LocalizationsExt on BuildContext {
   ///
   /// `loc` is short for `localizations`
   FlutterQuillLocalizations get loc {
-    return FlutterQuillLocalizations.of(this) ??
-        (throw MissingFlutterQuillLocalizationException());
+    return FlutterQuillLocalizations.of(this) ?? (throw MissingFlutterQuillLocalizationException());
   }
 }

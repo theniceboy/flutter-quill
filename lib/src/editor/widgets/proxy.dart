@@ -26,8 +26,7 @@ class BaselineProxy extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, covariant RenderBaselineProxy renderObject) {
+  void updateRenderObject(BuildContext context, covariant RenderBaselineProxy renderObject) {
     renderObject
       ..textStyle = textStyle!
       ..padding = padding!;
@@ -42,8 +41,7 @@ class RenderBaselineProxy extends RenderProxyBox {
   ) : _prototypePainter = TextPainter(
             text: TextSpan(text: ' ', style: textStyle),
             textDirection: TextDirection.ltr,
-            strutStyle:
-                StrutStyle.fromTextStyle(textStyle, forceStrutHeight: true));
+            strutStyle: StrutStyle.fromTextStyle(textStyle, forceStrutHeight: true));
 
   final TextPainter _prototypePainter;
 
@@ -87,8 +85,7 @@ class EmbedProxy extends SingleChildRenderObjectWidget {
   const EmbedProxy(Widget child, {super.key}) : super(child: child);
 
   @override
-  RenderEmbedProxy createRenderObject(BuildContext context) =>
-      RenderEmbedProxy(null);
+  RenderEmbedProxy createRenderObject(BuildContext context) => RenderEmbedProxy(null);
 }
 
 class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
@@ -97,16 +94,12 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
   @override
   List<TextBox> getBoxesForSelection(TextSelection selection) {
     if (!selection.isCollapsed) {
-      return <TextBox>[
-        TextBox.fromLTRBD(0, 0, size.width, size.height, TextDirection.ltr)
-      ];
+      return <TextBox>[TextBox.fromLTRBD(0, 0, size.width, size.height, TextDirection.ltr)];
     }
 
     final left = selection.extentOffset == 0 ? 0.0 : size.width;
     final right = selection.extentOffset == 0 ? 0.0 : size.width;
-    return <TextBox>[
-      TextBox.fromLTRBD(left, 0, right, size.height, TextDirection.ltr)
-    ];
+    return <TextBox>[TextBox.fromLTRBD(left, 0, right, size.height, TextDirection.ltr)];
   }
 
   @override
@@ -114,11 +107,8 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
 
   @override
   Offset getOffsetForCaret(TextPosition position, Rect caretPrototype) {
-    assert(
-        position.offset == 1 || position.offset == 0 || position.offset == -1);
-    return position.offset <= 0
-        ? Offset.zero
-        : Offset(size.width - caretPrototype.width, 0);
+    assert(position.offset == 1 || position.offset == 0 || position.offset == -1);
+    return position.offset <= 0 ? Offset.zero : Offset(size.width - caretPrototype.width, 0);
   }
 
   @override
@@ -126,8 +116,7 @@ class RenderEmbedProxy extends RenderProxyBox implements RenderContentProxyBox {
       TextPosition(offset: offset.dx > size.width / 2 ? 1 : 0);
 
   @override
-  TextRange getWordBoundary(TextPosition position) =>
-      const TextRange(start: 0, end: 1);
+  TextRange getWordBoundary(TextPosition position) => const TextRange(start: 0, end: 1);
 
   @override
   double get preferredLineHeight => size.height;
@@ -159,13 +148,12 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
 
   @override
   RenderParagraphProxy createRenderObject(BuildContext context) {
-    return RenderParagraphProxy(null, textStyle, textAlign, textDirection,
-        textScaler, strutStyle, locale, textWidthBasis, textHeightBehavior);
+    return RenderParagraphProxy(null, textStyle, textAlign, textDirection, textScaler, strutStyle,
+        locale, textWidthBasis, textHeightBehavior);
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, covariant RenderParagraphProxy renderObject) {
+  void updateRenderObject(BuildContext context, covariant RenderParagraphProxy renderObject) {
     renderObject
       ..textStyle = textStyle
       ..textAlign = textAlign
@@ -178,8 +166,7 @@ class RichTextProxy extends SingleChildRenderObjectWidget {
   }
 }
 
-class RenderParagraphProxy extends RenderProxyBox
-    implements RenderContentProxyBox {
+class RenderParagraphProxy extends RenderProxyBox implements RenderContentProxyBox {
   RenderParagraphProxy(
     RenderParagraph? super.child,
     TextStyle textStyle,
@@ -278,26 +265,22 @@ class RenderParagraphProxy extends RenderProxyBox
       child!.getOffsetForCaret(position, caretPrototype);
 
   @override
-  TextPosition getPositionForOffset(Offset offset) =>
-      child!.getPositionForOffset(offset);
+  TextPosition getPositionForOffset(Offset offset) => child!.getPositionForOffset(offset);
 
   @override
-  double? getFullHeightForCaret(TextPosition position) =>
-      child!.getFullHeightForCaret(position);
+  double? getFullHeightForCaret(TextPosition position) => child!.getFullHeightForCaret(position);
 
   @override
-  TextRange getWordBoundary(TextPosition position) =>
-      child!.getWordBoundary(position);
+  TextRange getWordBoundary(TextPosition position) => child!.getWordBoundary(position);
 
   @override
-  List<TextBox> getBoxesForSelection(TextSelection selection) => child!
-      .getBoxesForSelection(selection, boxHeightStyle: BoxHeightStyle.max);
+  List<TextBox> getBoxesForSelection(TextSelection selection) =>
+      child!.getBoxesForSelection(selection, boxHeightStyle: BoxHeightStyle.max);
 
   @override
   void performLayout() {
     super.performLayout();
-    _prototypePainter.layout(
-        minWidth: constraints.minWidth, maxWidth: constraints.maxWidth);
+    _prototypePainter.layout(minWidth: constraints.minWidth, maxWidth: constraints.maxWidth);
   }
 
   @override

@@ -55,8 +55,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
   print('Response body: $responseBody');
-  final githubReleaseNotes =
-      (jsonDecode(responseBody) as Map<String, Object?>)['body'] as String?;
+  final githubReleaseNotes = (jsonDecode(responseBody) as Map<String, Object?>)['body'] as String?;
   if (githubReleaseNotes == null) {
     print('Release notes is null.');
     exit(1);

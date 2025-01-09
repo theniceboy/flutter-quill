@@ -245,12 +245,10 @@ class FlutterQuillLocalizationsCa extends FlutterQuillLocalizations {
       'Si us plau, introdueix l\'URL de l\'enllaç (p. ex., \'https://example.com\')';
 
   @override
-  String get pleaseEnterAValidImageURL =>
-      'Si us plau, introdueix un URL d\'imatge vàlid';
+  String get pleaseEnterAValidImageURL => 'Si us plau, introdueix un URL d\'imatge vàlid';
 
   @override
-  String get pleaseEnterAValidVideoURL =>
-      'Si us plau, introdueix un URL de vídeo vàlid';
+  String get pleaseEnterAValidVideoURL => 'Si us plau, introdueix un URL de vídeo vàlid';
 
   @override
   String get photo => 'Foto';

@@ -58,8 +58,7 @@ bool handleFormatByWrappingWithSingleCharacter({
     return false;
   }
 
-  final textAfterLastChar =
-      plainText.substring(lastCharIndex + 1, selection.end);
+  final textAfterLastChar = plainText.substring(lastCharIndex + 1, selection.end);
   final textAfterLastCharIsEmpty = textAfterLastChar.trim().isEmpty;
 
   // The following conditions won't trigger the single character formatting:

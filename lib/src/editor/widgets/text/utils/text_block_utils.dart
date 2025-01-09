@@ -4,24 +4,17 @@ import '../../../../document/attribute.dart';
 import '../../../../document/nodes/block.dart';
 import '../../default_styles.dart';
 
-typedef LeadingBlockIndentWidth = HorizontalSpacing Function(
-    Block block,
-    BuildContext context,
-    int count,
-    LeadingBlockNumberPointWidth numberPointWidthDelegate);
+typedef LeadingBlockIndentWidth = HorizontalSpacing Function(Block block, BuildContext context,
+    int count, LeadingBlockNumberPointWidth numberPointWidthDelegate);
 
-typedef LeadingBlockNumberPointWidth = double Function(
-    double fontSize, int count);
+typedef LeadingBlockNumberPointWidth = double Function(double fontSize, int count);
 
 class TextBlockUtils {
   TextBlockUtils._();
 
   /// Get the horizontalSpacing using the default
   /// implementation provided by [Flutter Quill]
-  static HorizontalSpacing defaultIndentWidthBuilder(
-      Block block,
-      BuildContext context,
-      int count,
+  static HorizontalSpacing defaultIndentWidthBuilder(Block block, BuildContext context, int count,
       LeadingBlockNumberPointWidth numberPointWidthBuilder) {
     final defaultStyles = QuillStyles.getStyles(context, false)!;
     final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;

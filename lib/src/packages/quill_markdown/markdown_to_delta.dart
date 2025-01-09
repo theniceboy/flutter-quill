@@ -21,8 +21,7 @@ typedef ElementToEmbeddableConvertor = Embeddable Function(
 );
 
 /// Convertor from Markdown string to quill [Delta].
-class MarkdownToDelta extends Converter<String, Delta>
-    implements md.NodeVisitor {
+class MarkdownToDelta extends Converter<String, Delta> implements md.NodeVisitor {
   ///
   MarkdownToDelta({
     required this.markdownDocument,
@@ -146,9 +145,8 @@ class MarkdownToDelta extends Converter<String, Delta>
     if (_isInBlockQuote) {
       renderedText = text.text;
     } else if (_isInCodeblock) {
-      renderedText = text.text.endsWith('\n')
-          ? text.text.substring(0, text.text.length - 1)
-          : text.text;
+      renderedText =
+          text.text.endsWith('\n') ? text.text.substring(0, text.text.length - 1) : text.text;
     } else {
       renderedText = _trimTextToMdSpec(text.text);
     }
@@ -250,9 +248,7 @@ class MarkdownToDelta extends Converter<String, Delta>
   }
 
   void _insertNewLineBeforeElementIfNeeded(md.Element element) {
-    if (!_isInBlockQuote &&
-        _lastTag == 'blockquote' &&
-        element.tag == 'blockquote') {
+    if (!_isInBlockQuote && _lastTag == 'blockquote' && element.tag == 'blockquote') {
       _insertNewLine();
       return;
     }
@@ -291,9 +287,7 @@ class MarkdownToDelta extends Converter<String, Delta>
     }
 
     if (!_justPreviousBlockExit &&
-        (_isTopLevelNode(element) ||
-            _haveBlockAttrs(element) ||
-            element.tag == 'li')) {
+        (_isTopLevelNode(element) || _haveBlockAttrs(element) || element.tag == 'li')) {
       _justPreviousBlockExit = true;
       _insertNewLine();
       return;
@@ -378,8 +372,7 @@ class MarkdownToDelta extends Converter<String, Delta>
       result = _effectiveElementToInlineAttr()[element.tag]?.call(element);
     }
     if (result == null) {
-      throw Exception(
-          'Element $element cannot be converted to inline attribute');
+      throw Exception('Element $element cannot be converted to inline attribute');
     }
     return result;
   }
@@ -398,8 +391,7 @@ class MarkdownToDelta extends Converter<String, Delta>
   List<Attribute<dynamic>> _toBlockAttributes(md.Element element) {
     final result = _effectiveElementToBlockAttr()[element.tag]?.call(element);
     if (result == null) {
-      throw Exception(
-          'Element $element cannot be converted to block attribute');
+      throw Exception('Element $element cannot be converted to block attribute');
     }
     return result;
   }
@@ -411,12 +403,10 @@ class MarkdownToDelta extends Converter<String, Delta>
     };
   }
 
-  bool _isEmbedElement(md.Element element) =>
-      _effectiveElementToEmbed().containsKey(element.tag);
+  bool _isEmbedElement(md.Element element) => _effectiveElementToEmbed().containsKey(element.tag);
 
   Embeddable _toEmbeddable(md.Element element) {
-    final result =
-        _effectiveElementToEmbed()[element.tag]?.call(element.attributes);
+    final result = _effectiveElementToEmbed()[element.tag]?.call(element.attributes);
     if (result == null) {
       throw Exception('Element $element cannot be converted to Embeddable');
     }

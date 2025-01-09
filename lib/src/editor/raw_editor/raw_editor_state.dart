@@ -541,6 +541,8 @@ class QuillRawEditorState extends EditorState
     _selectionOverlay?.handlesVisible = _shouldShowSelectionHandles();
     _selectionOverlay?.showHandles();
 
+    updateRemoteValueIfNeeded();
+
     if (!_hasFocus) {
       // This will show the keyboard for all selection changes on the
       // editor, not just changes triggered by user gestures.

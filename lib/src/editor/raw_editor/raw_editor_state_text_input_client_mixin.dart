@@ -67,8 +67,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   @internal
   Brightness createKeyboardAppearance() =>
       widget.config.keyboardAppearance ??
-      CupertinoTheme.maybeBrightnessOf(context) ??
-      Theme.of(context).brightness;
+			(mounted ? (CupertinoTheme.maybeBrightnessOf(context) ??
+					Theme.of(context).brightness) : Brightness.light);
 
   void openConnectionIfNeeded() {
     if (!shouldCreateInputConnection) {
@@ -118,8 +118,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   void _updateComposingRectIfNeeded() {
     final composingRange = _lastKnownRemoteTextEditingValue?.composing ??
         textEditingValue.composing;
-    if (hasConnection) {
-      assert(mounted);
+    if (hasConnection && mounted) {
       if (composingRange.isValid) {
         final offset = composingRange.start;
         final composingRect =
@@ -382,7 +381,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   }
 
   void _updateSizeAndTransform() {
-    if (hasConnection) {
+    if (hasConnection && mounted) {
       // Asking for renderEditor.size here can cause errors if layout hasn't
       // occurred yet. So we schedule a post frame callback instead.
       final size = renderEditor.size;

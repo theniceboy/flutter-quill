@@ -60,6 +60,20 @@ class QuillController extends ChangeNotifier {
   // For internal use only, should not be exposed as a public API.
   QuillEditorConfig? _editorConfig;
 
+  void setContents(
+    Delta delta, {
+    ChangeSource changeSource = ChangeSource.local,
+  }) {
+    final newDocument = Document.fromDelta(delta);
+
+    final change = DocChange(_document.toDelta(), delta, changeSource);
+    newDocument.documentChangeObserver.add(change);
+    newDocument.history.handleDocChange(change);
+
+    _document = newDocument;
+    notifyListeners();
+  }
+
   @visibleForTesting
   @internal
   QuillEditorConfig? get editorConfig => _editorConfig;

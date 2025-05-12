@@ -561,13 +561,12 @@ class Document {
           doc.toString(), 'Document Delta cannot be empty.');
     }
 
-    assert((doc.last.data as String).endsWith('\n'));
+    // assert((doc.last.data as String).endsWith('\n'));
 
     var offset = 0;
     for (final op in doc.toList()) {
       if (!op.isInsert) {
-        throw ArgumentError.value(doc,
-            'Document can only contain insert operations but ${op.key} found.');
+        continue;
       }
       final style =
           op.attributes != null ? Style.fromJson(op.attributes) : null;

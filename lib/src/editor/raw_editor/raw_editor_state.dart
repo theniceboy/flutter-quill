@@ -362,10 +362,10 @@ class QuillRawEditorState extends EditorState
       // the placeholder (this is really awkward when everything is empty)
       final blockAttrInsertion = blockAttributesWithoutContent == null
           ? ''
-          : ',{"insert":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
+          : ',{"${Operation.insertKey}":"\\n","attributes":${jsonEncode(blockAttributesWithoutContent)}}';
       doc = Document.fromJson(
         jsonDecode(
-          '[{"attributes":{"placeholder":true},"insert":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
+          '[{"attributes":{"placeholder":true},"${Operation.insertKey}":"${isCodeBlock ? '// ' : ''}$raw${blockAttrInsertion.isEmpty ? '\\n' : ''}"}$blockAttrInsertion]',
         ),
       );
     }

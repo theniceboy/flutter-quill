@@ -67,8 +67,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   @internal
   Brightness createKeyboardAppearance() =>
       widget.config.keyboardAppearance ??
-			(mounted ? (CupertinoTheme.maybeBrightnessOf(context) ??
-					Theme.of(context).brightness) : Brightness.light);
+      (mounted
+          ? (CupertinoTheme.maybeBrightnessOf(context) ??
+              Theme.of(context).brightness)
+          : Brightness.light);
 
   void openConnectionIfNeeded() {
     if (!shouldCreateInputConnection) {
@@ -132,15 +134,17 @@ mixin RawEditorStateTextInputClientMixin on EditorState
 
   void _updateCaretRectIfNeeded() {
     if (hasConnection) {
-      if (!dirty &&
-          renderEditor.selection.isValid &&
-          renderEditor.selection.isCollapsed) {
-        final currentTextPosition =
-            TextPosition(offset: renderEditor.selection.baseOffset);
-        final caretRect =
-            renderEditor.getLocalRectForCaret(currentTextPosition);
-        _textInputConnection!.setCaretRect(caretRect);
-      }
+      try {
+        if (!dirty &&
+            renderEditor.selection.isValid &&
+            renderEditor.selection.isCollapsed) {
+          final currentTextPosition =
+              TextPosition(offset: renderEditor.selection.baseOffset);
+          final caretRect =
+              renderEditor.getLocalRectForCaret(currentTextPosition);
+          _textInputConnection!.setCaretRect(caretRect);
+        }
+      } catch (_) {}
       SchedulerBinding.instance
           .addPostFrameCallback((_) => _updateCaretRectIfNeeded());
     }
@@ -384,11 +388,11 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (hasConnection && mounted) {
       // Asking for renderEditor.size here can cause errors if layout hasn't
       // occurred yet. So we schedule a post frame callback instead.
-      final size = renderEditor.size;
-      final transform = renderEditor.getTransformTo(null);
-      _textInputConnection?.setEditableSizeAndTransform(size, transform);
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => _updateSizeAndTransform());
+      try {
+        final size = renderEditor.size;
+        final transform = renderEditor.getTransformTo(null);
+        _textInputConnection?.setEditableSizeAndTransform(size, transform);
+      } catch (_) {}
     }
   }
 }

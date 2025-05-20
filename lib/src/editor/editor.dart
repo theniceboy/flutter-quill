@@ -186,7 +186,7 @@ class QuillEditor extends StatefulWidget {
 
 class QuillEditorState extends State<QuillEditor>
     implements EditorTextSelectionGestureDetectorBuilderDelegate {
-  late GlobalKey<EditorState> _editorKey;
+  late GlobalKey<EditorState> editorKey;
   late EditorTextSelectionGestureDetectorBuilder
       _selectionGestureDetectorBuilder;
 
@@ -202,7 +202,7 @@ class QuillEditorState extends State<QuillEditor>
   @override
   void initState() {
     super.initState();
-    _editorKey = config.editorKey ?? GlobalKey<EditorState>();
+    editorKey = config.editorKey ?? GlobalKey<EditorState>();
     _selectionGestureDetectorBuilder =
         _QuillEditorSelectionGestureDetectorBuilder(
       this,
@@ -218,7 +218,7 @@ class QuillEditorState extends State<QuillEditor>
     // Hide toolbar when the editor loses focus.
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
-        _editorKey.currentState?.hideToolbar();
+        editorKey.currentState?.hideToolbar();
       }
     });
   }
@@ -261,7 +261,7 @@ class QuillEditorState extends State<QuillEditor>
         config.enableInteractiveSelection && config.enableSelectionToolbar;
 
     final child = QuillRawEditor(
-      key: _editorKey,
+      key: editorKey,
       controller: controller,
       dragOffsetNotifier: dragOffsetNotifier,
       config: QuillRawEditorConfig(
@@ -382,7 +382,7 @@ class QuillEditorState extends State<QuillEditor>
   }
 
   @override
-  GlobalKey<EditorState> get editableTextKey => _editorKey;
+  GlobalKey<EditorState> get editableTextKey => editorKey;
 
   @override
   bool get forcePressEnabled => false;
@@ -390,14 +390,14 @@ class QuillEditorState extends State<QuillEditor>
   @override
   bool get selectionEnabled => config.enableInteractiveSelection;
 
-  /// Throws [StateError] if [_editorKey] is not connected to [QuillRawEditor] correctly.
+  /// Throws [StateError] if [editorKey] is not connected to [QuillRawEditor] correctly.
   ///
   /// See also: [Flutter currentState docs](https://github.com/flutter/flutter/blob/b8211b3d941f2dcaa2db22e4572b74ede620cced/packages/flutter/lib/src/widgets/framework.dart#L179-L181)
   EditorState get _requireEditorCurrentState {
-    final currentState = _editorKey.currentState;
+    final currentState = editorKey.currentState;
     if (currentState == null) {
       throw StateError(
-          'The $EditorState is null, ensure the $_editorKey is associated correctly with $QuillRawEditor.');
+          'The $EditorState is null, ensure the $editorKey is associated correctly with $QuillRawEditor.');
     }
     return currentState;
   }

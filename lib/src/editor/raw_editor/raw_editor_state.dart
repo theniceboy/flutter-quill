@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart'
     show KeyboardVisibilityController;
 
+import '../../../quill_delta.dart';
 import '../../common/structs/horizontal_spacing.dart';
 import '../../common/structs/offset_value.dart';
 import '../../common/structs/vertical_spacing.dart';
@@ -48,7 +49,7 @@ class QuillRawEditorState extends EditorState
         RawEditorStateSelectionDelegateMixin {
   late final EditorKeyboardShortcutsActionsManager _shortcutActionsManager;
 
-  final GlobalKey _editorKey = GlobalKey();
+  final GlobalKey editorKey = GlobalKey();
 
   KeyboardVisibilityController? _keyboardVisibilityController;
   StreamSubscription<bool>? _keyboardVisibilitySubscription;
@@ -327,7 +328,7 @@ class QuillRawEditorState extends EditorState
 
   Widget _scribbleFocusable(Widget child) {
     return ScribbleFocusable(
-      editorKey: _editorKey,
+      editorKey: editorKey,
       enabled: widget.config.enableScribble && !widget.config.readOnly,
       renderBoxForBounds: () => context
           .findAncestorStateOfType<QuillEditorState>()
@@ -407,7 +408,7 @@ class QuillRawEditorState extends EditorState
                       ? widget.config.readOnlyMouseCursor
                       : SystemMouseCursors.text,
                   child: QuillRawEditorMultiChildRenderObject(
-                    key: _editorKey,
+                    key: editorKey,
                     offset: _scrollController.hasClients
                         ? _scrollController.position
                         : null,
@@ -442,7 +443,7 @@ class QuillRawEditorState extends EditorState
                   ? widget.config.readOnlyMouseCursor
                   : SystemMouseCursors.text,
               child: QuillRawEditorMultiChildRenderObject(
-                key: _editorKey,
+                key: editorKey,
                 document: doc,
                 selection: controller.selection,
                 hasFocus: _hasFocus,
@@ -1069,23 +1070,26 @@ class QuillRawEditorState extends EditorState
         _selectionOverlay!.update(textEditingValue);
       }
     } else if (_hasFocus) {
-      _selectionOverlay = EditorTextSelectionOverlay(
-        value: textEditingValue,
-        context: context,
-        debugRequiredFor: widget,
-        startHandleLayerLink: _startHandleLayerLink,
-        endHandleLayerLink: _endHandleLayerLink,
-        renderObject: renderEditor,
-        selectionCtrls: widget.config.selectionCtrls,
-        selectionDelegate: this,
-        clipboardStatus: _clipboardStatus,
-        contextMenuBuilder: widget.config.contextMenuBuilder == null
-            ? null
-            : (context) => widget.config.contextMenuBuilder!(context, this),
-        dragOffsetNotifier: widget.dragOffsetNotifier,
-      );
-      _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
-      _selectionOverlay!.showHandles();
+      if (editorKey.currentContext?.findRenderObject()
+          case final RenderEditor renderEditor) {
+        _selectionOverlay = EditorTextSelectionOverlay(
+          value: textEditingValue,
+          context: context,
+          debugRequiredFor: widget,
+          startHandleLayerLink: _startHandleLayerLink,
+          endHandleLayerLink: _endHandleLayerLink,
+          renderObject: renderEditor,
+          selectionCtrls: widget.config.selectionCtrls,
+          selectionDelegate: this,
+          clipboardStatus: _clipboardStatus,
+          contextMenuBuilder: widget.config.contextMenuBuilder == null
+              ? null
+              : (context) => widget.config.contextMenuBuilder!(context, this),
+          dragOffsetNotifier: widget.dragOffsetNotifier,
+        );
+        _selectionOverlay!.handlesVisible = _shouldShowSelectionHandles();
+        _selectionOverlay!.showHandles();
+      }
     }
   }
 
@@ -1174,7 +1178,7 @@ class QuillRawEditorState extends EditorState
   /// This property is typically used to notify the renderer of input gestures.
   @override
   RenderEditor get renderEditor =>
-      _editorKey.currentContext!.findRenderObject() as RenderEditor;
+      editorKey.currentContext!.findRenderObject() as RenderEditor;
 
   /// Express interest in interacting with the keyboard.
   ///

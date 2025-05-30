@@ -73,7 +73,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           : Brightness.light);
 
   void openConnectionIfNeeded() {
-    if (!shouldCreateInputConnection) {
+    if (!shouldCreateInputConnection || !mounted) {
       return;
     }
 

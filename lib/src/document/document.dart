@@ -34,8 +34,9 @@ class Document {
   }
 
   /// Creates new document from provided `delta`.
-  Document.fromDelta(Delta delta) : _delta = delta {
-    loadDocument(delta);
+  Document.fromDelta(Delta delta, {int? maxChar, int? maxLines})
+      : _delta = delta {
+    loadDocument(delta, maxChar: maxChar, maxLines: maxLines);
   }
 
   /// Stores the plain text content of the entire document in memory for quick access.
@@ -555,7 +556,7 @@ class Document {
 
   @visibleForTesting
   @internal
-  void loadDocument(Delta doc) {
+  void loadDocument(Delta doc, {int? maxChar, int? maxLines}) {
     if (doc.isEmpty) {
       throw ArgumentError.value(
           doc.toString(), 'Document Delta cannot be empty.');
@@ -564,16 +565,79 @@ class Document {
     // assert((doc.last.data as String).endsWith('\n'));
 
     var offset = 0;
+    var totalChars = 0;
+    var totalLines = 0;
+
     for (final op in doc.toList()) {
       if (!op.isInsert) {
         continue;
       }
+
       final style =
           op.attributes != null ? Style.fromJson(op.attributes) : null;
       final data = _normalize(op.data);
+      final dataLength = data is String ? data.length : 1;
+
+      // Count lines in this operation if it's text
+      var linesInData = 0;
+      if (data is String) {
+        linesInData = '\n'.allMatches(data).length;
+      }
+
+      // Check line limit first
+      if (maxLines != null && totalLines + linesInData > maxLines) {
+        // We need to truncate due to line limit
+        if (data is String && totalLines < maxLines) {
+          // Find where to cut off to respect line limit
+          var cutIndex = 0;
+          var lineCount = 0;
+          for (var i = 0; i < data.length; i++) {
+            if (data[i] == '\n') {
+              lineCount++;
+              if (totalLines + lineCount >= maxLines) {
+                cutIndex = i;
+                break;
+              }
+            }
+          }
+
+          // Insert truncated data and add "..."
+          if (cutIndex > 0) {
+            final truncatedData = data.substring(0, cutIndex);
+            _root.insert(offset, '$truncatedData ...', style);
+          } else {
+            _root.insert(offset, '...', style);
+          }
+        } else if (totalLines < maxLines) {
+          // Add "..." if we haven't reached the line limit yet
+          _root.insert(offset, '...', style);
+        }
+        break; // Stop processing further operations
+      }
+
+      // Check character limit
+      if (maxChar != null && totalChars + dataLength > maxChar) {
+        // We need to truncate due to character limit
+        final remainingChars = maxChar - totalChars;
+
+        if (remainingChars > 3 && data is String) {
+          // Truncate the string and add "..."
+          final truncatedData = data.substring(0, remainingChars - 3);
+          _root.insert(offset, '$truncatedData ...', style);
+        } else if (remainingChars > 0) {
+          // Just add as many dots as we can fit
+          final ellipsis = '...'.substring(0, remainingChars);
+          _root.insert(offset, ellipsis, style);
+        }
+        break; // Stop processing further operations
+      }
+
       _root.insert(offset, data, style);
-      offset += op.length!;
+      offset += dataLength;
+      totalChars += dataLength;
+      totalLines += linesInData;
     }
+
     final node = _root.last;
     if (node is Line &&
         node.parent is! Block &&

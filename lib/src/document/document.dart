@@ -34,9 +34,11 @@ class Document {
   }
 
   /// Creates new document from provided `delta`.
-  Document.fromDelta(Delta delta, {int? maxChar, int? maxLines})
+  Document.fromDelta(Delta delta,
+      {int? maxChar, int? maxLines, bool checkUnicode = false})
       : _delta = delta {
-    loadDocument(delta, maxChar: maxChar, maxLines: maxLines);
+    loadDocument(delta,
+        maxChar: maxChar, maxLines: maxLines, checkUnicode: checkUnicode);
   }
 
   /// Stores the plain text content of the entire document in memory for quick access.
@@ -554,9 +556,12 @@ class Document {
           .map((e) => e.toPlainText(embedBuilders, unknownEmbedBuilder))
           .join();
 
+  bool hasUnicode = false;
+
   @visibleForTesting
   @internal
-  void loadDocument(Delta doc, {int? maxChar, int? maxLines}) {
+  void loadDocument(Delta doc,
+      {int? maxChar, int? maxLines, bool checkUnicode = false}) {
     if (doc.isEmpty) {
       throw ArgumentError.value(
           doc.toString(), 'Document Delta cannot be empty.');
@@ -567,6 +572,7 @@ class Document {
     var offset = 0;
     var totalChars = 0;
     var totalLines = 0;
+    hasUnicode = false; // Reset the Unicode flag
 
     for (final op in doc.toList()) {
       if (!op.isInsert) {
@@ -577,6 +583,11 @@ class Document {
           op.attributes != null ? Style.fromJson(op.attributes) : null;
       final data = _normalize(op.data);
       final dataLength = data is String ? data.length : 1;
+
+      // Check for Unicode characters in text data
+      if (checkUnicode && data is String && !hasUnicode) {
+        hasUnicode = _containsUnicode(data);
+      }
 
       // Count lines in this operation if it's text
       var linesInData = 0;
@@ -604,6 +615,10 @@ class Document {
           // Insert truncated data and add "..."
           if (cutIndex > 0) {
             final truncatedData = data.substring(0, cutIndex);
+            // Check Unicode in truncated portion
+            if (checkUnicode && !hasUnicode) {
+              hasUnicode = _containsUnicode(truncatedData);
+            }
             _root.insert(offset, '$truncatedData ...', style);
           } else {
             _root.insert(offset, '...', style);
@@ -623,6 +638,10 @@ class Document {
         if (remainingChars > 3 && data is String) {
           // Truncate the string and add "..."
           final truncatedData = data.substring(0, remainingChars - 3);
+          // Check Unicode in truncated portion
+          if (checkUnicode && !hasUnicode) {
+            hasUnicode = _containsUnicode(truncatedData);
+          }
           _root.insert(offset, '$truncatedData ...', style);
         } else if (remainingChars > 0) {
           // Just add as many dots as we can fit
@@ -646,6 +665,17 @@ class Document {
       _root.remove(node);
     }
     cachedPlainText = null;
+  }
+
+  /// Helper function to check if a string contains Unicode characters
+  /// (characters outside basic ASCII range 0-127)
+  bool _containsUnicode(String text) {
+    for (var i = 0; i < text.length; i++) {
+      if (text.codeUnitAt(i) > 127) {
+        return true;
+      }
+    }
+    return false;
   }
 
   bool isEmpty() {

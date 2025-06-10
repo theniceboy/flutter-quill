@@ -1095,7 +1095,9 @@ class QuillRawEditorState extends EditorState
 
   void _handleFocusChanged() {
     if (dirty) {
-      requestKeyboard();
+      if (_hasFocus) {
+        requestKeyboard();
+      }
       SchedulerBinding.instance
           .addPostFrameCallback((_) => _handleFocusChanged());
       return;

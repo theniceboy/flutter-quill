@@ -1333,7 +1333,9 @@ class QuillRawEditorState extends EditorState
         _scheduleShowCaretOnScreen(withAnimation: true);
       }
     } else {
-      widget.config.focusNode.requestFocus();
+      if (!widget.controller.readOnly) {
+        widget.config.focusNode.requestFocus();
+      }
     }
   }
 

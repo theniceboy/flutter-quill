@@ -1218,7 +1218,7 @@ class QuillRawEditorState extends EditorState
       // Since we are in a post frame callback, check currentContext in case
       // RenderEditable has been disposed (in which case it will be null).
       final renderEditor =
-          _editorKey.currentContext?.findRenderObject() as RenderEditor?;
+          editorKey.currentContext?.findRenderObject() as RenderEditor?;
       if (renderEditor == null ||
           !renderEditor.selection.isValid ||
           !_scrollController.hasClients) {

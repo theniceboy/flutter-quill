@@ -1167,6 +1167,7 @@ class QuillRawEditorState extends EditorState
   }
 
   void _handleFocusChanged() {
+    if (!mounted) return;
     if (dirty) {
       if (_hasFocus) {
         requestKeyboard();

@@ -256,7 +256,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     }
 
     // Apply all deltas sequentially to build the final TextEditingValue
-    TextEditingValue value = _lastKnownRemoteTextEditingValue!;
+    var value = _lastKnownRemoteTextEditingValue!;
 
     for (final delta in textEditingDeltas) {
       value = delta.apply(value);

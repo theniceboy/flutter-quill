@@ -81,6 +81,7 @@ class QuillEditorConfig {
     this.requestKeyboardFocusOnCheckListChanged = false,
     this.textInputAction = TextInputAction.newline,
     this.enableScribble = false,
+    this.enableScribbleRichGestures = false,
     this.onScribbleActivated,
     this.scribbleAreaInsets,
     this.readOnlyMouseCursor = SystemMouseCursors.text,
@@ -462,6 +463,19 @@ class QuillEditorConfig {
   /// Enable Scribble? Currently Apple Pencil only, defaults to false.
   final bool enableScribble;
 
+  /// Enable rich Scribble editing gestures (scratch-to-delete, circle-to-select).
+  ///
+  /// When enabled, uses DeltaTextInputClient for granular text editing operations
+  /// from iOS Scribble. This enables advanced Apple Pencil gestures like:
+  /// - Scratch/strike through text to delete
+  /// - Circle text to select
+  /// - Vertical line to insert space
+  /// - Join gesture to remove space
+  ///
+  /// Requires [enableScribble] to be true. Only works on iOS/iPadOS.
+  /// Defaults to false for backward compatibility.
+  final bool enableScribbleRichGestures;
+
   /// Called when Scribble is activated.
   final void Function()? onScribbleActivated;
 
@@ -528,6 +542,7 @@ class QuillEditorConfig {
     bool? requestKeyboardFocusOnCheckListChanged,
     TextInputAction? textInputAction,
     bool? enableScribble,
+    bool? enableScribbleRichGestures,
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
@@ -597,6 +612,8 @@ class QuillEditorConfig {
               this.requestKeyboardFocusOnCheckListChanged,
       textInputAction: textInputAction ?? this.textInputAction,
       enableScribble: enableScribble ?? this.enableScribble,
+      enableScribbleRichGestures:
+          enableScribbleRichGestures ?? this.enableScribbleRichGestures,
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,

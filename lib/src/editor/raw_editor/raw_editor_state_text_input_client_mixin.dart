@@ -13,7 +13,7 @@ import '../editor.dart';
 import 'raw_editor.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
-    implements TextInputClient {
+    implements TextInputClient, DeltaTextInputClient {
   TextInputConnection? _textInputConnection;
   TextEditingValue? __lastKnownRemoteTextEditingValue;
 
@@ -92,6 +92,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
               ? const <String>[]
               : widget.config.contentInsertionConfiguration!.allowedMimeTypes,
           viewId: context.getViewId(),
+          // Enable delta model for rich Scribble gestures (scratch-to-delete, circle-to-select)
+          enableDeltaModel: widget.config.enableScribble &&
+              widget.config.enableScribbleRichGestures,
         ),
       );
 
@@ -244,6 +247,62 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         value.selection,
       );
     }
+  }
+
+  @override
+  void updateEditingValueWithDeltas(List<TextEditingDelta> textEditingDeltas) {
+    if (!shouldCreateInputConnection) {
+      return;
+    }
+
+    // Apply all deltas sequentially to build the final TextEditingValue
+    TextEditingValue value = _lastKnownRemoteTextEditingValue!;
+
+    for (final delta in textEditingDeltas) {
+      value = delta.apply(value);
+    }
+
+    // Check if the final value is the same as the last known value
+    if (_lastKnownRemoteTextEditingValue == value) {
+      return;
+    }
+
+    // Process each delta for granular updates to the Quill document
+    for (final delta in textEditingDeltas) {
+      if (delta is TextEditingDeltaInsertion) {
+        // Handle insertion
+        widget.controller.replaceText(
+          delta.insertionOffset,
+          0, // No deletion
+          delta.textInserted,
+          delta.selection,
+        );
+      } else if (delta is TextEditingDeltaDeletion) {
+        // Handle deletion
+        widget.controller.replaceText(
+          delta.deletedRange.start,
+          delta.deletedRange.end - delta.deletedRange.start,
+          '', // No insertion
+          delta.selection,
+        );
+      } else if (delta is TextEditingDeltaReplacement) {
+        // Handle replacement
+        widget.controller.replaceText(
+          delta.replacedRange.start,
+          delta.replacedRange.end - delta.replacedRange.start,
+          delta.textReplaced,
+          delta.selection,
+        );
+      } else if (delta is TextEditingDeltaNonTextUpdate) {
+        // Handle selection/composing changes only
+        if (delta.selection != _lastKnownRemoteTextEditingValue!.selection) {
+          widget.controller.updateSelection(delta.selection, ChangeSource.local);
+        }
+      }
+    }
+
+    // Update the last known value with the final composing range
+    _lastKnownRemoteTextEditingValue = value;
   }
 
   @override

@@ -19,6 +19,7 @@ import '../widgets/delegate.dart';
 import '../widgets/link.dart' hide linkPrefixes;
 import '../widgets/text/magnifier.dart';
 import '../widgets/text/utils/text_block_utils.dart';
+import '../spell_check/spell_check_controller.dart';
 import 'search_config.dart';
 
 // IMPORTANT For project authors: The QuillEditorConfig.copyWith()
@@ -86,6 +87,7 @@ class QuillEditorConfig {
     this.readOnlyMouseCursor = SystemMouseCursors.text,
     this.onPerformAction,
     @experimental this.customLeadingBlockBuilder,
+    this.spellCheckController,
   });
 
   @experimental
@@ -471,6 +473,11 @@ class QuillEditorConfig {
   /// Called when a text input action is performed.
   final void Function(TextInputAction action)? onPerformAction;
 
+  /// Spell check controller for the editor.
+  /// When set, misspelled words are underlined and suggestions are available
+  /// via tap (mobile) or right-click (desktop/web).
+  final QuillSpellCheckController? spellCheckController;
+
   // IMPORTANT For project authors: The copyWith()
   // should be manually updated each time we add or remove a property
 
@@ -531,6 +538,7 @@ class QuillEditorConfig {
     void Function()? onScribbleActivated,
     EdgeInsets? scribbleAreaInsets,
     void Function(TextInputAction action)? onPerformAction,
+    QuillSpellCheckController? spellCheckController,
   }) {
     return QuillEditorConfig(
       customLeadingBlockBuilder:
@@ -600,6 +608,7 @@ class QuillEditorConfig {
       onScribbleActivated: onScribbleActivated ?? this.onScribbleActivated,
       scribbleAreaInsets: scribbleAreaInsets ?? this.scribbleAreaInsets,
       onPerformAction: onPerformAction ?? this.onPerformAction,
+      spellCheckController: spellCheckController ?? this.spellCheckController,
     );
   }
 }

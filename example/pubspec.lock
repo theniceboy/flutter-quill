@@ -429,10 +429,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
+      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
       url: "https://pub.dev"
     source: hosted
-    version: "1.16.0"
+    version: "1.17.0"
   mime:
     dependency: transitive
     description:
@@ -553,6 +553,126 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
+  simple_spell_checker:
+    dependency: transitive
+    description:
+      name: simple_spell_checker
+      sha256: "1b82272ca9ebfdea819b648c5f42905e11b8f22bd288a220c20f749f77e874e3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_ar_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_ar_lan
+      sha256: b2c5da3c5ba36ca4ed5ce9db2c6ee02e3b29b50b8ad0336937e82979cb7f448a
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_bg_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_bg_lan
+      sha256: "4b838aa1ede7339cc87ab606f7955c511227a1aa4e640aeb0d05bdd55cda851d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_ca_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_ca_lan
+      sha256: "92050d3843184d96cad5a5f7a7ae206ea5ab136aee5b75261d903d9afc90d6b7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_da_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_da_lan
+      sha256: e66979065c3366ffc4628d871027c3d90a21fe220872d3f55ea149ddc20f42bf
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_de_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_de_lan
+      sha256: "21974a12829f7304e458d87bbfa08c9e26693ac267772476d84b9c08b6d20e0f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_en_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_en_lan
+      sha256: "9866b3f8faf5f207b898ff4a58f85ebe96e7b143f36d7e5f29381bd6bf3ae752"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_es_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_es_lan
+      sha256: "949e33836ebb4a65eb886a5af8d60389ff891c47fc3a27b44dd99ae1af876bb4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_et_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_et_lan
+      sha256: c78e54b2290c84a4a0fed0cb7e078a4cece8e37022755af539dc88644d5e23ff
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_fr_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_fr_lan
+      sha256: "7243638cf830c52876708722fcbd9ca84f7eb57fdf43b944e92e0911c0389203"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_he_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_he_lan
+      sha256: f966f186319450e691d7d11d928958dd70b930b77e52a8d25ec757bccd0e56a8
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_it_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_it_lan
+      sha256: c72bd9ac077000ec38c53783f98dadf2f020cd4545ee0a119941bffb7fa03b39
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_nl_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_nl_lan
+      sha256: a1f4619ec315837d6fcd55f92305746b8c6cd687c757e0fd7f0d26b4a08633ff
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_pt_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_pt_lan
+      sha256: "622049abd525e38950a8659fd78b982174f37347a99836e38114d7458a336f1a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+  simple_spell_checker_ru_lan:
+    dependency: transitive
+    description:
+      name: simple_spell_checker_ru_lan
+      sha256: "40df3e2871d146075d29184982d3573410a1df5d078b1dea368b123c4ca7d41c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -610,10 +730,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
+      sha256: ab2726c1a94d3176a45960b6234466ec367179b87dd74f1611adb1f3b5fb9d55
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.6"
+    version: "0.7.7"
   typed_data:
     dependency: transitive
     description:

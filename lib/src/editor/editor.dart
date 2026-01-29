@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 
 import '../common/utils/platform.dart';
 import '../controller/quill_controller.dart';
+import 'spell_check/spell_check_controller.dart';
+import 'spell_check/spell_check_text_span_builder.dart';
 import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/container.dart' as container_node;
@@ -260,6 +262,27 @@ class QuillEditorState extends State<QuillEditor>
     final showSelectionToolbar =
         config.enableInteractiveSelection && config.enableSelectionToolbar;
 
+    final sc = config.spellCheckController;
+    final useSecondaryTap = kIsWeb ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux;
+
+    final effectiveTextSpanBuilder = sc != null
+        ? (BuildContext ctx, node, int nodeOffset, String text,
+                TextStyle? style, GestureRecognizer? recognizer) =>
+            buildSpellCheckTextSpan(
+              ctx,
+              node,
+              nodeOffset,
+              text,
+              style,
+              recognizer,
+              sc,
+              useSecondaryTap: useSecondaryTap,
+            )
+        : config.textSpanBuilder;
+
     final child = QuillRawEditor(
       key: editorKey,
       controller: controller,
@@ -308,7 +331,7 @@ class QuillEditorState extends State<QuillEditor>
         enableInteractiveSelection: config.enableInteractiveSelection,
         scrollPhysics: config.scrollPhysics,
         embedBuilder: _getEmbedBuilder,
-        textSpanBuilder: config.textSpanBuilder,
+        textSpanBuilder: effectiveTextSpanBuilder,
         quillMagnifierBuilder: config.quillMagnifierBuilder,
         linkActionPickerDelegate: config.linkActionPickerDelegate,
         customStyleBuilder: config.customStyleBuilder,
@@ -340,21 +363,26 @@ class QuillEditorState extends State<QuillEditor>
           )
         : child;
 
+    Widget result = editor;
+
+    if (sc != null) {
+      result = ListenableBuilder(
+        listenable: sc,
+        builder: (context, _) => editor,
+      );
+    }
+
     if (kIsWeb) {
-      // Intercept RawKeyEvent on Web to prevent it from propagating to parents
-      // that might interfere with the editor key behavior, such as
-      // SingleChildScrollView. Thanks to @wliumelb for the workaround.
-      // See issue https://github.com/singerdmx/flutter-quill/issues/304
       return KeyboardListener(
         onKeyEvent: (_) {},
         focusNode: FocusNode(
           onKeyEvent: (node, event) => KeyEventResult.skipRemainingHandlers,
         ),
-        child: editor,
+        child: result,
       );
     }
 
-    return editor;
+    return result;
   }
 
   EmbedBuilder _getEmbedBuilder(Embed node) {

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:simple_spell_checker/simple_spell_checker.dart';
 
 import '../../controller/quill_controller.dart';
 import 'spell_check_dictionaries.dart';
@@ -36,10 +35,9 @@ class QuillSpellCheckController extends ChangeNotifier {
       'he',
     ],
     Listenable? dictionariesLoaded,
-  })  : _controller = controller,
-        _defaultLanguage = defaultLanguage,
-        _supportedLanguages = supportedLanguages,
-        _spellChecker = SimpleSpellChecker(language: defaultLanguage) {
+  }) : _controller = controller,
+       _defaultLanguage = defaultLanguage,
+       _supportedLanguages = supportedLanguages {
     _subscription = _controller.changes.listen((_) => _scheduleCheck());
     final listenable = dictionariesLoaded ?? spellCheckDictionaries.onLoaded;
     _dictionariesLoaded = listenable;
@@ -48,12 +46,13 @@ class QuillSpellCheckController extends ChangeNotifier {
   }
 
   final QuillController _controller;
-  final SimpleSpellChecker _spellChecker;
   final String _defaultLanguage;
   final List<String> _supportedLanguages;
   late final Listenable _dictionariesLoaded;
   StreamSubscription? _subscription;
   Timer? _debounce;
+
+  String _currentLanguage = 'en';
 
   QuillController get controller => _controller;
 
@@ -64,13 +63,14 @@ class QuillSpellCheckController extends ChangeNotifier {
   String? get detectedLanguage => _detectedLanguage;
 
   static final _wordPattern = RegExp(
-      r"[a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0590-\u05FF\u0600-\u06FF\uAC00-\uD7AF']+");
+    r"[a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0590-\u05FF\u0600-\u06FF\uAC00-\uD7AF']+",
+  );
   static const _alphabet = 'abcdefghijklmnopqrstuvwxyz';
   static const _sampleSize = 50;
 
   List<String> _getLoadedLanguages() {
     return _supportedLanguages
-        .where((lang) => SimpleSpellChecker.containsLanguage(lang))
+        .where((lang) => spellCheckDictionaries.containsLanguage(lang))
         .toList();
   }
 
@@ -88,9 +88,9 @@ class QuillSpellCheckController extends ChangeNotifier {
 
     final language = _detectLanguage(allWords, loadedLanguages);
     _detectedLanguage = language;
+    _currentLanguage = language;
 
-    _spellChecker.setNewLanguageToState(language);
-    final dictionary = _spellChecker.getDictionary();
+    final dictionary = spellCheckDictionaries.getDictionary(_currentLanguage);
     if (dictionary == null) return;
 
     final newErrors = <SpellError>[];
@@ -108,7 +108,9 @@ class QuillSpellCheckController extends ChangeNotifier {
   }
 
   String _detectLanguage(
-      List<RegExpMatch> allWords, List<String> loadedLanguages) {
+    List<RegExpMatch> allWords,
+    List<String> loadedLanguages,
+  ) {
     if (loadedLanguages.length == 1) return loadedLanguages.first;
 
     final sampleWords = allWords
@@ -127,8 +129,7 @@ class QuillSpellCheckController extends ChangeNotifier {
     int bestScore = -1;
 
     for (final lang in loadedLanguages) {
-      _spellChecker.setNewLanguageToState(lang);
-      final dict = _spellChecker.getDictionary();
+      final dict = spellCheckDictionaries.getDictionary(lang);
       if (dict == null) continue;
 
       int score = 0;
@@ -144,10 +145,7 @@ class QuillSpellCheckController extends ChangeNotifier {
     return bestLanguage;
   }
 
-  List<String> _generateSuggestions(
-    String word,
-    Map<String, int> dictionary,
-  ) {
+  List<String> _generateSuggestions(String word, Map<String, int> dictionary) {
     final candidates = <String>{};
 
     for (var i = 0; i <= word.length; i++) {
@@ -208,9 +206,16 @@ class QuillSpellCheckController extends ChangeNotifier {
     final lengthDiff = replacement.length - error.length;
     _errors = _errors
         .where((e) => e != error)
-        .map((e) => e.offset > error.offset
-            ? SpellError(e.offset + lengthDiff, e.length, e.word, e.suggestions)
-            : e)
+        .map(
+          (e) => e.offset > error.offset
+              ? SpellError(
+                  e.offset + lengthDiff,
+                  e.length,
+                  e.word,
+                  e.suggestions,
+                )
+              : e,
+        )
         .toList();
     notifyListeners();
 
@@ -227,7 +232,6 @@ class QuillSpellCheckController extends ChangeNotifier {
     _debounce?.cancel();
     _subscription?.cancel();
     _dictionariesLoaded.removeListener(_scheduleCheck);
-    _spellChecker.dispose();
     super.dispose();
   }
 }

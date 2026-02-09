@@ -42,6 +42,27 @@ class SpellCheckDictionaries {
     _assetPrefix = prefix;
   }
 
+  void learnWord(String language, String word) {
+    final dict = _dictionaries[language];
+    if (dict == null) return;
+    dict[word.toLowerCase()] = 1;
+  }
+
+  void unlearnWordFromAll(String word) {
+    final lower = word.toLowerCase();
+    for (final dict in _dictionaries.values) {
+      dict.remove(lower);
+    }
+  }
+
+  void applyLearnedWords(List<String> words) {
+    for (final dict in _dictionaries.values) {
+      for (final word in words) {
+        dict[word.toLowerCase()] = 1;
+      }
+    }
+  }
+
   void loadAll() {
     for (final lang in supportedLanguages) {
       loadLanguage(lang);
@@ -75,10 +96,8 @@ class SpellCheckDictionaries {
     final entries = const LineSplitter().convert(words);
     final dict = <String, int>{};
     for (final entry in entries) {
-      final clean = entry
-          .replaceAll(_removeDicCharacter, '')
-          .trim()
-          .toLowerCase();
+      final clean =
+          entry.replaceAll(_removeDicCharacter, '').trim().toLowerCase();
       if (clean.isNotEmpty) {
         dict[clean] = 1;
       }

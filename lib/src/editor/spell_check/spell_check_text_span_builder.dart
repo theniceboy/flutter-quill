@@ -114,6 +114,10 @@ void _showSuggestionPopup(
           controller.replaceWord(error, replacement);
           entry.remove();
         },
+        onLearn: () {
+          controller.learnWord(error);
+          entry.remove();
+        },
         onDismiss: () => entry.remove(),
       );
     },
@@ -126,12 +130,14 @@ class _SpellSuggestionPopup extends StatelessWidget {
   final Offset position;
   final SpellError error;
   final void Function(String) onSelect;
+  final VoidCallback onLearn;
   final VoidCallback onDismiss;
 
   const _SpellSuggestionPopup({
     required this.position,
     required this.error,
     required this.onSelect,
+    required this.onLearn,
     required this.onDismiss,
   });
 
@@ -159,8 +165,12 @@ class _SpellSuggestionPopup extends StatelessWidget {
                 maxWidth: 200,
                 maxHeight: 300,
               ),
-              child: suggestions.isEmpty
-                  ? Padding(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (suggestions.isEmpty)
+                    Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
                       child: Text(
@@ -174,42 +184,60 @@ class _SpellSuggestionPopup extends StatelessWidget {
                         ),
                       ),
                     )
-                  : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+                  else ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+                      child: Text(
+                        error.word,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.5),
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ),
+                    for (final suggestion in suggestions)
+                      InkWell(
+                        onTap: () => onSelect(suggestion),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
                           child: Text(
-                            error.word,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withValues(alpha: 0.5),
-                              decoration: TextDecoration.lineThrough,
-                            ),
+                            suggestion,
+                            style: const TextStyle(fontSize: 14),
                           ),
                         ),
-                        for (final suggestion in suggestions)
-                          InkWell(
-                            borderRadius: suggestion == suggestions.last
-                                ? const BorderRadius.vertical(
-                                    bottom: Radius.circular(8))
-                                : BorderRadius.zero,
-                            onTap: () => onSelect(suggestion),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 8),
-                              child: Text(
-                                suggestion,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ),
-                          ),
-                      ],
+                      ),
+                  ],
+                  Container(
+                    height: 1,
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.1),
+                  ),
+                  InkWell(
+                    borderRadius:
+                        const BorderRadius.vertical(bottom: Radius.circular(8)),
+                    onTap: onLearn,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Text(
+                        'Learn "${error.word}"',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                     ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

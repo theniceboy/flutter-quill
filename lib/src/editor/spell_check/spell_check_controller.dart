@@ -35,9 +35,10 @@ class QuillSpellCheckController extends ChangeNotifier {
       'he',
     ],
     Listenable? dictionariesLoaded,
-  }) : _controller = controller,
-       _defaultLanguage = defaultLanguage,
-       _supportedLanguages = supportedLanguages {
+    this.onLearnWord,
+  })  : _controller = controller,
+        _defaultLanguage = defaultLanguage,
+        _supportedLanguages = supportedLanguages {
     _subscription = _controller.changes.listen((_) => _scheduleCheck());
     final listenable = dictionariesLoaded ?? spellCheckDictionaries.onLoaded;
     _dictionariesLoaded = listenable;
@@ -48,6 +49,7 @@ class QuillSpellCheckController extends ChangeNotifier {
   final QuillController _controller;
   final String _defaultLanguage;
   final List<String> _supportedLanguages;
+  final void Function(String word)? onLearnWord;
   late final Listenable _dictionariesLoaded;
   StreamSubscription? _subscription;
   Timer? _debounce;
@@ -200,6 +202,15 @@ class QuillSpellCheckController extends ChangeNotifier {
 
     if (results.length > 5) results.length = 5;
     return results;
+  }
+
+  void learnWord(SpellError error) {
+    final word = error.word.toLowerCase();
+    final language = _detectedLanguage ?? _defaultLanguage;
+    spellCheckDictionaries.learnWord(language, word);
+    onLearnWord?.call(word);
+    _errors = _errors.where((e) => e.word.toLowerCase() != word).toList();
+    notifyListeners();
   }
 
   void replaceWord(SpellError error, String replacement) {

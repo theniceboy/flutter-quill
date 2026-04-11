@@ -60,25 +60,20 @@ InlineSpan buildSpellCheckTextSpan(
       ));
     }
 
-    final spellRecognizer = TapGestureRecognizer();
+    GestureRecognizer? spellRecognizer;
     if (useSecondaryTap) {
-      spellRecognizer.onSecondaryTapUp = (details) {
-        _showSuggestionPopup(
-            context, details.globalPosition, error, spellCheckController);
-      };
-    } else {
-      spellRecognizer.onTapUp = (details) {
-        _showSuggestionPopup(
-            context, details.globalPosition, error, spellCheckController);
-      };
+      spellRecognizer = TapGestureRecognizer()
+        ..onSecondaryTapUp = (details) {
+          _showSuggestionPopup(
+              context, details.globalPosition, error, spellCheckController);
+        };
     }
 
     children.add(TextSpan(
       text: text.substring(errorStartInNode, errorEndInNode),
       style: (style ?? const TextStyle()).merge(_misspelledStyle),
-      recognizer: spellRecognizer,
-      mouseCursor:
-          useSecondaryTap ? SystemMouseCursors.text : SystemMouseCursors.click,
+      recognizer: spellRecognizer ?? recognizer,
+      mouseCursor: spellRecognizer != null ? SystemMouseCursors.text : null,
     ));
 
     cursor = errorEndInNode;
@@ -127,12 +122,6 @@ void _showSuggestionPopup(
 }
 
 class _SpellSuggestionPopup extends StatelessWidget {
-  final Offset position;
-  final SpellError error;
-  final void Function(String) onSelect;
-  final VoidCallback onLearn;
-  final VoidCallback onDismiss;
-
   const _SpellSuggestionPopup({
     required this.position,
     required this.error,
@@ -140,6 +129,12 @@ class _SpellSuggestionPopup extends StatelessWidget {
     required this.onLearn,
     required this.onDismiss,
   });
+
+  final Offset position;
+  final SpellError error;
+  final void Function(String) onSelect;
+  final VoidCallback onLearn;
+  final VoidCallback onDismiss;
 
   @override
   Widget build(BuildContext context) {

@@ -11,8 +11,6 @@ import 'package:flutter/services.dart';
 
 import '../common/utils/platform.dart';
 import '../controller/quill_controller.dart';
-import 'spell_check/spell_check_controller.dart';
-import 'spell_check/spell_check_text_span_builder.dart';
 import '../document/attribute.dart';
 import '../document/document.dart';
 import '../document/nodes/container.dart' as container_node;
@@ -21,11 +19,78 @@ import 'config/editor_config.dart';
 import 'embed/embed_editor_builder.dart';
 import 'raw_editor/config/raw_editor_config.dart';
 import 'raw_editor/raw_editor.dart';
+import 'raw_editor/raw_editor_state.dart';
+import 'spell_check/spell_check_controller.dart';
+import 'spell_check/spell_check_text_span_builder.dart';
 import 'widgets/box.dart';
 import 'widgets/cursor.dart';
 import 'widgets/delegate.dart';
 import 'widgets/float_cursor.dart';
 import 'widgets/text/text_selection.dart';
+
+SpellError? _getSelectedSpellError(
+  QuillRawEditorState rawEditorState,
+  QuillSpellCheckController spellCheckController,
+) {
+  final selection = rawEditorState.textEditingValue.selection;
+  if (!selection.isValid || selection.isCollapsed) return null;
+
+  final start = math.min(selection.start, selection.end);
+  final end = math.max(selection.start, selection.end);
+  final selectedText =
+      selection.textInside(rawEditorState.textEditingValue.text);
+  if (selectedText.isEmpty) return null;
+
+  for (final error in spellCheckController.errors) {
+    if (start != error.offset || end != error.offset + error.length) continue;
+    if (selectedText.toLowerCase() != error.word.toLowerCase()) continue;
+    return error;
+  }
+
+  return null;
+}
+
+Widget _buildSpellCheckContextMenu(
+  BuildContext context,
+  QuillRawEditorState rawEditorState, {
+  required QuillSpellCheckController spellCheckController,
+  required QuillEditorContextMenuBuilder fallbackBuilder,
+}) {
+  final error = _getSelectedSpellError(rawEditorState, spellCheckController);
+  if (error == null) return fallbackBuilder(context, rawEditorState);
+
+  final buttonItems = <ContextMenuButtonItem>[
+    if (error.suggestions.isEmpty)
+      ContextMenuButtonItem(
+        onPressed: null,
+        label: 'No suggestions for "${error.word}"',
+      )
+    else
+      for (final suggestion in error.suggestions)
+        ContextMenuButtonItem(
+          label: suggestion,
+          onPressed: () {
+            spellCheckController.replaceWord(error, suggestion);
+            rawEditorState.hideToolbar();
+          },
+        ),
+    ContextMenuButtonItem(
+      label: 'Learn "${error.word}"',
+      onPressed: () {
+        spellCheckController.learnWord(error);
+        rawEditorState.hideToolbar();
+      },
+    ),
+    ...rawEditorState.contextMenuButtonItems,
+  ];
+
+  return TextFieldTapRegion(
+    child: AdaptiveTextSelectionToolbar.buttonItems(
+      buttonItems: buttonItems,
+      anchors: rawEditorState.contextMenuAnchors,
+    ),
+  );
+}
 
 /// Base interface for editable render objects.
 abstract class RenderAbstractEditor implements TextLayoutMetrics {
@@ -269,8 +334,7 @@ class QuillEditorState extends State<QuillEditor>
         defaultTargetPlatform == TargetPlatform.linux;
 
     final effectiveTextSpanBuilder = sc != null
-        ? (BuildContext ctx, node, int nodeOffset, String text,
-                TextStyle? style, GestureRecognizer? recognizer) =>
+        ? (ctx, node, nodeOffset, text, style, recognizer) =>
             buildSpellCheckTextSpan(
               ctx,
               node,
@@ -282,6 +346,19 @@ class QuillEditorState extends State<QuillEditor>
               useSecondaryTap: useSecondaryTap,
             )
         : config.textSpanBuilder;
+
+    final fallbackContextMenuBuilder = config.contextMenuBuilder ??
+        QuillRawEditorConfig.defaultContextMenuBuilder;
+    final effectiveContextMenuBuilder = showSelectionToolbar
+        ? (sc != null && !useSecondaryTap
+            ? (context, rawEditorState) => _buildSpellCheckContextMenu(
+                  context,
+                  rawEditorState,
+                  spellCheckController: sc,
+                  fallbackBuilder: fallbackContextMenuBuilder,
+                )
+            : fallbackContextMenuBuilder)
+        : null;
 
     final child = QuillRawEditor(
       key: editorKey,
@@ -303,10 +380,7 @@ class QuillEditorState extends State<QuillEditor>
         disableClipboard: config.disableClipboard,
         placeholder: config.placeholder,
         onLaunchUrl: config.onLaunchUrl,
-        contextMenuBuilder: showSelectionToolbar
-            ? (config.contextMenuBuilder ??
-                QuillRawEditorConfig.defaultContextMenuBuilder)
-            : null,
+        contextMenuBuilder: effectiveContextMenuBuilder,
         showSelectionHandles: isMobile,
         showCursor: config.showCursor ?? true,
         cursorStyle: CursorStyle(
@@ -363,7 +437,7 @@ class QuillEditorState extends State<QuillEditor>
           )
         : child;
 
-    Widget result = editor;
+    var result = editor;
 
     if (sc != null) {
       result = ListenableBuilder(

@@ -206,6 +206,9 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   AutofillScope? get currentAutofillScope => null;
 
   @override
+  bool onFocusReceived() => false;
+
+  @override
   void updateEditingValue(TextEditingValue value) {
     if (!shouldCreateInputConnection) {
       return;

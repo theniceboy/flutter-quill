@@ -15,6 +15,7 @@ class SpellCheckDictionaries {
   Set<String> get loadedLanguages => Set.unmodifiable(_loadedLanguages);
   Listenable get onLoaded => _onLoaded;
   bool get isReady => _loadedLanguages.isNotEmpty;
+  bool get isLoading => _loading.isNotEmpty;
 
   Map<String, int>? getDictionary(String language) => _dictionaries[language];
   bool containsLanguage(String language) => _dictionaries.containsKey(language);

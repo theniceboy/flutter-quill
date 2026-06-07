@@ -43,6 +43,9 @@ class QuillSpellCheckController extends ChangeNotifier {
     final listenable = dictionariesLoaded ?? spellCheckDictionaries.onLoaded;
     _dictionariesLoaded = listenable;
     listenable.addListener(_scheduleCheck);
+    if (!spellCheckDictionaries.isReady && !spellCheckDictionaries.isLoading) {
+      spellCheckDictionaries.loadAll();
+    }
     _scheduleCheck();
   }
 

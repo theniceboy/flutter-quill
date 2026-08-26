@@ -28,6 +28,7 @@ export 'src/editor/widgets/cursor.dart';
 export 'src/editor/widgets/default_styles.dart';
 export 'src/editor/widgets/link.dart';
 export 'src/editor/widgets/text/magnifier.dart';
+export 'src/editor/widgets/text/text_resolution.dart';
 export 'src/editor/widgets/text/utils/text_block_utils.dart';
 export 'src/editor/spell_check/spell_check_controller.dart';
 export 'src/editor/spell_check/spell_check_dictionaries.dart';

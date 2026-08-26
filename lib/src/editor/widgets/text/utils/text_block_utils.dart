@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/structs/horizontal_spacing.dart';
-import '../../../../document/attribute.dart';
 import '../../../../document/nodes/block.dart';
 import '../../../../document/nodes/node.dart';
 import '../../default_styles.dart';
+import '../text_resolution.dart';
 
 typedef LeadingBlockIndentWidth = HorizontalSpacing Function(
     Block block,
@@ -48,32 +48,12 @@ abstract final class TextBlockUtils {
       BuildContext context,
       int count,
       LeadingBlockNumberPointWidth numberPointWidthBuilder) {
-    final defaultStyles = QuillStyles.getStyles(context, false)!;
-    final fontSize = defaultStyles.paragraph?.style.fontSize ?? 16;
-    final attrs = block.style.attributes;
-
-    final indent = attrs[Attribute.indent.key];
-    var extraIndent = 0.0;
-    if (indent != null && indent.value != null) {
-      extraIndent = fontSize * indent.value;
-    }
-
-    if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return HorizontalSpacing(fontSize + extraIndent, 0);
-    }
-
-    var baseIndent = 0.0;
-
-    if (attrs.containsKey(Attribute.list.key)) {
-      baseIndent = fontSize * 2;
-      if (attrs[Attribute.list.key] == Attribute.ol) {
-        baseIndent = numberPointWidthBuilder(fontSize, count);
-      } else if (attrs.containsKey(Attribute.codeBlock.key)) {
-        baseIndent = numberPointWidthBuilder(fontSize, count);
-      }
-    }
-
-    return HorizontalSpacing(baseIndent + extraIndent, 0);
+    return resolveIndentSpacing(
+      block,
+      QuillStyles.getStyles(context, false),
+      count,
+      numberPointWidthBuilder,
+    );
   }
 
   /// Get the width for the number point leading using the default

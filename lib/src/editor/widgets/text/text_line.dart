@@ -9,8 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../flutter_quill.dart';
-import '../../../common/utils/color.dart';
-import '../../../common/utils/font.dart';
 import '../../../common/utils/link_validator.dart';
 import '../../../common/utils/platform.dart';
 import '../../../document/nodes/container.dart' as container_node;
@@ -132,11 +130,6 @@ class _TextLineState extends State<TextLine> {
       ..clear();
     super.dispose();
   }
-
-  /// Check if this line contains the placeholder attribute
-  bool get isPlaceholderLine =>
-      widget.line.toDelta().first.attributes?.containsKey('placeholder') ??
-      false;
 
   @override
   Widget build(BuildContext context) {
@@ -266,19 +259,7 @@ class _TextLineState extends State<TextLine> {
     return TextSpan(style: lineStyle, children: textSpanChildren);
   }
 
-  TextAlign _getTextAlign() {
-    final alignment = widget.line.style.attributes[Attribute.align.key];
-    if (alignment == Attribute.leftAlignment) {
-      return TextAlign.start;
-    } else if (alignment == Attribute.centerAlignment) {
-      return TextAlign.center;
-    } else if (alignment == Attribute.rightAlignment) {
-      return TextAlign.end;
-    } else if (alignment == Attribute.justifyAlignment) {
-      return TextAlign.justify;
-    }
-    return TextAlign.start;
-  }
+  TextAlign _getTextAlign() => resolveTextAlign(widget.line);
 
   InlineSpan _buildTextSpan(
     DefaultStyles defaultStyles,
@@ -380,90 +361,12 @@ class _TextLineState extends State<TextLine> {
     ];
   }
 
-  TextStyle _getLineStyle(DefaultStyles defaultStyles) {
-    var textStyle = const TextStyle();
-
-    if (widget.line.style.containsKey(Attribute.placeholder.key)) {
-      return defaultStyles.placeHolder!.style;
-    }
-
-    final header = widget.line.style.attributes[Attribute.header.key];
-    final m = <Attribute, TextStyle>{
-      Attribute.h1: defaultStyles.h1!.style,
-      Attribute.h2: defaultStyles.h2!.style,
-      Attribute.h3: defaultStyles.h3!.style,
-      Attribute.h4: defaultStyles.h4!.style,
-      Attribute.h5: defaultStyles.h5!.style,
-      Attribute.h6: defaultStyles.h6!.style,
-    };
-
-    textStyle = textStyle.merge(m[header] ?? defaultStyles.paragraph!.style);
-
-    // Only retrieve exclusive block format for the line style purpose
-    Attribute? block;
-    widget.line.style.getBlocksExceptHeader().forEach((key, value) {
-      if (Attribute.exclusiveBlockKeys.contains(key)) {
-        block = value;
-      }
-    });
-
-    TextStyle? toMerge;
-    if (block == Attribute.blockQuote) {
-      toMerge = defaultStyles.quote!.style;
-    } else if (block == Attribute.codeBlock) {
-      toMerge = defaultStyles.code!.style;
-    } else if (block?.key == Attribute.list.key) {
-      toMerge = defaultStyles.lists!.style;
-    }
-
-    textStyle = textStyle.merge(toMerge);
-
-    final lineHeight = widget.line.style.attributes[Attribute.lineHeight.key];
-    final x = <Attribute, TextStyle>{
-      LineHeightAttribute.lineHeightNormal:
-          defaultStyles.lineHeightNormal!.style,
-      LineHeightAttribute.lineHeightTight: defaultStyles.lineHeightTight!.style,
-      LineHeightAttribute.lineHeightOneAndHalf:
-          defaultStyles.lineHeightOneAndHalf!.style,
-      LineHeightAttribute.lineHeightDouble:
-          defaultStyles.lineHeightDouble!.style,
-    };
-
-    // If the lineHeight attribute isn't null, then get just the height param instead whole TextStyle
-    // to avoid modify the current style of the text line
-    textStyle =
-        textStyle.merge(textStyle.copyWith(height: x[lineHeight]?.height));
-
-    textStyle = _applyCustomAttributes(textStyle, widget.line.style.attributes);
-
-    if (isPlaceholderLine) {
-      final oldStyle = textStyle;
-      textStyle = defaultStyles.placeHolder!.style;
-      textStyle = textStyle.merge(oldStyle.copyWith(
-        color: textStyle.color,
-        backgroundColor: textStyle.backgroundColor,
-        background: textStyle.background,
-      ));
-    }
-
-    return textStyle;
-  }
-
-  TextStyle _applyCustomAttributes(
-      TextStyle textStyle, Map<String, Attribute> attributes) {
-    if (widget.customStyleBuilder == null) {
-      return textStyle;
-    }
-    for (final key in attributes.keys) {
-      final attr = attributes[key];
-      if (attr != null) {
-        /// Custom Attribute
-        final customAttr = widget.customStyleBuilder!.call(attr);
-        textStyle = textStyle.merge(customAttr);
-      }
-    }
-    return textStyle;
-  }
+  TextStyle _getLineStyle(DefaultStyles defaultStyles) =>
+      resolveLineStyle(
+        widget.line,
+        defaultStyles,
+        customStyleBuilder: widget.customStyleBuilder,
+      );
 
   /// Processes subscript and superscript attributed text.
   ///
@@ -473,21 +376,13 @@ class _TextLineState extends State<TextLine> {
       DefaultStyles defaultStyles) {
     assert(text.isNotEmpty);
     //
-    final lineStyle = style.fontSize == null || style.fontWeight == null
-        ? _getLineStyle(defaultStyles)
-        : null;
-    final fontWeight = FontWeight.lerp(
-        style.fontWeight ?? lineStyle?.fontWeight ?? FontWeight.normal,
-        FontWeight.w900,
-        0.25);
-    final fontSize = style.fontSize ?? lineStyle?.fontSize ?? 16;
-    final y = (superScript ? -0.4 : 0.14) * fontSize;
-    final charStyle = style.copyWith(
-        fontFeatures: <FontFeature>[],
-        fontWeight: fontWeight,
-        fontSize: fontSize * 0.7);
+    final charSpec = resolveScriptCharStyle(
+      superScript,
+      style,
+      _getLineStyle(defaultStyles),
+    );
     //
-    final offset = Offset(0, y);
+    final offset = charSpec.offset;
     final children = <WidgetSpan>[];
     for (final c in text.characters) {
       children.add(WidgetSpan(
@@ -495,7 +390,7 @@ class _TextLineState extends State<TextLine> {
               offset: offset,
               child: Text(
                 c,
-                style: charStyle,
+                style: charSpec.style,
               ))));
     }
     //
@@ -541,91 +436,13 @@ class _TextLineState extends State<TextLine> {
 
   TextStyle _getInlineTextStyle(Style nodeStyle, DefaultStyles defaultStyles,
       Style lineStyle, bool isLink) {
-    var res = const TextStyle(); // This is inline text style
-    final color = nodeStyle.attributes[Attribute.color.key];
-
-    <String, TextStyle?>{
-      Attribute.bold.key: defaultStyles.bold,
-      Attribute.italic.key: defaultStyles.italic,
-      Attribute.small.key: defaultStyles.small,
-      Attribute.link.key: defaultStyles.link,
-      Attribute.underline.key: defaultStyles.underline,
-      Attribute.strikeThrough.key: defaultStyles.strikeThrough,
-    }.forEach((k, s) {
-      if (nodeStyle.values.any((v) => v.key == k)) {
-        if (k == Attribute.underline.key || k == Attribute.strikeThrough.key) {
-          var textColor = defaultStyles.color;
-          if (color?.value is String) {
-            textColor = stringToColor(color?.value, textColor, defaultStyles);
-          }
-          res = _merge(res.copyWith(decorationColor: textColor),
-              s!.copyWith(decorationColor: textColor));
-        } else if (k == Attribute.link.key && !isLink) {
-          // null value for link should be ignored
-          // i.e. nodeStyle.attributes[Attribute.link.key]!.value == null
-        } else {
-          res = _merge(res, s!);
-        }
-      }
-    });
-
-    if (nodeStyle.containsKey(Attribute.script.key)) {
-      if (nodeStyle.attributes.values.contains(Attribute.subscript)) {
-        res = _merge(res, defaultStyles.subscript!);
-      } else if (nodeStyle.attributes.values.contains(Attribute.superscript)) {
-        res = _merge(res, defaultStyles.superscript!);
-      }
-    }
-
-    if (nodeStyle.containsKey(Attribute.inlineCode.key)) {
-      res = _merge(res, defaultStyles.inlineCode!.styleFor(lineStyle));
-    }
-
-    final font = nodeStyle.attributes[Attribute.font.key];
-    if (font != null && font.value != null) {
-      res = res.merge(TextStyle(fontFamily: font.value));
-    }
-
-    final size = nodeStyle.attributes[Attribute.size.key];
-    if (size != null && size.value != null) {
-      switch (size.value) {
-        case 'small':
-          res = res.merge(defaultStyles.sizeSmall);
-          break;
-        case 'large':
-          res = res.merge(defaultStyles.sizeLarge);
-          break;
-        case 'huge':
-          res = res.merge(defaultStyles.sizeHuge);
-          break;
-        default:
-          res = res.merge(TextStyle(
-            fontSize: getFontSize(
-              size.value,
-            ),
-          ));
-      }
-    }
-
-    if (color != null && color.value != null) {
-      var textColor = defaultStyles.color;
-      if (color.value is String) {
-        textColor = stringToColor(color.value, null, defaultStyles);
-      }
-      if (textColor != null) {
-        res = res.merge(TextStyle(color: textColor));
-      }
-    }
-
-    final background = nodeStyle.attributes[Attribute.background.key];
-    if (background != null && background.value != null) {
-      final backgroundColor =
-          stringToColor(background.value, null, defaultStyles);
-      res = res.merge(TextStyle(backgroundColor: backgroundColor));
-    }
-
-    res = _applyCustomAttributes(res, nodeStyle.attributes);
-    return res;
+    return resolveInlineTextStyle(
+      nodeStyle,
+      defaultStyles,
+      lineStyle,
+      isLink,
+      customStyleBuilder: widget.customStyleBuilder,
+    );
   }
 
   GestureRecognizer? _getRecognizer(Node segment, bool isLink) {
@@ -704,22 +521,9 @@ class _TextLineState extends State<TextLine> {
         widget.controller
             .formatText(range.start, range.end - range.start, Attribute.link);
         break;
-      case LinkMenuAction.none:
+        case LinkMenuAction.none:
         break;
     }
-  }
-
-  TextStyle _merge(TextStyle a, TextStyle b) {
-    final decorations = <TextDecoration?>[];
-    if (a.decoration != null) {
-      decorations.add(a.decoration);
-    }
-    if (b.decoration != null) {
-      decorations.add(b.decoration);
-    }
-    return a.merge(b).apply(
-        decoration: TextDecoration.combine(
-            List.castFrom<dynamic, TextDecoration>(decorations)));
   }
 }
 

@@ -6,6 +6,7 @@ export 'src/common/structs/offset_value.dart';
 export 'src/common/structs/vertical_spacing.dart';
 export 'src/common/utils/embeds.dart';
 export 'src/controller/quill_controller.dart';
+export 'src/delta/delta_diff.dart' show getDirectionOfNode;
 export 'src/document/attribute.dart';
 export 'src/document/document.dart';
 export 'src/document/nodes/block.dart';

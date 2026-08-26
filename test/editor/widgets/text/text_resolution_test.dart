@@ -18,10 +18,31 @@ void main() {
   Line firstLine(Document document) {
     final node = document.root.children.first;
     return (node is Block ? node.children.first : node) as Line;
-  };
+  }
 
   Block? firstBlock(Document document) =>
       document.root.children.whereType<Block>().firstOrNull;
+
+  testWidgets('DefaultStyles.fromTheme matches getInstance', (tester) async {
+    late BuildContext captured;
+    await tester.pumpWidget(MaterialApp(
+      builder: (context, _) {
+        captured = context;
+        return const SizedBox();
+      },
+    ));
+    final viaContext = DefaultStyles.getInstance(captured);
+    final viaTheme = DefaultStyles.fromTheme(
+      themeData: Theme.of(captured),
+      defaultTextStyle: DefaultTextStyle.of(captured).style,
+    );
+    expect(viaTheme.h1!.style.fontSize, viaContext.h1!.style.fontSize);
+    expect(viaTheme.quote!.decoration, viaContext.quote!.decoration);
+    expect(viaTheme.lists!.lineSpacing, viaContext.lists!.lineSpacing);
+    expect(viaTheme.inlineCode!.style.fontSize,
+        viaContext.inlineCode!.style.fontSize);
+    expect(viaTheme.placeHolder!.style.color, viaContext.placeHolder!.style.color);
+  });
 
   test('resolveTextAlign defaults and all four alignments', () {
     Line lineOf(String? align) => firstLine(Document.fromDelta(Delta()
@@ -94,7 +115,7 @@ void main() {
       (tester) async {
     final styles = await getStyles(tester);
     final res = resolveInlineTextStyle(
-        Style.attr({'bold': Attribute.bold}), styles, const Style(), false);
+        const Style.attr({'bold': Attribute.bold}), styles, const Style(), false);
     expect(res.fontWeight, styles.bold!.fontWeight);
   });
 
@@ -102,7 +123,7 @@ void main() {
       (tester) async {
     final styles = await getStyles(tester);
     final res = resolveInlineTextStyle(
-        Style.attr({'list': Attribute.ul}), styles, const Style(), false);
+        const Style.attr({'list': Attribute.ul}), styles, const Style(), false);
     expect(res.color, isNull);
   });
 
@@ -110,7 +131,7 @@ void main() {
       (tester) async {
     final styles = await getStyles(tester);
     final res = resolveInlineTextStyle(
-        Style.attr({'link': LinkAttribute('https://example.com')}),
+        const Style.attr({'link': LinkAttribute('https://example.com')}),
         styles,
         const Style(),
         true);
@@ -122,7 +143,7 @@ void main() {
       (tester) async {
     final styles = await getStyles(tester);
     final res = resolveInlineTextStyle(
-        Style.attr({'color': ColorAttribute('#ff0000')}),
+        const Style.attr({'color': ColorAttribute('#ff0000')}),
         styles,
         const Style(),
         false);
@@ -133,7 +154,7 @@ void main() {
       (tester) async {
     final styles = await getStyles(tester);
     final res = resolveInlineTextStyle(
-        Style.attr({'size': SizeAttribute('large')}),
+        const Style.attr({'size': SizeAttribute('large')}),
         styles,
         const Style(),
         false);
@@ -144,7 +165,7 @@ void main() {
       (tester) async {
     final styles = await getStyles(tester);
     final res = resolveInlineTextStyle(
-        Style.attr({'size': SizeAttribute('18.0')}),
+        const Style.attr({'size': SizeAttribute('18.0')}),
         styles,
         const Style(),
         false);
@@ -152,7 +173,7 @@ void main() {
   });
 
   test('resolveScriptCharStyle reduces size and shifts glyph', () {
-    final run = const TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
+    const run = TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
     final superSpec = resolveScriptCharStyle(true, run, const TextStyle());
     expect(superSpec.style.fontSize, 14);
     expect(superSpec.offset.dy, closeTo(-8.0, 1e-9));

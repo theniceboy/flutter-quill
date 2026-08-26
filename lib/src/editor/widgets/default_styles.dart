@@ -287,9 +287,20 @@ class DefaultStyles {
   final Map<String, Color>? palette;
 
   static DefaultStyles getInstance(BuildContext context) {
-    final themeData = Theme.of(context);
-    final defaultTextStyle = DefaultTextStyle.of(context);
-    final baseStyle = defaultTextStyle.style.copyWith(
+    return fromTheme(
+      themeData: Theme.of(context),
+      defaultTextStyle: DefaultTextStyle.of(context).style,
+    );
+  }
+
+  /// Context-free variant of [getInstance] for renderers that build
+  /// outside the widget tree. Produces identical styles for identical
+  /// [themeData] and [defaultTextStyle].
+  static DefaultStyles fromTheme({
+    required ThemeData themeData,
+    required TextStyle defaultTextStyle,
+  }) {
+    final baseStyle = defaultTextStyle.copyWith(
       fontSize: 16,
       height: 1.15,
       decoration: TextDecoration.none,
@@ -306,9 +317,9 @@ class DefaultStyles {
 
     return DefaultStyles(
       h1: DefaultTextBlockStyle(
-          defaultTextStyle.style.copyWith(
+          defaultTextStyle.copyWith(
             fontSize: 34,
-            color: defaultTextStyle.style.color,
+            color: defaultTextStyle.color,
             letterSpacing: -0.5,
             height: 1.083,
             fontWeight: FontWeight.bold,
@@ -319,9 +330,9 @@ class DefaultStyles {
           VerticalSpacing.zero,
           null),
       h2: DefaultTextBlockStyle(
-          defaultTextStyle.style.copyWith(
+          defaultTextStyle.copyWith(
             fontSize: 30,
-            color: defaultTextStyle.style.color,
+            color: defaultTextStyle.color,
             letterSpacing: -0.8,
             height: 1.067,
             fontWeight: FontWeight.bold,
@@ -332,9 +343,9 @@ class DefaultStyles {
           VerticalSpacing.zero,
           null),
       h3: DefaultTextBlockStyle(
-        defaultTextStyle.style.copyWith(
+        defaultTextStyle.copyWith(
           fontSize: 24,
-          color: defaultTextStyle.style.color,
+          color: defaultTextStyle.color,
           letterSpacing: -0.5,
           height: 1.083,
           fontWeight: FontWeight.bold,
@@ -346,9 +357,9 @@ class DefaultStyles {
         null,
       ),
       h4: DefaultTextBlockStyle(
-        defaultTextStyle.style.copyWith(
+        defaultTextStyle.copyWith(
           fontSize: 20,
-          color: defaultTextStyle.style.color,
+          color: defaultTextStyle.color,
           letterSpacing: -0.4,
           height: 1.1,
           fontWeight: FontWeight.bold,
@@ -360,9 +371,9 @@ class DefaultStyles {
         null,
       ),
       h5: DefaultTextBlockStyle(
-        defaultTextStyle.style.copyWith(
+        defaultTextStyle.copyWith(
           fontSize: 18,
-          color: defaultTextStyle.style.color,
+          color: defaultTextStyle.color,
           letterSpacing: -0.2,
           height: 1.11,
           fontWeight: FontWeight.bold,
@@ -374,9 +385,9 @@ class DefaultStyles {
         null,
       ),
       h6: DefaultTextBlockStyle(
-        defaultTextStyle.style.copyWith(
+        defaultTextStyle.copyWith(
           fontSize: 16,
-          color: defaultTextStyle.style.color,
+          color: defaultTextStyle.color,
           letterSpacing: -0.1,
           height: 1.125,
           fontWeight: FontWeight.bold,
@@ -461,7 +472,7 @@ class DefaultStyles {
         decoration: TextDecoration.underline,
       ),
       placeHolder: DefaultTextBlockStyle(
-          defaultTextStyle.style.copyWith(
+          defaultTextStyle.copyWith(
             fontSize: 20,
             height: 1.5,
             color: Colors.grey.withValues(alpha: 0.6),

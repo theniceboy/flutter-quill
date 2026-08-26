@@ -7,6 +7,7 @@ import '../../../common/utils/font.dart';
 import '../../../document/attribute.dart';
 import '../../../document/nodes/block.dart';
 import '../../../document/nodes/line.dart';
+import '../../../document/nodes/node.dart';
 import '../../../document/style.dart';
 import '../../../editor_toolbar_shared/color.dart';
 import '../default_styles.dart';
@@ -640,4 +641,117 @@ HorizontalSpacing resolveIndentSpacing(
   }
 
   return HorizontalSpacing(baseIndent + extraIndent, 0);
+}
+
+int _headerLevelOf(Node node) {
+  final value = node.style.attributes[Attribute.header.key]!.value;
+  if (value is double) {
+    return value.toInt();
+  }
+  return value;
+}
+
+/// Resolves the horizontal spacing around a top-level [line] outside any
+/// block (port of `RawEditorState._getHorizontalSpacingForLine`).
+HorizontalSpacing resolveHorizontalSpacingForLine(
+  Line line,
+  DefaultStyles? defaultStyles,
+) {
+  final attrs = line.style.attributes;
+  if (attrs.containsKey(Attribute.header.key)) {
+    return switch (_headerLevelOf(line)) {
+      1 => defaultStyles!.h1!.horizontalSpacing,
+      2 => defaultStyles!.h2!.horizontalSpacing,
+      3 => defaultStyles!.h3!.horizontalSpacing,
+      4 => defaultStyles!.h4!.horizontalSpacing,
+      5 => defaultStyles!.h5!.horizontalSpacing,
+      6 => defaultStyles!.h6!.horizontalSpacing,
+      _ => throw ArgumentError('Invalid level ${_headerLevelOf(line)}'),
+    };
+  }
+  return defaultStyles!.paragraph!.horizontalSpacing;
+}
+
+/// Resolves the vertical spacing around a top-level [line] outside any
+/// block (port of `RawEditorState._getVerticalSpacingForLine`).
+VerticalSpacing resolveVerticalSpacingForLine(
+  Line line,
+  DefaultStyles? defaultStyles,
+) {
+  final attrs = line.style.attributes;
+  if (attrs.containsKey(Attribute.header.key)) {
+    return switch (_headerLevelOf(line)) {
+      1 => defaultStyles!.h1!.verticalSpacing,
+      2 => defaultStyles!.h2!.verticalSpacing,
+      3 => defaultStyles!.h3!.verticalSpacing,
+      4 => defaultStyles!.h4!.verticalSpacing,
+      5 => defaultStyles!.h5!.verticalSpacing,
+      6 => defaultStyles!.h6!.verticalSpacing,
+      _ => throw ArgumentError('Invalid level ${_headerLevelOf(line)}'),
+    };
+  }
+  return defaultStyles!.paragraph!.verticalSpacing;
+}
+
+/// Resolves the horizontal spacing around a [block]
+/// (port of `RawEditorState._getHorizontalSpacingForBlock`).
+HorizontalSpacing resolveHorizontalSpacingForBlock(
+  Block block,
+  DefaultStyles? defaultStyles,
+) {
+  final attrs = block.style.attributes;
+  if (attrs.containsKey(Attribute.blockQuote.key)) {
+    return defaultStyles!.quote!.horizontalSpacing;
+  } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+    return defaultStyles!.code!.horizontalSpacing;
+  } else if (attrs.containsKey(Attribute.indent.key)) {
+    return defaultStyles!.indent!.horizontalSpacing;
+  } else if (attrs.containsKey(Attribute.list.key)) {
+    return defaultStyles!.lists!.horizontalSpacing;
+  } else if (attrs.containsKey(Attribute.align.key)) {
+    return defaultStyles!.align!.horizontalSpacing;
+  }
+  return HorizontalSpacing.zero;
+}
+
+/// Resolves the vertical spacing around a [block]
+/// (port of `RawEditorState._getVerticalSpacingForBlock`).
+VerticalSpacing resolveVerticalSpacingForBlock(
+  Block block,
+  DefaultStyles? defaultStyles,
+) {
+  final attrs = block.style.attributes;
+  if (attrs.containsKey(Attribute.blockQuote.key)) {
+    return defaultStyles!.quote!.verticalSpacing;
+  } else if (attrs.containsKey(Attribute.codeBlock.key)) {
+    return defaultStyles!.code!.verticalSpacing;
+  } else if (attrs.containsKey(Attribute.indent.key)) {
+    return defaultStyles!.indent!.verticalSpacing;
+  } else if (attrs.containsKey(Attribute.list.key)) {
+    return defaultStyles!.lists!.verticalSpacing;
+  } else if (attrs.containsKey(Attribute.align.key)) {
+    return defaultStyles!.align!.verticalSpacing;
+  }
+  return VerticalSpacing.zero;
+}
+
+/// Resolves the decoration of a top-level [node] outside any block
+/// (port of `RawEditorState._getDecoration`).
+BoxDecoration? resolveDecorationForNode(
+  Node node,
+  DefaultStyles? defaultStyles,
+) {
+  final attrs = node.style.attributes;
+  if (attrs.containsKey(Attribute.header.key)) {
+    return switch (_headerLevelOf(node)) {
+      1 => defaultStyles!.h1!.decoration,
+      2 => defaultStyles!.h2!.decoration,
+      3 => defaultStyles!.h3!.decoration,
+      4 => defaultStyles!.h4!.decoration,
+      5 => defaultStyles!.h5!.decoration,
+      6 => defaultStyles!.h6!.decoration,
+      _ => throw ArgumentError('Invalid level ${_headerLevelOf(node)}'),
+    };
+  }
+  return null;
 }

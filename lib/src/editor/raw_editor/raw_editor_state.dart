@@ -31,6 +31,7 @@ import '../widgets/link.dart';
 import '../widgets/proxy.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
+import '../widgets/text/text_resolution.dart';
 import '../widgets/text/text_selection.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcut_actions_manager.dart';
 import 'keyboard_shortcuts/editor_keyboard_shortcuts.dart';
@@ -676,128 +677,24 @@ class QuillRawEditorState extends EditorState
   }
 
   HorizontalSpacing _getHorizontalSpacingForLine(
-    Line line,
-    DefaultStyles? defaultStyles,
-  ) {
-    final attrs = line.style.attributes;
-    if (attrs.containsKey(Attribute.header.key)) {
-      int level;
-      if (attrs[Attribute.header.key]!.value is double) {
-        level = attrs[Attribute.header.key]!.value.toInt();
-      } else {
-        level = attrs[Attribute.header.key]!.value;
-      }
-      switch (level) {
-        case 1:
-          return defaultStyles!.h1!.horizontalSpacing;
-        case 2:
-          return defaultStyles!.h2!.horizontalSpacing;
-        case 3:
-          return defaultStyles!.h3!.horizontalSpacing;
-        case 4:
-          return defaultStyles!.h4!.horizontalSpacing;
-        case 5:
-          return defaultStyles!.h5!.horizontalSpacing;
-        case 6:
-          return defaultStyles!.h6!.horizontalSpacing;
-        default:
-          throw ArgumentError('Invalid level $level');
-      }
-    }
-
-    return defaultStyles!.paragraph!.horizontalSpacing;
-  }
+          Line line, DefaultStyles? defaultStyles) =>
+      resolveHorizontalSpacingForLine(line, defaultStyles);
 
   VerticalSpacing _getVerticalSpacingForLine(
-    Line line,
-    DefaultStyles? defaultStyles,
-  ) {
-    final attrs = line.style.attributes;
-    if (attrs.containsKey(Attribute.header.key)) {
-      int level;
-      if (attrs[Attribute.header.key]!.value is double) {
-        level = attrs[Attribute.header.key]!.value.toInt();
-      } else {
-        level = attrs[Attribute.header.key]!.value;
-      }
-      switch (level) {
-        case 1:
-          return defaultStyles!.h1!.verticalSpacing;
-        case 2:
-          return defaultStyles!.h2!.verticalSpacing;
-        case 3:
-          return defaultStyles!.h3!.verticalSpacing;
-        case 4:
-          return defaultStyles!.h4!.verticalSpacing;
-        case 5:
-          return defaultStyles!.h5!.verticalSpacing;
-        case 6:
-          return defaultStyles!.h6!.verticalSpacing;
-        default:
-          throw ArgumentError('Invalid level $level');
-      }
-    }
-
-    return defaultStyles!.paragraph!.verticalSpacing;
-  }
+          Line line, DefaultStyles? defaultStyles) =>
+      resolveVerticalSpacingForLine(line, defaultStyles);
 
   HorizontalSpacing _getHorizontalSpacingForBlock(
-      Block node, DefaultStyles? defaultStyles) {
-    final attrs = node.style.attributes;
-    if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return defaultStyles!.quote!.horizontalSpacing;
-    } else if (attrs.containsKey(Attribute.codeBlock.key)) {
-      return defaultStyles!.code!.horizontalSpacing;
-    } else if (attrs.containsKey(Attribute.indent.key)) {
-      return defaultStyles!.indent!.horizontalSpacing;
-    } else if (attrs.containsKey(Attribute.list.key)) {
-      return defaultStyles!.lists!.horizontalSpacing;
-    } else if (attrs.containsKey(Attribute.align.key)) {
-      return defaultStyles!.align!.horizontalSpacing;
-    }
-    return HorizontalSpacing.zero;
-  }
+          Block node, DefaultStyles? defaultStyles) =>
+      resolveHorizontalSpacingForBlock(node, defaultStyles);
 
   VerticalSpacing _getVerticalSpacingForBlock(
-      Block node, DefaultStyles? defaultStyles) {
-    final attrs = node.style.attributes;
-    if (attrs.containsKey(Attribute.blockQuote.key)) {
-      return defaultStyles!.quote!.verticalSpacing;
-    } else if (attrs.containsKey(Attribute.codeBlock.key)) {
-      return defaultStyles!.code!.verticalSpacing;
-    } else if (attrs.containsKey(Attribute.indent.key)) {
-      return defaultStyles!.indent!.verticalSpacing;
-    } else if (attrs.containsKey(Attribute.list.key)) {
-      return defaultStyles!.lists!.verticalSpacing;
-    } else if (attrs.containsKey(Attribute.align.key)) {
-      return defaultStyles!.align!.verticalSpacing;
-    }
-    return VerticalSpacing.zero;
-  }
+          Block node, DefaultStyles? defaultStyles) =>
+      resolveVerticalSpacingForBlock(node, defaultStyles);
 
   BoxDecoration? _getDecoration(Node node, DefaultStyles? defaultStyles,
-      Map<String, Attribute<dynamic>> attrs) {
-    if (attrs.containsKey(Attribute.header.key)) {
-      final level = attrs[Attribute.header.key]!.value;
-      switch (level) {
-        case 1:
-          return defaultStyles!.h1!.decoration;
-        case 2:
-          return defaultStyles!.h2!.decoration;
-        case 3:
-          return defaultStyles!.h3!.decoration;
-        case 4:
-          return defaultStyles!.h4!.decoration;
-        case 5:
-          return defaultStyles!.h5!.decoration;
-        case 6:
-          return defaultStyles!.h6!.decoration;
-        default:
-          throw ArgumentError('Invalid level $level');
-      }
-    }
-    return null;
-  }
+          Map<String, Attribute<dynamic>> attrs) =>
+      resolveDecorationForNode(node, defaultStyles);
 
   void _didChangeTextEditingValueListener() {
     _didChangeTextEditingValue(controller.ignoreFocusOnTextChange);

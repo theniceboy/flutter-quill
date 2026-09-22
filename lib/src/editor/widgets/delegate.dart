@@ -312,7 +312,9 @@ class EditorTextSelectionGestureDetectorBuilder {
   ///  which triggers this callback.
   @protected
   void onDragSelectionStart(DragStartDetails details) {
-    renderEditor!.handleDragStart(details);
+    final fromDoubleTap =
+        details is EditorDragStartDetails && details.startedFromDoubleTap;
+    renderEditor!.handleDragStart(details, startedFromDoubleTap: fromDoubleTap);
   }
 
   /// Handler for [EditorTextSelectionGestureDetector.onDragSelectionUpdate].

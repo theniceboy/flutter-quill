@@ -640,6 +640,21 @@ class _TextSelectionHandleOverlayState
   }
 }
 
+/// [DragStartDetails] for drags originating inside the editor's gesture
+/// detector, carrying whether the drag began as the held second tap of a
+/// double tap (word-wise drag selection).
+class EditorDragStartDetails extends DragStartDetails {
+  EditorDragStartDetails({
+    required this.startedFromDoubleTap,
+    required super.globalPosition,
+    super.sourceTimeStamp,
+    super.localPosition,
+    super.kind,
+  });
+
+  final bool startedFromDoubleTap;
+}
+
 /// A gesture detector to respond to non-exclusive event chains for a
 /// text field.
 ///
@@ -887,9 +902,17 @@ class _EditorTextSelectionGestureDetectorState
 
   void _handleDragStart(DragStartDetails details) {
     assert(_lastDragStartDetails == null);
-    _lastDragStartDetails = details;
+    final dragDetails = EditorDragStartDetails(
+      startedFromDoubleTap: _isDoubleTap,
+      globalPosition: details.globalPosition,
+      sourceTimeStamp: details.sourceTimeStamp,
+      localPosition: details.localPosition,
+      kind: details.kind,
+    );
+    _isDoubleTap = false;
+    _lastDragStartDetails = dragDetails;
     widget.dragOffsetNotifier?.value = details.globalPosition;
-    widget.onDragSelectionStart?.call(details);
+    widget.onDragSelectionStart?.call(dragDetails);
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {

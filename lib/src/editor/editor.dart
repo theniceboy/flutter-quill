@@ -1023,8 +1023,20 @@ class RenderEditor extends RenderEditableContainerBox
 
   bool _isDragging = false;
 
-  void handleDragStart(DragStartDetails details) {
+  // The word the last double-tap-and-drag started from; while non-null,
+  // extendSelection snaps to word boundaries.
+  TextRange? _dragStartWordBoundary;
+
+  void handleDragStart(DragStartDetails details,
+      {bool startedFromDoubleTap = false}) {
     _isDragging = true;
+
+    _dragStartWordBoundary = null;
+    if (startedFromDoubleTap) {
+      _dragStartWordBoundary =
+          getWordBoundary(getPositionForOffset(details.globalPosition));
+      return;
+    }
 
     final newSelection = selectPositionAt(
       from: details.globalPosition,
@@ -1038,6 +1050,7 @@ class RenderEditor extends RenderEditableContainerBox
 
   void handleDragEnd(DragEndDetails details) {
     _isDragging = false;
+    _dragStartWordBoundary = null;
     onSelectionCompleted();
   }
 
@@ -1079,6 +1092,33 @@ class RenderEditor extends RenderEditableContainerBox
 
   /// Extends current selection to the position closest to specified offset.
   void extendSelection(Offset to, {required SelectionChangedCause cause}) {
+    final anchorWord = _dragStartWordBoundary;
+    if (anchorWord != null) {
+      // Double-tap-and-drag: extend the selection word by word, anchored at
+      // the word the drag started from.
+      final position = getPositionForOffset(to);
+      final word = getWordBoundary(position);
+      final TextSelection newSelection;
+      if (position.offset < anchorWord.start) {
+        newSelection = TextSelection(
+          baseOffset: word.start,
+          extentOffset: anchorWord.end,
+        );
+      } else if (position.offset > anchorWord.end) {
+        newSelection = TextSelection(
+          baseOffset: anchorWord.start,
+          extentOffset: word.end,
+        );
+      } else {
+        newSelection = TextSelection(
+          baseOffset: anchorWord.start,
+          extentOffset: anchorWord.end,
+        );
+      }
+      _handleSelectionChange(newSelection, cause);
+      return;
+    }
+
     /// The below logic does not exactly match the native version because
     /// we do not allow swapping of base and extent positions.
     assert(_extendSelectionOrigin != null);

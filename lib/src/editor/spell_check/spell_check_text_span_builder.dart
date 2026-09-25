@@ -69,9 +69,17 @@ InlineSpan buildSpellCheckTextSpan(
         };
     }
 
+    final baseStyle = style ?? const TextStyle();
+    final misspelledStyle = baseStyle.merge(_misspelledStyle).apply(
+          decoration: TextDecoration.combine([
+            if (baseStyle.decoration case final deco?) deco,
+            TextDecoration.underline,
+          ]),
+        );
+
     children.add(TextSpan(
       text: text.substring(errorStartInNode, errorEndInNode),
-      style: (style ?? const TextStyle()).merge(_misspelledStyle),
+      style: misspelledStyle,
       recognizer: spellRecognizer ?? recognizer,
       mouseCursor: spellRecognizer != null ? SystemMouseCursors.text : null,
     ));

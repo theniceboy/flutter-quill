@@ -64,9 +64,15 @@ class SpellCheckDictionaries {
     }
   }
 
-  void loadAll() {
+  bool _loadAllStarted = false;
+
+  /// Loads every supported language one after another, so at most one
+  /// dictionary is being parsed at a time.
+  Future<void> loadAll() async {
+    if (_loadAllStarted) return;
+    _loadAllStarted = true;
     for (final lang in supportedLanguages) {
-      loadLanguage(lang);
+      await loadLanguage(lang);
     }
   }
 
@@ -78,8 +84,10 @@ class SpellCheckDictionaries {
 
     try {
       await Future.delayed(Duration.zero);
-      final words = await rootBundle.loadString('$_assetPrefix/$language.dic');
-      final dict = _parseDictionary(words);
+      final data = await rootBundle.load('$_assetPrefix/$language.dic');
+      final bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      // Parsing millions of words runs off the UI isolate (same thread on web).
+      final dict = await compute(_parseDictionaryBytes, bytes);
       _dictionaries[language] = dict;
       _loadedLanguages.add(language);
       // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
@@ -91,18 +99,19 @@ class SpellCheckDictionaries {
     }
   }
 
-  static final _removeDicCharacter = RegExp(r'/(\S+)?');
+}
 
-  static Map<String, int> _parseDictionary(String words) {
-    final entries = const LineSplitter().convert(words);
-    final dict = <String, int>{};
-    for (final entry in entries) {
-      final clean =
-          entry.replaceAll(_removeDicCharacter, '').trim().toLowerCase();
-      if (clean.isNotEmpty) {
-        dict[clean] = 1;
-      }
+final _removeDicCharacter = RegExp(r'/(\S+)?');
+
+Map<String, int> _parseDictionaryBytes(Uint8List data) {
+  final words = utf8.decode(data);
+  final entries = const LineSplitter().convert(words);
+  final dict = <String, int>{};
+  for (final entry in entries) {
+    final clean = entry.replaceAll(_removeDicCharacter, '').trim().toLowerCase();
+    if (clean.isNotEmpty) {
+      dict[clean] = 1;
     }
-    return dict;
   }
+  return dict;
 }

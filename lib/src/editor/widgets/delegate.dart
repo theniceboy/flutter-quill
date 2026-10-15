@@ -203,7 +203,7 @@ class EditorTextSelectionGestureDetectorBuilder {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // added to show toolbar by right click
       if (checkSelectionToolbarShouldShow(isAdditionalAction: true)) {
-        editor!.showToolbar();
+        editor?.showToolbar();
       }
     });
     SchedulerBinding.instance.scheduleFrame();
@@ -296,7 +296,7 @@ class EditorTextSelectionGestureDetectorBuilder {
       // get added
       SchedulerBinding.instance.addPostFrameCallback((_) {
         if (checkSelectionToolbarShouldShow(isAdditionalAction: false)) {
-          editor!.showToolbar();
+          editor?.showToolbar();
         }
       });
     }

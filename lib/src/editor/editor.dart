@@ -1239,8 +1239,13 @@ class RenderEditor extends RenderEditableContainerBox
     return TextSelection(baseOffset: line.start, extentOffset: line.end);
   }
 
+  /// Bumped on every layout, so Scribble resends character rects only when
+  /// they can have moved.
+  int layoutGeneration = 0;
+
   @override
   void performLayout() {
+    layoutGeneration++;
     assert(() {
       if (!scrollable || !constraints.hasBoundedHeight) return true;
       throw FlutterError.fromParts(<DiagnosticsNode>[
@@ -1766,6 +1771,21 @@ class RenderEditableContainerBox extends RenderBox
   }
 
   EdgeInsetsGeometry getPadding() => _padding;
+
+  void addScribbleSelectionRects(
+      List<SelectionRect> rects, Offset origin, Rect visible) {
+    var child = firstChild;
+    while (child != null) {
+      final childParentData = child.parentData as EditableContainerParentData;
+      final childOrigin = origin + childParentData.offset;
+      final bounds = childOrigin & child.size;
+      if (bounds.top >= visible.bottom) break;
+      if (bounds.bottom > visible.top) {
+        child.addScribbleSelectionRects(rects, childOrigin, visible);
+      }
+      child = childParentData.nextSibling;
+    }
+  }
 
   void setPadding(EdgeInsetsGeometry value) {
     assert(value.isNonNegative);

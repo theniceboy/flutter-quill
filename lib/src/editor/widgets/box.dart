@@ -1,4 +1,5 @@
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart' show SelectionRect;
 
 import '../../document/nodes/container.dart';
 
@@ -138,4 +139,9 @@ abstract class RenderEditableBox extends RenderBox {
   /// Returns the [Rect] of the caret prototype at the given text
   /// position. [Rect] starts at origin.
   Rect getCaretPrototype(TextPosition position);
+
+  /// Adds one [SelectionRect] per grapheme (document offsets, bounds shifted
+  /// by [origin]) for content overlapping [visible], for iPadOS Scribble.
+  void addScribbleSelectionRects(
+      List<SelectionRect> rects, Offset origin, Rect visible);
 }

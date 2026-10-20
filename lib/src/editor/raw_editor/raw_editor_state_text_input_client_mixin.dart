@@ -3,6 +3,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
@@ -10,6 +11,7 @@ import '../../common/extensions/view_id_ext.dart';
 import '../../delta/delta_diff.dart';
 import '../../document/document.dart';
 import '../editor.dart';
+import '../widgets/text/scribble_placeholder.dart';
 import 'raw_editor.dart';
 
 mixin RawEditorStateTextInputClientMixin on EditorState
@@ -31,6 +33,51 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   final ValueNotifier<TextRange> composingRange = ValueNotifier<TextRange>(
     TextRange.empty,
   );
+
+  /// Gap Apple Pencil Scribble asked for, shown until it's removed.
+  ScribblePlaceholder? get scribblePlaceholder;
+
+  Object? _scribbleRectsKey;
+
+  /// Sends per-character rects so iPadOS Scribble gestures (scratch-out,
+  /// circle/line select, insert gap, join/split) can target existing text.
+  void _updateScribbleSelectionRects() {
+    if (!widget.config.enableScribble ||
+        widget.config.readOnly ||
+        defaultTargetPlatform != TargetPlatform.iOS ||
+        dirty ||
+        !mounted) {
+      return;
+    }
+    final editor = renderEditor;
+    if (!editor.attached || !editor.hasSize) return;
+    if (scrollController.hasClients &&
+        scrollController.position.userScrollDirection != ScrollDirection.idle) {
+      return;
+    }
+    var visible = Offset.zero & editor.size;
+    if (widget.config.scrollable && scrollController.hasClients) {
+      final position = scrollController.position;
+      visible = visible.intersect(Rect.fromLTWH(
+          0, position.pixels, editor.size.width, position.viewportDimension));
+    }
+    final document = widget.controller.document;
+    final key = (
+      identityHashCode(editor),
+      editor.layoutGeneration,
+      visible,
+      scribblePlaceholder,
+      identityHashCode(document),
+      document.length,
+    );
+    if (key == _scribbleRectsKey) return;
+    _scribbleRectsKey = key;
+    final rects = <SelectionRect>[];
+    if (!document.isEmpty()) {
+      editor.addScribbleSelectionRects(rects, Offset.zero, visible);
+    }
+    _textInputConnection!.setSelectionRects(rects);
+  }
 
   /// Whether to create an input connection with the platform for text editing
   /// or not.
@@ -95,6 +142,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         ),
       );
 
+      _scribbleRectsKey = null;
       _updateSizeAndTransform();
       //update IME position for Windows
       _updateComposingRectIfNeeded();
@@ -145,6 +193,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
               renderEditor.getLocalRectForCaret(currentTextPosition);
           _textInputConnection!.setCaretRect(caretRect);
         }
+        _updateSizeAndTransform();
+        _updateScribbleSelectionRects();
       } catch (_) {}
       SchedulerBinding.instance
           .addPostFrameCallback((_) => _updateCaretRectIfNeeded());

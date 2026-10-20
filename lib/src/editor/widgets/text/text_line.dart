@@ -17,6 +17,7 @@ import '../box.dart';
 import '../delegate.dart';
 import '../keyboard_listener.dart';
 import '../proxy.dart';
+import 'scribble_placeholder.dart';
 import 'text_selection.dart';
 
 class TextLine extends StatefulWidget {
@@ -30,6 +31,7 @@ class TextLine extends StatefulWidget {
     required this.onLaunchUrl,
     required this.linkActionPicker,
     required this.composingRange,
+    this.scribblePlaceholder,
     this.textDirection,
     this.customStyleBuilder,
     this.customRecognizerBuilder,
@@ -50,6 +52,7 @@ class TextLine extends StatefulWidget {
   final LinkActionPicker linkActionPicker;
   final List<String> customLinkPrefixes;
   final TextRange composingRange;
+  final ScribblePlaceholder? scribblePlaceholder;
 
   @override
   State<TextLine> createState() => _TextLineState();
@@ -162,7 +165,12 @@ class _TextLineState extends State<TextLine> {
         );
       }
     }
-    final textSpan = _getTextSpanForWholeLine();
+    final lineSpan = _getTextSpanForWholeLine();
+    final gap = scribbleGapInLine(widget.scribblePlaceholder, widget.line);
+    final textSpan = gap == null
+        ? lineSpan
+        : insertScribblePlaceholder(
+            lineSpan, gap, widget.scribblePlaceholder!.width);
     final strutStyle =
         StrutStyle.fromTextStyle(textSpan.style ?? const TextStyle());
     final textAlign = _getTextAlign();
@@ -361,8 +369,7 @@ class _TextLineState extends State<TextLine> {
     ];
   }
 
-  TextStyle _getLineStyle(DefaultStyles defaultStyles) =>
-      resolveLineStyle(
+  TextStyle _getLineStyle(DefaultStyles defaultStyles) => resolveLineStyle(
         widget.line,
         defaultStyles,
         customStyleBuilder: widget.customStyleBuilder,
@@ -521,7 +528,7 @@ class _TextLineState extends State<TextLine> {
         widget.controller
             .formatText(range.start, range.end - range.start, Attribute.link);
         break;
-        case LinkMenuAction.none:
+      case LinkMenuAction.none:
         break;
     }
   }
@@ -543,7 +550,8 @@ class EditableTextLine extends RenderObjectWidget {
       this.cursorCont,
       this.inlineCodeStyle,
       this.decoration,
-      {super.key});
+      {this.scribbleGap,
+      super.key});
 
   final Line line;
   final Widget? leading;
@@ -559,6 +567,7 @@ class EditableTextLine extends RenderObjectWidget {
   final CursorCont cursorCont;
   final InlineCodeStyle inlineCodeStyle;
   final BoxDecoration? decoration;
+  final int? scribbleGap;
 
   @override
   RenderObjectElement createElement() {
@@ -578,7 +587,8 @@ class EditableTextLine extends RenderObjectWidget {
         color,
         cursorCont,
         inlineCodeStyle,
-        decoration);
+        decoration)
+      ..scribbleGap = scribbleGap;
   }
 
   @override
@@ -595,7 +605,8 @@ class EditableTextLine extends RenderObjectWidget {
       ..setDevicePixelRatio(devicePixelRatio)
       ..setCursorCont(cursorCont)
       ..setInlineCodeStyle(inlineCodeStyle)
-      ..setDecoration(decoration);
+      ..setDecoration(decoration)
+      ..scribbleGap = scribbleGap;
   }
 
   EdgeInsetsGeometry _getPadding() {
@@ -1341,6 +1352,48 @@ class RenderEditableTextLine extends RenderEditableBox {
 
   @override
   Rect getCaretPrototype(TextPosition position) => _caretPrototype;
+
+  /// Line-local offset of the Scribble gap rendered in this line, if any.
+  int? scribbleGap;
+
+  @override
+  void addScribbleSelectionRects(
+      List<SelectionRect> rects, Offset origin, Rect visible) {
+    if (_body == null) return;
+    final text = line.toPlainText();
+    final lineStart = line.documentOffset;
+    final gap = scribbleGap;
+    var start = 0;
+    final range = CharacterRange(text);
+    while (range.moveNext()) {
+      final end = start + range.current.length;
+      final shift =
+          gap != null && start >= gap ? ScribblePlaceholder.length : 0;
+      if (end >= text.length) {
+        final caret = getLocalRectForCaret(TextPosition(offset: start + shift));
+        final bounds = caret.shift(origin);
+        if (bounds.overlaps(visible)) {
+          rects.add(SelectionRect(position: lineStart + start, bounds: bounds));
+        }
+        break;
+      }
+      final boxes = _getBoxes(
+          TextSelection(baseOffset: start + shift, extentOffset: end + shift));
+      if (boxes.isNotEmpty) {
+        final box = boxes.first;
+        final bounds = box.toRect().shift(origin);
+        if (bounds.top >= visible.bottom) break;
+        if (bounds.overlaps(visible)) {
+          rects.add(SelectionRect(
+            position: lineStart + start,
+            bounds: bounds,
+            direction: box.direction,
+          ));
+        }
+      }
+      start = end;
+    }
+  }
 }
 
 class _TextLineElement extends RenderObjectElement {

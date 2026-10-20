@@ -16,6 +16,7 @@ import '../default_leading_components/leading_components.dart';
 import '../default_styles.dart';
 import '../delegate.dart';
 import '../link.dart';
+import 'scribble_placeholder.dart';
 import 'text_line.dart';
 import 'text_resolution.dart';
 import 'text_selection.dart';
@@ -45,6 +46,7 @@ class EditableTextBlock extends StatelessWidget {
     required this.readOnly,
     required this.customRecognizerBuilder,
     required this.composingRange,
+    this.scribblePlaceholder,
     this.checkBoxReadOnly,
     this.onLaunchUrl,
     this.customStyleBuilder,
@@ -80,6 +82,7 @@ class EditableTextBlock extends StatelessWidget {
   final bool? checkBoxReadOnly;
   final List<String> customLinkPrefixes;
   final TextRange composingRange;
+  final ScribblePlaceholder? scribblePlaceholder;
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +151,7 @@ class EditableTextBlock extends StatelessWidget {
             customLinkPrefixes: customLinkPrefixes,
             customRecognizerBuilder: customRecognizerBuilder,
             composingRange: composingRange,
+            scribblePlaceholder: scribblePlaceholder,
           ),
           indentWidthBuilder(block, context, count, numberPointWidthBuilder),
           _getSpacingForLine(line, index, count, defaultStyles),
@@ -159,7 +163,8 @@ class EditableTextBlock extends StatelessWidget {
           MediaQuery.devicePixelRatioOf(context),
           cursorCont,
           styles!.inlineCode!,
-          null);
+          null,
+          scribbleGap: scribbleGapInLine(scribblePlaceholder, line));
       final nodeTextDirection = getDirectionOfNode(line, textDirection);
       children.add(
         Directionality(

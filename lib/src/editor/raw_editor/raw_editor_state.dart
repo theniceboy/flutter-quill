@@ -29,6 +29,7 @@ import '../widgets/cursor.dart';
 import '../widgets/default_styles.dart';
 import '../widgets/link.dart';
 import '../widgets/proxy.dart';
+import '../widgets/text/scribble_placeholder.dart';
 import '../widgets/text/text_block.dart';
 import '../widgets/text/text_line.dart';
 import '../widgets/text/text_resolution.dart';
@@ -337,6 +338,10 @@ class QuillRawEditorState extends EditorState
           .findRenderObject() as RenderBox?,
       onScribbleFocus: (offset) {
         widget.config.focusNode.requestFocus();
+        renderEditor.selectPositionAt(
+          from: offset,
+          cause: SelectionChangedCause.stylusHandwriting,
+        );
         widget.config.onScribbleActivated?.call();
       },
       scribbleAreaInsets: widget.config.scribbleAreaInsets,
@@ -623,6 +628,7 @@ class QuillRawEditorState extends EditorState
           customStyleBuilder: widget.config.customStyleBuilder,
           customLinkPrefixes: widget.config.customLinkPrefixes,
           composingRange: composingRange.value,
+          scribblePlaceholder: scribblePlaceholder,
         );
         result.add(
           Directionality(
@@ -657,6 +663,7 @@ class QuillRawEditorState extends EditorState
       onLaunchUrl: widget.config.onLaunchUrl,
       customLinkPrefixes: widget.config.customLinkPrefixes,
       composingRange: composingRange.value,
+      scribblePlaceholder: scribblePlaceholder,
     );
     final editableTextLine = EditableTextLine(
         node,
@@ -672,7 +679,8 @@ class QuillRawEditorState extends EditorState
         MediaQuery.devicePixelRatioOf(context),
         _cursorCont,
         _styles!.inlineCode!,
-        _getDecoration(node, _styles, attrs));
+        _getDecoration(node, _styles, attrs),
+        scribbleGap: scribbleGapInLine(scribblePlaceholder, node));
     return editableTextLine;
   }
 
@@ -1153,15 +1161,28 @@ class QuillRawEditorState extends EditorState
   late AnimationController _floatingCursorResetController;
 
   @override
+  ScribblePlaceholder? scribblePlaceholder;
+
+  @override
   void insertTextPlaceholder(Size size) {
-    // this is needed for Scribble (Stylus input) in Apple platforms
-    // and this package does not implement this feature
+    final selection = controller.selection;
+    if (!widget.config.enableScribble || !selection.isValid) {
+      return;
+    }
+    scribblePlaceholder = ScribblePlaceholder(
+      offset: selection.end,
+      width: renderEditor.size.width,
+    );
+    _markNeedsBuild();
   }
 
   @override
   void removeTextPlaceholder() {
-    // this is needed for Scribble (Stylus input) in Apple platforms
-    // and this package does not implement this feature
+    if (scribblePlaceholder == null) {
+      return;
+    }
+    scribblePlaceholder = null;
+    if (mounted) _markNeedsBuild();
   }
 
   @override

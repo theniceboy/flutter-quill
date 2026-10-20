@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/src/editor/editor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -19,30 +18,38 @@ void main() {
             [for (final r in call.arguments as List) (r as List).cast<num>()],
       ];
 
-  Future<RenderEditor> pumpEditor(WidgetTester tester, String text,
-      {bool enableScribble = true, double scale = 1}) async {
-    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-    controller = QuillController(
-      document: Document()..insert(0, text),
-      selection: const TextSelection.collapsed(offset: 0),
-    );
-    await tester.pumpWidget(
-      MaterialApp(
+  late Widget editorWidget;
+
+  Widget app(double scale) => MaterialApp(
         home: Scaffold(
           body: Transform.scale(
             scale: scale,
             alignment: Alignment.topLeft,
-            child: QuillEditor.basic(
-              controller: controller,
-              config: QuillEditorConfig(
-                autoFocus: true,
-                enableScribble: enableScribble,
-              ),
-            ),
+            child: editorWidget,
           ),
         ),
+      );
+
+  Future<RenderEditor> pumpEditor(WidgetTester tester, String text,
+      {bool enableScribble = true,
+      double scale = 1,
+      Document? document,
+      FocusNode? focusNode}) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    controller = QuillController(
+      document: document ?? (Document()..insert(0, text)),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+    editorWidget = QuillEditor.basic(
+      controller: controller,
+      focusNode: focusNode,
+      config: QuillEditorConfig(
+        autoFocus: true,
+        enableScribble: enableScribble,
+        embedBuilders: [_BoxEmbedBuilder()],
       ),
     );
+    await tester.pumpWidget(app(scale));
     await tester.pumpAndSettle();
     return tester.allRenderObjects.whereType<RenderEditor>().first;
   }
@@ -86,10 +93,9 @@ void main() {
     expect(controller.document.toPlainText(), 'hello world\n');
     expect(editor.size.height, greaterThan(before));
 
-    final rects = sentRects(tester).last;
-    final world = rects.firstWhere((r) => r[4] == 6);
+    final world = sentRects(tester).last.firstWhere((r) => r[4] == 6);
     expect(world[1], greaterThan(worldBefore.top + 1));
-    expect(rects.map((r) => r[4]),
+    expect(sentRects(tester).last.map((r) => r[4]),
         containsAll(<int>[0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11]));
 
     rawState(tester).removeTextPlaceholder();
@@ -104,8 +110,7 @@ void main() {
     final editor = await pumpEditor(tester, 'hello world');
     final at = editor.localToGlobal(
         editor.getLocalRectForCaret(const TextPosition(offset: 3)).center);
-    final client = TextInput.scribbleClients.values.single;
-    client.onScribbleFocus(at);
+    TextInput.scribbleClients.values.single.onScribbleFocus(at);
     await tester.pumpAndSettle();
     expect(controller.selection.baseOffset, 3);
     debugDefaultTargetPlatformOverride = null;
@@ -137,4 +142,63 @@ void main() {
     expect(at(0)[0], inInclusiveRange(0, 40));
     debugDefaultTargetPlatformOverride = null;
   });
+
+  testWidgets('zooming while editing resends scaled rects', (tester) async {
+    await pumpEditor(tester, 'ab\ncd');
+    final width = sentRects(tester).last[0][2];
+
+    await tester.pumpWidget(app(2));
+    await tester.pumpAndSettle();
+    expect(sentRects(tester).last[0][2], closeTo(width * 2, 0.5));
+    debugDefaultTargetPlatformOverride = null;
+  });
+
+  testWidgets('a gap at a block embed leaves the embed line as is',
+      (tester) async {
+    final document = Document()
+      ..insert(0, 'ab\n')
+      ..insert(3, const BlockEmbed('box', ''));
+    final editor = await pumpEditor(tester, '', document: document);
+    controller.updateSelection(
+        const TextSelection.collapsed(offset: 3), ChangeSource.local);
+    await tester.pumpAndSettle();
+    List<SelectionRect> rects() {
+      final out = <SelectionRect>[];
+      editor.addScribbleSelectionRects(
+          out, Offset.zero, Offset.zero & editor.size);
+      return out;
+    }
+
+    final before = rects();
+    rawState(tester).insertTextPlaceholder(const Size(100, 20));
+    await tester.pumpAndSettle();
+    expect(rects(), before);
+    debugDefaultTargetPlatformOverride = null;
+  });
+
+  testWidgets('losing focus drops the gap', (tester) async {
+    final focusNode = FocusNode();
+    addTearDown(focusNode.dispose);
+    final editor =
+        await pumpEditor(tester, 'hello world', focusNode: focusNode);
+    final before = editor.size.height;
+    rawState(tester).insertTextPlaceholder(const Size(100, 20));
+    await tester.pumpAndSettle();
+    expect(editor.size.height, greaterThan(before));
+
+    focusNode.unfocus();
+    await tester.pumpAndSettle();
+    expect(rawState(tester).scribblePlaceholder, isNull);
+    expect(editor.size.height, before);
+    debugDefaultTargetPlatformOverride = null;
+  });
+}
+
+class _BoxEmbedBuilder extends EmbedBuilder {
+  @override
+  String get key => 'box';
+
+  @override
+  Widget build(BuildContext context, EmbedContext embedContext) =>
+      const SizedBox(height: 40, width: 40);
 }

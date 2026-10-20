@@ -62,6 +62,10 @@ mixin RawEditorStateTextInputClientMixin on EditorState
           0, position.pixels, editor.size.width, position.viewportDimension));
     }
     final document = widget.controller.document;
+    final geometry = _inputGeometry();
+    // Rects are sent pre-scaled, so a zoom (no relayout) must resend them;
+    // only the linear part counts, a pan is absorbed by the reported origin.
+    final linear = editor.getTransformTo(null).storage;
     final key = (
       identityHashCode(editor),
       editor.layoutGeneration,
@@ -69,6 +73,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       scribblePlaceholder,
       identityHashCode(document),
       document.length,
+      (linear[0], linear[1], linear[4], linear[5]),
     );
     if (key == _scribbleRectsKey) return;
     _scribbleRectsKey = key;
@@ -76,7 +81,6 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (!document.isEmpty()) {
       editor.addScribbleSelectionRects(rects, Offset.zero, visible);
     }
-    final geometry = _inputGeometry();
     _textInputConnection!.setSelectionRects([
       for (final r in rects)
         SelectionRect(
@@ -114,6 +118,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       openConnectionIfNeeded();
     } else if (!widget.config.focusNode.hasFocus) {
       closeConnectionIfNeeded();
+      removeTextPlaceholder();
     }
   }
 
@@ -445,6 +450,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     _textInputConnection!.connectionClosedReceived();
     _textInputConnection = null;
     _lastKnownRemoteTextEditingValue = null;
+    removeTextPlaceholder();
   }
 
   void _updateSizeAndTransform() {

@@ -1362,7 +1362,8 @@ class RenderEditableTextLine extends RenderEditableBox {
     if (_body == null) return;
     final text = line.toPlainText();
     final lineStart = line.documentOffset;
-    final gap = scribbleGap;
+    // An expanded embed line renders without the gap spans.
+    final gap = _body is RenderEmbedProxy ? null : scribbleGap;
     var start = 0;
     final range = CharacterRange(text);
     while (range.moveNext()) {

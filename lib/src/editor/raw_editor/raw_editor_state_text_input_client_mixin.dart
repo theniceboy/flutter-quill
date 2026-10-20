@@ -44,6 +44,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   void _updateScribbleSelectionRects() {
     if (!widget.config.enableScribble ||
         widget.config.readOnly ||
+        kIsWeb ||
         defaultTargetPlatform != TargetPlatform.iOS ||
         dirty ||
         !mounted) {
@@ -476,7 +477,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
   ({Size size, Matrix4 transform, Rect Function(Rect) map}) _inputGeometry() {
     final editor = renderEditor;
     final transform = editor.getTransformTo(null);
-    if (defaultTargetPlatform != TargetPlatform.iOS) {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) {
       return (size: editor.size, transform: transform, map: (r) => r);
     }
     final box = MatrixUtils.transformRect(transform, Offset.zero & editor.size);

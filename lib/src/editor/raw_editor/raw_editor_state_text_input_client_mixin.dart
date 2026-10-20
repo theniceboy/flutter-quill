@@ -76,7 +76,15 @@ mixin RawEditorStateTextInputClientMixin on EditorState
     if (!document.isEmpty()) {
       editor.addScribbleSelectionRects(rects, Offset.zero, visible);
     }
-    _textInputConnection!.setSelectionRects(rects);
+    final geometry = _inputGeometry();
+    _textInputConnection!.setSelectionRects([
+      for (final r in rects)
+        SelectionRect(
+          position: r.position,
+          bounds: geometry.map(r.bounds),
+          direction: r.direction,
+        ),
+    ]);
   }
 
   /// Whether to create an input connection with the platform for text editing
@@ -174,7 +182,8 @@ mixin RawEditorStateTextInputClientMixin on EditorState
         final offset = composingRange.start;
         final composingRect =
             renderEditor.getLocalRectForCaret(TextPosition(offset: offset));
-        _textInputConnection!.setComposingRect(composingRect);
+        _textInputConnection!
+            .setComposingRect(_inputGeometry().map(composingRect));
       }
       SchedulerBinding.instance
           .addPostFrameCallback((_) => _updateComposingRectIfNeeded());
@@ -191,7 +200,7 @@ mixin RawEditorStateTextInputClientMixin on EditorState
               TextPosition(offset: renderEditor.selection.baseOffset);
           final caretRect =
               renderEditor.getLocalRectForCaret(currentTextPosition);
-          _textInputConnection!.setCaretRect(caretRect);
+          _textInputConnection!.setCaretRect(_inputGeometry().map(caretRect));
         }
         _updateSizeAndTransform();
         _updateScribbleSelectionRects();
@@ -443,10 +452,32 @@ mixin RawEditorStateTextInputClientMixin on EditorState
       // Asking for renderEditor.size here can cause errors if layout hasn't
       // occurred yet. So we schedule a post frame callback instead.
       try {
-        final size = renderEditor.size;
-        final transform = renderEditor.getTransformTo(null);
-        _textInputConnection?.setEditableSizeAndTransform(size, transform);
+        final geometry = _inputGeometry();
+        _textInputConnection?.setEditableSizeAndTransform(
+            geometry.size, geometry.transform);
       } catch (_) {}
     }
+  }
+
+  /// Editor size and transform reported to the platform, plus the mapping
+  /// from editor-local rects into that space.
+  ///
+  /// iOS Scribble only uses the transform's translation and the unscaled size
+  /// (`FlutterTextInputPlugin.setEditableSizeAndTransform`) and reads
+  /// selection rects as-is, so a scaled editor (canvas zoom) would put every
+  /// rect in the wrong place. On iOS the editor is reported as its on-screen
+  /// bounding box instead, and rects are mapped into it.
+  ({Size size, Matrix4 transform, Rect Function(Rect) map}) _inputGeometry() {
+    final editor = renderEditor;
+    final transform = editor.getTransformTo(null);
+    if (defaultTargetPlatform != TargetPlatform.iOS) {
+      return (size: editor.size, transform: transform, map: (r) => r);
+    }
+    final box = MatrixUtils.transformRect(transform, Offset.zero & editor.size);
+    return (
+      size: box.size,
+      transform: Matrix4.translationValues(box.left, box.top, 0),
+      map: (r) => MatrixUtils.transformRect(transform, r).shift(-box.topLeft),
+    );
   }
 }

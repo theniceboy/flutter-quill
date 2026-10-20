@@ -20,7 +20,7 @@ void main() {
       ];
 
   Future<RenderEditor> pumpEditor(WidgetTester tester, String text,
-      {bool enableScribble = true}) async {
+      {bool enableScribble = true, double scale = 1}) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
     controller = QuillController(
       document: Document()..insert(0, text),
@@ -29,11 +29,15 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: QuillEditor.basic(
-            controller: controller,
-            config: QuillEditorConfig(
-              autoFocus: true,
-              enableScribble: enableScribble,
+          body: Transform.scale(
+            scale: scale,
+            alignment: Alignment.topLeft,
+            child: QuillEditor.basic(
+              controller: controller,
+              config: QuillEditorConfig(
+                autoFocus: true,
+                enableScribble: enableScribble,
+              ),
             ),
           ),
         ),
@@ -104,6 +108,33 @@ void main() {
     client.onScribbleFocus(at);
     await tester.pumpAndSettle();
     expect(controller.selection.baseOffset, 3);
+    debugDefaultTargetPlatformOverride = null;
+  });
+
+  testWidgets('scaled editor reports on-screen geometry', (tester) async {
+    final editor = await pumpEditor(tester, 'ab\ncd', scale: 2);
+    final log = tester.testTextInput.log;
+    final sizeCall = log
+        .lastWhere((c) => c.method == 'TextInput.setEditableSizeAndTransform');
+    final args = sizeCall.arguments as Map;
+    final screen = MatrixUtils.transformRect(
+        editor.getTransformTo(null), Offset.zero & editor.size);
+    expect(args['width'], closeTo(screen.width, 0.01));
+    expect(args['height'], closeTo(screen.height, 0.01));
+    final matrix = (args['transform'] as List).cast<num>();
+    expect(matrix[0], 1);
+    expect(matrix[5], 1);
+    expect(matrix[12], closeTo(screen.left, 0.01));
+    expect(matrix[13], closeTo(screen.top, 0.01));
+
+    final rects = sentRects(tester).last;
+    List<num> at(int i) => rects.firstWhere((r) => r[4] == i);
+    Rect caret(int i) => editor.getLocalRectForCaret(TextPosition(offset: i));
+    expect(
+        at(1)[0] - at(0)[0], closeTo((caret(1).left - caret(0).left) * 2, 1));
+    expect(at(3)[1] - at(0)[1], closeTo((caret(3).top - caret(0).top) * 2, 1));
+    expect(at(0)[2], closeTo((caret(1).left - caret(0).left) * 2, 1));
+    expect(at(0)[0], inInclusiveRange(0, 40));
     debugDefaultTargetPlatformOverride = null;
   });
 }
